@@ -213,38 +213,38 @@
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
 
-        .chatbot {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            width: 48px;
-            height: 48px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            user-select: none;
-            z-index: 10;
-            backdrop-filter: blur(6px);
-            transition: background 0.3s ease;
-            box-shadow: 1px 1px 11px rgba(110, 255, 110, 0.852);
-            animation: glow 2s infinite;
-        }
+       .chatbot {
+    position: fixed;
+    bottom: 40px;
+    right: 25px;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 10;
+    backdrop-filter: blur(10px);
+    background: linear-gradient(135deg, #00ff99 0%, #00cc80 100%);
+    box-shadow: 
+        0 0 20px rgba(0,255,153,0.6),
+        inset 0 1px 0 rgba(255,255,255,0.2);
+    animation: pulseGlow 2s infinite, float 3s ease-in-out infinite;
+    transition: all 0.3s ease;
+}
 
-        @keyframes glow {
-            0% {
-                box-shadow: 0 0 3px #00ff99, 0 0 10px #00ff99, 0 0 10px #00ff99;
-            }
+@keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+}
 
-            50% {
-                box-shadow: 0 0 8px #00ffaa, 0 0 20px #00ffaa, 0 0 20px #00ffaa;
-            }
-
-            100% {
-                box-shadow: 0 0 3px #00ff99, 0 0 10px #00ff99, 0 0 10px #00ff99;
-            }
-        }
+.chatbot:hover {
+    transform: scale(1.1);
+    box-shadow: 
+        0 0 30px rgba(0,255,153,0.8),
+        0 0 50px rgba(0,255,153,0.4);
+}
 
         /* 🌙 Dark Mode */
         body.dark {
@@ -374,7 +374,7 @@
             <div class="header-right">
                 <span class="material-icons-outlined">notifications</span>
                 <span class="material-icons-outlined">email</span>
-                <span class="material-icons-outlined">account_circle</span>
+                <a href="settings.html"><span class="material-icons-outlined">account_circle</span></a>
             </div>
         </header>
 
