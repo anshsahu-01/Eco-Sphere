@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reports - EcoSphere</title>
+    <!-- Montserrat Font -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+    <!-- Material Icons -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
+    <link rel="stylesheet" href="./THEME/theme.css">
+    <!-- ApexCharts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/apexcharts/3.35.3/apexcharts.min.js"></script>
+    <style>
+        /* ========== CSS ========== */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        body {
+            background: #f4f7fc;
+            color: #333;
+        }
+
+        .grid-container {
+            display: grid;
+            grid-template-areas: 'header header' 'sidebar main';
+            grid-template-columns: 250px 1fr;
+            grid-template-rows: 60px 1fr;
+            min-height: 100vh;
+        }
+
+        header.header {
+            grid-area: header;
+            background: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 1rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .menu-icon {
+            cursor: pointer;
+            font-size: 24px;
+        }
+
+        .header-left span,
+        .header-right span {
+            margin: 0 8px;
+            cursor: pointer;
+            font-size: 24px;
+        }
+
+        .theme-toggle {
+            position: absolute;
+            top: 4.5px;
+            /* 👈 top se 20px */
+            right: 150px;
+            /* 👈 right se 20px */
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            user-select: none;
+            z-index: 9999;
+            color: #111;
+            /* icon color */
+            transition: background .2s, color .2s, box-shadow .2s;
+            border: none;
+            /* border remove */
+        }
+
+
+        aside#sidebar {
+            grid-area: sidebar;
+            background: #2f3e46;
+            color: #fff;
+            transition: all 0.3s;
+            overflow: auto;
+        }
+
+        aside#sidebar .sidebar-title {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            background: #1b262c;
+        }
+
+        aside#sidebar .sidebar-brand {
+            display: flex;
+            align-items: center;
+            font-weight: bold;
+            font-size: 18px;
+        }
+
+        aside#sidebar .sidebar-brand span {
+            margin-right: 8px;
+        }
+
+        aside#sidebar ul {
+            list-style: none;
+        }
+
+        aside#sidebar ul li {
+            padding: 12px 16px;
+            transition: all 0.3s ease;
+            border-left: 3px solid transparent;
+        }
+
+        aside#sidebar ul li:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-left-color: #256ce8;
+            transform: translateX(4px);
+        }
+
+        aside#sidebar ul li a {
+            color: #fff;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+        }
+
+        aside#sidebar ul li a span {
+            margin-right: 10px;
+        }
+
+        .sidebar-responsive {
+            transform: translateX(0);
+        }
+
+        main.main-container {
+            grid-area: main;
+            padding: 1rem;
+            overflow: auto;
+        }
+
+        .main-title p {
+            font-weight: 700;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .main-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .card {
+            background: #fff;
+            padding: 1rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-inner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .text-primary {
+            color: #246dec;
+        }
+
+        .text-orange {
+            color: #f5a623;
+        }
+
+        .text-red {
+            color: #cc3c43;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: #fff;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        th,
+        td {
+            padding: 12px;
+            text-align: center;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background: #246dec;
+            color: #fff;
+        }
+
+        .charts {
+            margin-top: 2rem;
+            background: #fff;
+            padding: 1rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .chatbot {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            user-select: none;
+            z-index: 10;
+            backdrop-filter: blur(6px);
+            transition: background 0.3s ease;
+            box-shadow: 1px 1px 11px rgba(110, 255, 110, 0.852);
+            animation: glow 2s infinite;
+        }
+
+        @keyframes glow {
+            0% {
+                box-shadow: 0 0 3px #00ff99, 0 0 10px #00ff99, 0 0 10px #00ff99;
+            }
+
+            50% {
+                box-shadow: 0 0 8px #00ffaa, 0 0 20px #00ffaa, 0 0 20px #00ffaa;
+            }
+
+            100% {
+                box-shadow: 0 0 3px #00ff99, 0 0 10px #00ff99, 0 0 10px #00ff99;
+            }
+        }
+
+        /* 🌙 Dark Mode */
+        body.dark {
+            background: #121212;
+            color: #e4e6eb;
+        }
+
+        /* Header */
+        body.dark header.header {
+            background: #1e1e1e;
+            color: #e4e6eb;
+            box-shadow: 0 2px 4px rgba(255, 255, 255, 0.05);
+        }
+
+        /* Theme Toggle */
+        body.dark .theme-toggle {
+            color: #fff;
+        }
+
+        /* Sidebar */
+        body.dark aside#sidebar {
+            background: #181818;
+            color: #e4e6eb;
+        }
+
+        body.dark aside#sidebar .sidebar-title {
+            background: #222;
+        }
+
+        body.dark aside#sidebar ul li a {
+            color: #e4e6eb;
+        }
+
+        body.dark aside#sidebar ul li:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-left-color: #4e9eff;
+        }
+
+        /* Main Container */
+        body.dark main.main-container {
+            background: #121212;
+            color: #e4e6eb;
+        }
+
+        body.dark .main-title p {
+            color: #fff;
+        }
+
+        /* Cards */
+        body.dark .card {
+            background: #1e1e1e;
+            color: #e4e6eb;
+            box-shadow: 0 2px 4px rgba(255, 255, 255, 0.05);
+        }
+
+        body.dark .text-primary {
+            color: #4e9eff;
+        }
+
+        body.dark .text-orange {
+            color: #f7b85c;
+        }
+
+        body.dark .text-red {
+            color: #ff6b6b;
+        }
+
+        /* Tables */
+        body.dark table {
+            background: #1e1e1e;
+            color: #e4e6eb;
+            box-shadow: 0 2px 4px rgba(255, 255, 255, 0.05);
+        }
+
+        body.dark th {
+            background: #4e9eff;
+            color: #fff;
+        }
+
+        body.dark td {
+            border-bottom: 1px solid #333;
+        }
+
+        /* Charts Section */
+        body.dark .charts {
+            background: #1e1e1e;
+            color: #e4e6eb;
+            box-shadow: 0 2px 4px rgba(255, 255, 255, 0.05);
+        }
+
+        /* Chatbot Button */
+        body.dark .chatbot {
+            background: #1e1e1e;
+            color: #e4e6eb;
+            box-shadow: 1px 1px 11px rgba(110, 255, 110, 0.852);
+        }
+
+
+        @media(max-width:768px) {
+            .grid-container {
+                grid-template-areas: 'header' 'main';
+                grid-template-columns: 1fr;
+            }
+
+            aside#sidebar {
+                position: absolute;
+                left: -250px;
+                top: 60px;
+                width: 250px;
+                height: calc(100% - 60px);
+                z-index: 1000;
+            }
+
+            .sidebar-responsive {
+                transform: translateX(250px);
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="grid-container">
+        <!-- Header -->
+        <header class="header">
+            <div class="menu-icon" onclick="openSidebar()"><span class="material-icons-outlined">menu</span></div>
+            <div class="header-right">
+                <span class="material-icons-outlined">notifications</span>
+                <span class="material-icons-outlined">email</span>
+                <span class="material-icons-outlined">account_circle</span>
+            </div>
+        </header>
+
+        <div id="themeToggle" class="theme-toggle" role="button" aria-label="Switch theme" tabindex="0"
+            onclick="toggleTheme()">
+            <!-- Sun (filled) for light mode -->
+            <svg class="icon sun" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true">
+                <circle cx="12" cy="12" r="5" fill="currentColor" />
+                <g stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                    <line x1="12" y1="1" x2="12" y2="4" />
+                    <line x1="12" y1="20" x2="12" y2="23" />
+                    <line x1="1" y1="12" x2="4" y2="12" />
+                    <line x1="20" y1="12" x2="23" y2="12" />
+                    <line x1="4.22" y1="4.22" x2="6.34" y2="6.34" />
+                    <line x1="17.66" y1="17.66" x2="19.78" y2="19.78" />
+                    <line x1="4.22" y1="19.78" x2="6.34" y2="17.66" />
+                    <line x1="17.66" y1="6.34" x2="19.78" y2="4.22" />
+                </g>
+            </svg>
+
+            <!-- Moon (outline) for dark mode -->
+            <svg class="icon moon" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true">
+                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" fill="none" stroke="currentColor"
+                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+        </div>
+
+        <!-- Sidebar -->
+        <aside id="sidebar">
+            <div class="sidebar-title">
+                <div class="sidebar-brand"><span class="material-icons-outlined">eco</span> EcoSphere</div>
+                <span class="material-icons-outlined" onclick="closeSidebar()">close</span>
+            </div>
+            <ul class="sidebar-list">
+                <li><a href="dashboard.html"><span class="material-icons-outlined">dashboard</span> Dashboard</a></li>
+                <li><a href="electricity.html"><span class="material-icons-outlined">flash_on</span> Electricity
+                        Usage</a></li>
+                <li><a href="water.html"><span class="material-icons-outlined">water</span> Water Usage</a></li>
+                <li><a href="carbon.html"><span class="material-icons-outlined">eco</span> Carbon Footprint</a></li>
+                <li><a href="reports.html"><span class="material-icons-outlined">poll</span> Reports</a></li>
+                <li><a href="settings.html"><span class="material-icons-outlined">settings</span> Settings</a></li>
+                <li class="sidebar-list-item">
+                    <a href="index.html">
+                        <span class="material-icons-outlined">logout</span>
+                        Logout
+                    </a>
+                </li>
+
+            </ul>
+        </aside>
+
+        <!-- Main -->
+        <main class="main-container">
+            <div class="main-title">
+                <p>REPORTS</p>
+            </div>
+
+            <!-- Summary Cards -->
+            
+
+            <div class="main-cards">
+    <div class="card">
+        <div class="card-inner">
+            <p class="text-primary">TOTAL ELECTRICITY</p><span class="material-icons-outlined text-blue">flash_on</span>
+        </div>
+        <span class="text-primary font-weight-bold">320 kWh</span>
+    </div>
+    <div class="card">
+        <div class="card-inner">
+            <p class="text-primary">TOTAL WATER</p><span class="material-icons-outlined text-blue">water</span>
+        </div>
+        <span class="text-primary font-weight-bold">4500 L</span>
+    </div>
+    <div class="card">
+        <div class="card-inner">
+            <p class="text-primary">CARBON FOOTPRINT</p><span class="material-icons-outlined text-green">eco</span>
+        </div>
+        <span class="text-primary font-weight-bold">150 kg CO₂</span>
+    </div>
+    <div class="card">
+        <div class="card-inner">
+            <p class="text-primary">AVG DAILY USAGE</p><span class="material-icons-outlined text-orange">insights</span>
+        </div>
+        <span class="text-primary font-weight-bold">75 kWh / 600 L / 5 kg CO₂</span>
+    </div>
+    <div class="card">
+        <div class="card-inner">
+            <p class="text-primary">ALERTS</p><span class="material-icons-outlined text-red">notification_important</span>
+        </div>
+        <span class="text-primary font-weight-bold">3</span>
+    </div>
+</div>
+
+
+            <!-- Table -->
+            <table>
+                <thead>
+                    <tr>
+                        <th>Week</th>
+                        <th>Electricity (kWh)</th>
+                        <th>Water (Liters)</th>
+                        <th>Cost ($)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Week 1</td>
+                        <td>75</td>
+                        <td>600</td>
+                        <td>45</td>
+                    </tr>
+                    <tr>
+                        <td>Week 2</td>
+                        <td>80</td>
+                        <td>650</td>
+                        <td>48</td>
+                    </tr>
+                    <tr>
+                        <td>Week 3</td>
+                        <td>70</td>
+                        <td>580</td>
+                        <td>42</td>
+                    </tr>
+                    <tr>
+                        <td>Week 4</td>
+                        <td>95</td>
+                        <td>670</td>
+                        <td>52</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <!-- Monthly Chart -->
+            <div class="charts">
+                <p class="chart-title">Monthly Usage Trend</p>
+                <div id="area-chart"></div>
+            </div>
+        </main>
+    </div>
+
+    <a href="chatbot.html"><img src="./Images/bot.jpg" class="chatbot" alt="Chatbot"></a>
+
+    <!-- JS -->
+    <script>
+        // Sidebar toggle
+        let sidebarOpen = false;
+        const sidebar = document.getElementById('sidebar');
+        function openSidebar() { if (!sidebarOpen) { sidebar.classList.add('sidebar-responsive'); sidebarOpen = true; } }
+        function closeSidebar() { if (sidebarOpen) { sidebar.classList.remove('sidebar-responsive'); sidebarOpen = false; } }
+
+        // AREA CHART
+        const areaChartOptions = {
+            series: [
+                { name: 'Electricity (kWh)', data: [320, 280, 300, 350, 400, 380, 360] },
+                { name: 'Water (Liters)', data: [4000, 4200, 3800, 4500, 4700, 4400, 4600] }
+            ],
+            chart: { type: 'area', height: 300, toolbar: { show: false } },
+            colors: ['#246dec', '#4f35a1'],
+            dataLabels: { enabled: false },
+            stroke: { curve: 'smooth' },
+            labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
+            markers: { size: 0 },
+            yaxis: [{ title: { text: 'kWh' } }, { opposite: true, title: { text: 'Liters' } }],
+            tooltip: { shared: true, intersect: false }
+        };
+        const areaChart = new ApexCharts(document.querySelector('#area-chart'), areaChartOptions);
+        areaChart.render();
+    </script>
+    <script src="./THEME/theme.js"></script>
+
+</body>
+
+</html>

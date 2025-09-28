@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carbon Footprint - EcoSphere</title>
+    <!-- Montserrat Font -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+    <!-- Material Icons -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
+    <link rel="stylesheet" href="./THEME/theme.css">
+    <!-- ApexCharts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/apexcharts/3.35.3/apexcharts.min.js"></script>
+    <style>
+        /* Same CSS as electricity.html */
+        * { box-sizing: border-box; margin:0; padding:0; font-family:'Montserrat', sans-serif; }
+        body { background: #f4f7fc; color: #333; }
+        .grid-container { display: grid; grid-template-areas: 'header header' 'sidebar main'; grid-template-columns: 250px 1fr; grid-template-rows: 60px 1fr; min-height: 100vh; }
+        header.header { grid-area: header; background: #fff; display:flex; align-items:center; justify-content:space-between; padding:0 1rem; box-shadow:0 2px 4px rgba(0,0,0,0.1); }
+        .menu-icon { cursor:pointer; font-size:24px; }
+        .header-right span { margin:0 8px; cursor:pointer; font-size:24px; }
+        .theme-toggle { position:absolute; top:4.5px; right:150px; width:48px; height:48px; border-radius:50%; display:flex; align-items:center; justify-content:center; cursor:pointer; user-select:none; z-index:9999; color:#111; transition: background .2s,color .2s,box-shadow .2s; border:none; }
+        aside#sidebar { grid-area: sidebar; background:#2f3e46; color:#fff; transition: all 0.3s; overflow:auto; }
+        aside#sidebar .sidebar-title { display:flex; justify-content:space-between; align-items:center; padding:1rem; background:#1b262c; }
+        aside#sidebar .sidebar-brand { display:flex; align-items:center; font-weight:bold; font-size:18px; }
+        aside#sidebar .sidebar-brand span { margin-right:8px; }
+        aside#sidebar ul { list-style:none; }
+        aside#sidebar ul li { padding:12px 16px; transition: all 0.3s ease; border-left:3px solid transparent; }
+        aside#sidebar ul li:hover { background: rgba(255,255,255,0.08); border-left-color:#256ce8; transform:translateX(4px); }
+        aside#sidebar ul li a { color:#fff; text-decoration:none; display:flex; align-items:center; }
+        aside#sidebar ul li a span { margin-right:10px; }
+        .sidebar-responsive { transform: translateX(0); }
+        main.main-container { grid-area: main; padding:1rem; overflow:auto; }
+        .main-title p { font-weight:700; font-size:1.5rem; margin-bottom:1rem; }
+        .main-cards { display:grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap:1rem; margin-bottom:2rem; }
+        .card { background:#fff; padding:1rem; border-radius:8px; box-shadow:0 2px 4px rgba(0,0,0,0.1); }
+        .card-inner { display:flex; justify-content:space-between; align-items:center; margin-bottom:0.5rem; }
+        .text-primary { color:#246dec; }
+        .text-orange { color:#f5a623; }
+        .text-red { color:#cc3c43; }
+        .charts { display:grid; grid-template-columns:1fr 1fr; gap:2rem; }
+        .charts-card { background:#fff; padding:1rem; border-radius:8px; box-shadow:0 2px 4px rgba(0,0,0,0.1); }
+        .chart-title { font-weight:600; margin-bottom:1rem; }
+        .chatbot { position:fixed; bottom:20px; right:20px; width:48px; height:48px; border-radius:50%; display:flex; align-items:center; justify-content:center; cursor:pointer; user-select:none; z-index:10; backdrop-filter: blur(6px); transition: background 0.3s ease; box-shadow:1px 1px 11px rgba(110,255,110,0.852); animation: glow 2s infinite; }
+        @keyframes glow { 0% { box-shadow:0 0 3px #00ff99,0 0 10px #00ff99,0 0 10px #00ff99; } 50% { box-shadow:0 0 8px #00ffaa,0 0 20px #00ffaa,0 0 20px #00ffaa; } 100% { box-shadow:0 0 3px #00ff99,0 0 10px #00ff99,0 0 10px #00ff99; } }
+        body, header, aside, .card, .charts-card { transition: background 0.3s ease, color 0.3s ease; }
+        body.dark { background:#121212; color:#f4f4f4; }
+        body.dark header.header { background:#1f1f1f; color:#f4f4f4; }
+        body.dark aside#sidebar { background:#181818; color:#f4f4f4; }
+        body.dark aside#sidebar .sidebar-title { background:#222; color:#e0e0e0; }
+        body.dark aside#sidebar ul li:hover { background: rgba(255,255,255,0.1); border-left-color:#4dabf7; }
+        body.dark .card, body.dark .charts-card { background-color:#1e1e1e; border:1px solid #333; color:#e0e0e0; box-shadow:0 4px 8px rgba(0,0,0,0.7); }
+        body.dark .chart-title { color:#ffffff; }
+        body.dark .theme-toggle { color:#fff; }
+        body.dark .chatbot { background:#2b2b40; box-shadow:0 0 12px rgba(100,255,100,0.8); }
+        @media(max-width:768px) { .grid-container { grid-template-areas:'header' 'main'; grid-template-columns:1fr; } aside#sidebar { position:absolute; left:-250px; top:60px; width:250px; height:calc(100% - 60px); z-index:1000; } .sidebar-responsive { transform:translateX(250px); } }
+    </style>
+</head>
+
+<body>
+
+    <div class="grid-container">
+        <!-- Header -->
+        <header class="header">
+            <div class="menu-icon" onclick="openSidebar()">
+                <span class="material-icons-outlined">menu</span>
+            </div>
+            <div class="header-right">
+                <span class="material-icons-outlined">notifications</span>
+                <span class="material-icons-outlined">email</span>
+                <span class="material-icons-outlined">account_circle</span>
+            </div>
+        </header>
+
+        <!-- Theme Toggle -->
+        <div id="themeToggle" class="theme-toggle" role="button" aria-label="Switch theme" tabindex="0"
+            onclick="toggleTheme()">
+            <svg class="icon sun" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true">
+                <circle cx="12" cy="12" r="5" fill="currentColor" />
+                <g stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                    <line x1="12" y1="1" x2="12" y2="4" />
+                    <line x1="12" y1="20" x2="12" y2="23" />
+                    <line x1="1" y1="12" x2="4" y2="12" />
+                    <line x1="20" y1="12" x2="23" y2="12" />
+                    <line x1="4.22" y1="4.22" x2="6.34" y2="6.34" />
+                    <line x1="17.66" y1="17.66" x2="19.78" y2="19.78" />
+                    <line x1="4.22" y1="19.78" x2="6.34" y2="17.66" />
+                    <line x1="17.66" y1="6.34" x2="19.78" y2="4.22" />
+                </g>
+            </svg>
+            <svg class="icon moon" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true">
+                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" fill="none" stroke="currentColor"
+                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+        </div>
+
+        <!-- Sidebar -->
+        <aside id="sidebar">
+            <div class="sidebar-title">
+                <div class="sidebar-brand"><span class="material-icons-outlined">eco</span> EcoSphere</div>
+                <span class="material-icons-outlined" onclick="closeSidebar()">close</span>
+            </div>
+            <ul class="sidebar-list">
+                <li><a href="dashboard.html"><span class="material-icons-outlined">dashboard</span> Dashboard</a></li>
+                <li><a href="electricity.html"><span class="material-icons-outlined">flash_on</span> Electricity Usage</a></li>
+                <li><a href="water.html"><span class="material-icons-outlined">water</span> Water Usage</a></li>
+                <li><a href="carbon.html"><span class="material-icons-outlined">eco</span> Carbon Footprint</a></li>
+                <li><a href="reports.html"><span class="material-icons-outlined">poll</span> Reports</a></li>
+                <li><a href="settings.html"><span class="material-icons-outlined">settings</span> Settings</a></li>
+                <li><a href="index.html"><span class="material-icons-outlined">logout</span> Logout</a></li>
+            </ul>
+        </aside>
+
+        <!-- Main -->
+        <main class="main-container">
+            <div class="main-title">
+                <p>CARBON FOOTPRINT</p>
+            </div>
+
+            <!-- Summary Cards -->
+            <div class="main-cards">
+                <div class="card">
+                    <div class="card-inner">
+                        <p class="text-primary">TOTAL EMISSIONS</p><span class="material-icons-outlined text-red">eco</span>
+                    </div>
+                    <span class="text-primary font-weight-bold">4.5 tons CO₂</span>
+                </div>
+                <div class="card">
+                    <div class="card-inner">
+                        <p class="text-primary">TODAY EMISSIONS</p><span class="material-icons-outlined text-orange">local_fire_department</span>
+                    </div>
+                    <span class="text-primary font-weight-bold">15 kg CO₂</span>
+                </div>
+                <div class="card">
+                    <div class="card-inner">
+                        <p class="text-primary">REDUCTION GOAL</p><span class="material-icons-outlined text-primary">trending_down</span>
+                    </div>
+                    <span class="text-primary font-weight-bold">20%</span>
+                </div>
+                <div class="card">
+                    <div class="card-inner">
+                        <p class="text-primary">ALERTS</p><span class="material-icons-outlined text-red">notification_important</span>
+                    </div>
+                    <span class="text-primary font-weight-bold">1</span>
+                </div>
+            </div>
+
+            <a href="chatbot.html"><img src="./Images/bot.jpg" class="chatbot" alt="Chatbot"></a>
+
+            <!-- Charts -->
+            <div class="charts">
+                <div class="charts-card">
+                    <p class="chart-title">Daily Carbon Emissions</p>
+                    <div id="carbon-bar-chart"></div>
+                </div>
+                <div class="charts-card">
+                    <p class="chart-title">Monthly Carbon Trend</p>
+                    <div id="carbon-area-chart"></div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- JS -->
+    <script>
+        // Sidebar toggle
+        let sidebarOpen = false;
+        const sidebar = document.getElementById('sidebar');
+        function openSidebar() { if(!sidebarOpen){ sidebar.classList.add('sidebar-responsive'); sidebarOpen=true; } }
+        function closeSidebar() { if(sidebarOpen){ sidebar.classList.remove('sidebar-responsive'); sidebarOpen=false; } }
+
+        // BAR CHART - Carbon Emissions
+        const carbonBarOptions = {
+            series: [{ name:'CO₂ Emissions (kg)', data:[12, 15, 10, 18, 14, 16, 11] }],
+            chart: { type:'bar', height:300, toolbar:{show:false} },
+            colors:['#cc3c43'],
+            plotOptions:{ bar:{ horizontal:false, columnWidth:'40%', borderRadius:4 } },
+            dataLabels:{ enabled:false },
+            xaxis:{ categories:['Mon','Tue','Wed','Thu','Fri','Sat','Sun'] },
+            yaxis:{ title:{ text:'kg CO₂' } }
+        };
+        const carbonBarChart = new ApexCharts(document.querySelector('#carbon-bar-chart'), carbonBarOptions);
+        carbonBarChart.render();
+
+        // AREA CHART - Carbon Trend
+        const carbonAreaOptions = {
+            series:[ { name:'CO₂ Emissions (kg)', data:[320,280,300,350,400,380,360] } ],
+            chart:{ type:'area', height:300, toolbar:{show:false} },
+            colors:['#cc3c43'],
+            dataLabels:{ enabled:false },
+            stroke:{ curve:'smooth' },
+            labels:['Jan','Feb','Mar','Apr','May','Jun','Jul'],
+            markers:{ size:0 },
+            yaxis:{ title:{ text:'kg CO₂' } },
+            tooltip:{ shared:true, intersect:false }
+        };
+        const carbonAreaChart = new ApexCharts(document.querySelector('#carbon-area-chart'), carbonAreaOptions);
+        carbonAreaChart.render();
+    </script>
+    <script src="./THEME/theme.js"></script>
+</body>
+
+</html>

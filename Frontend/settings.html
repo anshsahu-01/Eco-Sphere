@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Settings - EcoSphere</title>
+  <!-- Montserrat Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&display=swap"
+    rel="stylesheet">
+  <!-- Material Icons -->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
+  <link rel="stylesheet" href="./THEME/theme.css">
+  <style>
+    /* ========== Enhanced CSS - Keeping Original Colors ========== */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Montserrat', sans-serif;
+    }
+
+    body {
+      background: #f4f7fc;
+      color: #333;
+      overflow-x: hidden;
+    }
+
+    .grid-container {
+      display: grid;
+      grid-template-areas: 'header header' 'sidebar main';
+      grid-template-columns: 250px 1fr;
+      grid-template-rows: 60px 1fr;
+      min-height: 100vh;
+    }
+
+    header.header {
+      grid-area: header;
+      background: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 1.5rem;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+      border-bottom: 1px solid #e0e6ed;
+    }
+
+    .menu-icon {
+      cursor: pointer;
+      font-size: 24px;
+      color: #246dec;
+      transition: transform 0.3s ease, color 0.3s ease;
+    }
+
+    .menu-icon:hover {
+      transform: scale(1.05);
+      color: #1a5bb8;
+    }
+
+    .header-left span,
+    .header-right span {
+      margin: 0 8px;
+      cursor: pointer;
+      font-size: 24px;
+      color: #246dec;
+      transition: color 0.3s ease, transform 0.3s ease;
+    }
+
+    .header-left span:hover,
+    .header-right span:hover {
+      color: #1a5bb8;
+      transform: translateY(-1px);
+    }
+
+    .theme-toggle {
+      position: absolute;
+      top: 4.5px;
+      /* 👈 top se 20px */
+      right: 150px;
+      /* 👈 right se 20px */
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      user-select: none;
+      z-index: 9999;
+      color: #111;
+      /* icon color */
+      transition: background .2s, color .2s, box-shadow .2s;
+      border: none;
+      /* border remove */
+    }
+
+    aside#sidebar {
+      grid-area: sidebar;
+      background: #2f3e46;
+      color: #fff;
+      transition: all 0.3s ease;
+      overflow: auto;
+      box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    aside#sidebar .sidebar-title {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem;
+      background: #1b262c;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    aside#sidebar .sidebar-brand {
+      display: flex;
+      align-items: center;
+      font-weight: bold;
+      font-size: 18px;
+    }
+
+    aside#sidebar .sidebar-brand span {
+      margin-right: 8px;
+      font-size: 24px;
+    }
+
+    aside#sidebar ul {
+      list-style: none;
+    }
+
+    aside#sidebar ul li {
+      padding: 12px 16px;
+      transition: all 0.3s ease;
+      border-left: 3px solid transparent;
+    }
+
+    aside#sidebar ul li:hover {
+      background: rgba(255, 255, 255, 0.08);
+      border-left-color: #246dec;
+      transform: translateX(4px);
+    }
+
+    aside#sidebar ul li a {
+      color: #fff;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      font-weight: 500;
+    }
+
+    aside#sidebar ul li a span {
+      margin-right: 10px;
+      transition: transform 0.3s ease;
+    }
+
+    aside#sidebar ul li a:hover span {
+      transform: scale(1.1);
+    }
+
+    .sidebar-responsive {
+      transform: translateX(0);
+    }
+
+    main.main-container {
+      grid-area: main;
+      padding: 2rem;
+      overflow: auto;
+    }
+
+    .main-title p {
+      font-weight: 700;
+      font-size: 1.8rem;
+      margin-bottom: 1.5rem;
+      color: #2f3e46;
+      letter-spacing: 0.5px;
+    }
+
+    .settings-form {
+      background: #fff;
+      padding: 2rem;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+      max-width: 600px;
+      margin: auto;
+      border: 1px solid #e0e6ed;
+      animation: fadeInUp 0.5s ease-out;
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .settings-form h3 {
+      font-size: 1.4rem;
+      font-weight: 600;
+      margin: 1.5rem 0 1rem;
+      color: #2f3e46;
+      position: relative;
+      padding-bottom: 8px;
+    }
+
+    .settings-form h3:first-of-type {
+      margin-top: 0;
+    }
+
+    .settings-form h3::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 40px;
+      height: 2px;
+      background: #246dec;
+      border-radius: 1px;
+    }
+
+    .settings-form label {
+      display: block;
+      margin: 12px 0 4px;
+      font-weight: 600;
+      color: #555;
+    }
+
+    .settings-form input[type="text"],
+    .settings-form input[type="email"],
+    .settings-form input[type="password"] {
+      width: 100%;
+      padding: 12px 14px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 1rem;
+      transition: all 0.3s ease;
+      background: #fff;
+    }
+
+    .settings-form input:focus {
+      outline: none;
+      border-color: #246dec;
+      box-shadow: 0 0 0 3px rgba(36, 109, 236, 0.1);
+      transform: translateY(-1px);
+    }
+
+    .toggle-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin: 12px 0;
+      padding: 12px;
+      background: #f8f9fa;
+      border-radius: 6px;
+      transition: background 0.3s ease;
+    }
+
+    .toggle-container:hover {
+      background: #f0f4f8;
+    }
+
+    .toggle-container span {
+      font-weight: 500;
+      color: #333;
+    }
+
+    .toggle-container input[type="checkbox"] {
+      width: 48px;
+      height: 24px;
+      background: #ccc;
+      border-radius: 24px;
+      appearance: none;
+      cursor: pointer;
+      position: relative;
+      transition: background 0.3s ease;
+    }
+
+    .toggle-container input[type="checkbox"]:checked {
+      background: #246dec;
+    }
+
+    .toggle-container input[type="checkbox"]::before {
+      content: '';
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      top: 2px;
+      left: 2px;
+      background: #fff;
+      transition: transform 0.3s ease;
+    }
+
+    .toggle-container input[type="checkbox"]:checked::before {
+      transform: translateX(24px);
+    }
+
+    .btn {
+      background: #246dec;
+      color: #fff;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      margin-top: 16px;
+      font-size: 1rem;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      width: 100%;
+      box-shadow: 0 2px 8px rgba(36, 109, 236, 0.2);
+    }
+
+    .btn:hover {
+      background: #1a5bb8;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(36, 109, 236, 0.3);
+    }
+
+    .btn:active {
+      transform: translateY(0);
+    }
+
+    .chatbot {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      user-select: none;
+      z-index: 10;
+      backdrop-filter: blur(6px);
+      transition: background 0.3s ease;
+      box-shadow: 1px 1px 11px rgba(110, 255, 110, 0.852);
+      animation: glow 2s infinite;
+    }
+
+    @keyframes glow {
+      0% {
+        box-shadow: 0 0 3px #00ff99, 0 0 10px #00ff99, 0 0 10px #00ff99;
+      }
+
+      50% {
+        box-shadow: 0 0 8px #00ffaa, 0 0 20px #00ffaa, 0 0 20px #00ffaa;
+      }
+
+      100% {
+        box-shadow: 0 0 3px #00ff99, 0 0 10px #00ff99, 0 0 10px #00ff99;
+      }
+    }
+
+    /* ===== DARK MODE ===== */
+    .dark body {
+      background: #121212;
+      color: #e0e0e0;
+      transition: background 0.3s, color 0.3s;
+    }
+
+    .dark header.header {
+      background: #1f1f1f;
+      border-bottom: 1px solid #333;
+      color: #e0e0e0;
+    }
+
+    .dark .menu-icon,
+    .dark .header-left span,
+    .dark .header-right span {
+      color: #90caf9;
+    }
+
+    .dark .menu-icon:hover,
+    .dark .header-left span:hover,
+    .dark .header-right span:hover {
+      color: #64b5f6;
+    }
+
+    .dark aside#sidebar {
+      background: #1a1a1a;
+      color: #e0e0e0;
+      box-shadow: 2px 0 10px rgba(0, 0, 0, 0.3);
+    }
+
+    .dark aside#sidebar .sidebar-title {
+      background: #111;
+      border-bottom: 1px solid #333;
+    }
+
+    .dark aside#sidebar ul li:hover {
+      background: rgba(255, 255, 255, 0.05);
+      border-left-color: #90caf9;
+    }
+
+    .dark aside#sidebar ul li a {
+      color: #e0e0e0;
+    }
+
+    .dark main.main-container {
+      background: #121212;
+    }
+
+    .dark .main-title p {
+      color: #e0e0e0;
+    }
+
+    .dark .settings-form {
+      background: #1f1f1f;
+      border: 1px solid #333;
+      color: #e0e0e0;
+    }
+
+    .dark .settings-form h3 {
+      color: #e0e0e0;
+    }
+
+    .dark .settings-form h3::after {
+      background: #90caf9;
+    }
+
+    .dark .settings-form label {
+      color: #ccc;
+    }
+
+    .dark .settings-form input[type="text"],
+    .dark .settings-form input[type="email"],
+    .dark .settings-form input[type="password"] {
+      background: #2a2a2a;
+      border: 1px solid #555;
+      color: #e0e0e0;
+    }
+
+    .dark .settings-form input:focus {
+      border-color: #90caf9;
+      box-shadow: 0 0 0 3px rgba(144, 202, 249, 0.2);
+    }
+
+    .dark .toggle-container {
+      background: #2a2a2a;
+    }
+
+    .dark .toggle-container:hover {
+      background: #333;
+    }
+
+    .dark .toggle-container span {
+      color: #e0e0e0;
+    }
+
+    .dark .toggle-container input[type="checkbox"]:checked {
+      background: #90caf9;
+    }
+
+    .dark .btn {
+      background: #90caf9;
+      color: #121212;
+      box-shadow: 0 2px 8px rgba(144, 202, 249, 0.3);
+    }
+
+    .dark .btn:hover {
+      background: #64b5f6;
+      box-shadow: 0 4px 12px rgba(100, 181, 246, 0.3);
+    }
+
+    .dark .chatbot {
+      box-shadow: 1px 1px 11px rgba(0, 200, 100, 0.8);
+    }
+
+
+    @media(max-width:768px) {
+      .grid-container {
+        grid-template-areas: 'header' 'main';
+        grid-template-columns: 1fr;
+      }
+
+      aside#sidebar {
+        position: absolute;
+        left: -250px;
+        top: 60px;
+        width: 250px;
+        height: calc(100% - 60px);
+        z-index: 1000;
+      }
+
+      .sidebar-responsive {
+        transform: translateX(250px);
+        box-shadow: 2px 0 10px rgba(0, 0, 0, 0.15);
+      }
+
+      main.main-container {
+        padding: 1rem;
+      }
+
+      .settings-form {
+        padding: 1.5rem;
+        margin: 1rem;
+      }
+
+      .main-title p {
+        font-size: 1.5rem;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="grid-container">
+    <!-- Header -->
+    <header class="header">
+      <div class="menu-icon" onclick="openSidebar()"><span class="material-icons-outlined">menu</span></div>
+      <div class="header-right">
+        <span class="material-icons-outlined">notifications</span>
+        <span class="material-icons-outlined">email</span>
+        <span class="material-icons-outlined">account_circle</span>
+      </div>
+    </header>
+
+    <div id="themeToggle" class="theme-toggle" role="button" aria-label="Switch theme" tabindex="0"
+      onclick="toggleTheme()">
+      <!-- Sun (filled) for light mode -->
+      <svg class="icon sun" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true">
+        <circle cx="12" cy="12" r="5" fill="currentColor" />
+        <g stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <line x1="12" y1="1" x2="12" y2="4" />
+          <line x1="12" y1="20" x2="12" y2="23" />
+          <line x1="1" y1="12" x2="4" y2="12" />
+          <line x1="20" y1="12" x2="23" y2="12" />
+          <line x1="4.22" y1="4.22" x2="6.34" y2="6.34" />
+          <line x1="17.66" y1="17.66" x2="19.78" y2="19.78" />
+          <line x1="4.22" y1="19.78" x2="6.34" y2="17.66" />
+          <line x1="17.66" y1="6.34" x2="19.78" y2="4.22" />
+        </g>
+      </svg>
+
+      <!-- Moon (outline) for dark mode -->
+      <svg class="icon moon" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true">
+        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" fill="none" stroke="currentColor" stroke-width="2"
+          stroke-linecap="round" stroke-linejoin="round" />
+      </svg>
+    </div>
+
+    <!-- Sidebar -->
+    <aside id="sidebar">
+      <div class="sidebar-title">
+        <div class="sidebar-brand"><span class="material-icons-outlined">eco</span> EcoSphere</div>
+        <span class="material-icons-outlined" onclick="closeSidebar()">close</span>
+      </div>
+      <ul class="sidebar-list">
+        <li><a href="dashboard.html"><span class="material-icons-outlined">dashboard</span> Dashboard</a></li>
+        <li><a href="electricity.html"><span class="material-icons-outlined">flash_on</span> Electricity Usage</a></li>
+        <li><a href="water.html"><span class="material-icons-outlined">water</span> Water Usage</a></li>
+        <li><a href="carbon.html"><span class="material-icons-outlined">eco</span> Carbon Footprint</a></li>
+        <li><a href="reports.html"><span class="material-icons-outlined">poll</span> Reports</a></li>
+        <li><a href="settings.html"><span class="material-icons-outlined">settings</span> Settings</a></li>
+        <li class="sidebar-list-item">
+          <a href="index.html">
+            <span class="material-icons-outlined">logout</span>
+            Logout
+          </a>
+        </li>
+
+      </ul>
+    </aside>
+
+    <!-- Main -->
+    <main class="main-container">
+      <div class="main-title">
+        <p>SETTINGS</p>
+      </div>
+
+      <div class="settings-form">
+        <h3>Profile Information</h3>
+        <label for="name">Name</label>
+        <input type="text" id="name" value="John Doe">
+        <label for="email">Email</label>
+        <input type="email" id="email" value="john@example.com">
+
+        <h3>Change Password</h3>
+        <label for="current-password">Current Password</label>
+        <input type="password" id="current-password">
+        <label for="new-password">New Password</label>
+        <input type="password" id="new-password">
+
+        <h3>Preferences</h3>
+        <div class="toggle-container">
+          <span>Notifications</span>
+          <input type="checkbox" id="notif-toggle" checked>
+        </div>
+
+        <button class="btn" onclick="saveSettings()">Save Changes</button>
+      </div>
+
+    </main>
+  </div>
+
+  <a href="chatbot.html"><img src="./Images/bot.jpg" class="chatbot" alt="Chatbot"></a>
+
+  <script>
+    // Sidebar toggle
+    let sidebarOpen = false;
+    const sidebar = document.getElementById('sidebar');
+    function openSidebar() {
+      if (!sidebarOpen) {
+        sidebar.classList.add('sidebar-responsive');
+        sidebarOpen = true;
+        document.body.style.overflow = 'hidden';
+      }
+    }
+    function closeSidebar() {
+      if (sidebarOpen) {
+        sidebar.classList.remove('sidebar-responsive');
+        sidebarOpen = false;
+        document.body.style.overflow = 'auto';
+      }
+    }
+
+    // Close sidebar on outside click (mobile)
+    document.addEventListener('click', (e) => {
+      if (sidebarOpen && !sidebar.contains(e.target) && !document.querySelector('.menu-icon').contains(e.target)) {
+        closeSidebar();
+      }
+    });
+
+    // Dummy save settings function
+    function saveSettings() {
+      const btn = document.querySelector('.btn');
+      btn.textContent = 'Saving...';
+      btn.style.opacity = '0.8';
+      setTimeout(() => {
+        alert('Settings saved successfully!');
+        btn.textContent = 'Save Changes';
+        btn.style.opacity = '1';
+      }, 800);
+    }
+
+    // Remove theme toggle as it wasn't in original and could cause inconsistency
+    // If you want a theme toggle, add an actual checkbox element for it
+  </script>
+  <script src="./THEME/theme.js"></script>
+
+</body>
+
+</html>

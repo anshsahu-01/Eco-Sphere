@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ecosphere Chatbot</title>
+</head>
+<style>
+   body {
+    font-family: 'Montserrat', Arial, sans-serif; /* Added Montserrat for consistency with main site */
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    color: #e0e0e0;
+    overflow: hidden; /* Prevent scroll on body */
+}
+
+.chat-container {
+    width: 100%;
+    max-width: 450px; /* Slightly wider for better readability */
+    background: rgba(42, 42, 42, 0.95);
+    backdrop-filter: blur(10px); /* Glassmorphism effect */
+    border-radius: 20px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(255, 255, 255, 0.05);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    height: 90vh;
+    animation: slideInUp 0.6s ease-out; /* Entrance animation */
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+@keyframes slideInUp {
+    from {
+        opacity: 0;
+        transform: translateY(50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.chat-header {
+    background: linear-gradient(135deg, #3a3a3a 0%, #4a4a4a 100%);
+    color: #fff;
+    padding: 20px;
+    text-align: center;
+    position: relative;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+.chat-header::before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(90deg, #4a90e2, #50c878, #4a90e2); /* Subtle eco-blue-green accent */
+    opacity: 0.6;
+}
+
+.chat-header h1 {
+    margin: 0;
+    font-size: 1.6rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.chat-messages {
+    flex-grow: 1;
+    padding: 20px;
+    overflow-y: auto;
+    background: rgba(0, 0, 0, 0.1); /* Subtle inner texture */
+}
+
+.message {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 18px;
+    animation: fadeInMessage 0.4s ease-out; /* Message entrance */
+    opacity: 0;
+    animation-fill-mode: forwards;
+}
+
+@keyframes fadeInMessage {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.message-content {
+    padding: 12px 16px;
+    border-radius: 18px;
+    max-width: 75%;
+    font-size: 0.95rem;
+    line-height: 1.4;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.message-content:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.user-message {
+    flex-direction: row-reverse;
+}
+
+.user-message .message-content {
+    background: linear-gradient(135deg, #4a90e2 0%, #357abd 100%);
+    margin-right: 12px;
+    color: #fff;
+    border-bottom-right-radius: 4px; /* Tail effect */
+}
+
+.bot-message .message-content {
+    background: linear-gradient(135deg, #3a3a3a 0%, #2a2a2a 100%);
+    margin-left: 12px;
+    color: #e0e0e0;
+    border-bottom-left-radius: 4px; /* Tail effect */
+}
+
+.profile-image {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    margin: 0 8px;
+    transition: transform 0.3s ease;
+}
+
+.profile-image:hover {
+    transform: scale(1.1);
+}
+
+.user-message .profile-image {
+    border-color: #4a90e2;
+}
+
+.bot-message .profile-image {
+    border-color: #3a3a3a;
+}
+
+.chat-input-container {
+    display: flex;
+    padding: 20px;
+    background: linear-gradient(135deg, #2a2a2a 0%, #1a1a1a 100%);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    gap: 10px; /* Better spacing */
+}
+
+#user-input {
+    flex-grow: 1;
+    padding: 12px 16px;
+    border: 1px solid #4a4a4a;
+    border-radius: 25px; /* More pill-shaped */
+    font-size: 1rem;
+    background: rgba(58, 58, 58, 0.8);
+    color: #e0e0e0;
+    outline: none;
+    transition: all 0.3s ease;
+    resize: none; /* Prevent resize */
+    min-height: 20px;
+    max-height: 100px; /* Allow multi-line if needed */
+}
+
+#user-input:focus {
+    border-color: #4a90e2;
+    box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.2);
+    background: rgba(58, 58, 58, 1);
+    transform: translateY(-1px);
+}
+
+#user-input::placeholder {
+    color: #888;
+    font-style: italic;
+}
+
+#send-button {
+    padding: 12px 20px;
+    background: linear-gradient(135deg, #4a90e2 0%, #357abd 100%);
+    color: #fff;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(74, 144, 226, 0.3);
+    white-space: nowrap;
+}
+
+#send-button:hover:not(:disabled) {
+    background: linear-gradient(135deg, #357abd 0%, #2a5bb8 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(74, 144, 226, 0.4);
+}
+
+#send-button:active:not(:disabled) {
+    transform: translateY(0);
+}
+
+#send-button:disabled {
+    background: linear-gradient(135deg, #2a5a8a 0%, #1a4a7a 100%);
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: 0 2px 4px rgba(42, 90, 138, 0.3);
+}
+
+@media (max-width: 480px) {
+    .chat-container {
+        height: 100vh;
+        border-radius: 0;
+        max-width: 100%;
+        margin: 0;
+    }
+
+    .chat-header {
+        padding: 15px;
+    }
+
+    .chat-header h1 {
+        font-size: 1.4rem;
+    }
+
+    .chat-messages {
+        padding: 15px;
+    }
+
+    .chat-input-container {
+        padding: 15px;
+    }
+}
+
+/* Enhanced Scrollbar Styles */
+::-webkit-scrollbar {
+    width: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background: rgba(42, 42, 42, 0.5);
+    border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(135deg, #4a4a4a 0%, #5a5a5a 100%);
+    border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(135deg, #5a5a5a 0%, #6a6a6a 100%);
+}
+
+/* Typing indicator (if you add a .typing class in JS) */
+.typing {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.typing .message-content {
+    background: rgba(58, 58, 58, 0.5);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.typing-dots {
+    display: flex;
+    gap: 4px;
+}
+
+.typing-dots span {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #4a90e2;
+    animation: typingBounce 1.4s infinite ease-in-out;
+}
+
+.typing-dots span:nth-child(1) { animation-delay: -0.32s; }
+.typing-dots span:nth-child(2) { animation-delay: -0.16s; }
+
+@keyframes typingBounce {
+    0%, 80%, 100% { transform: scale(0); }
+    40% { transform: scale(1); }
+}
+
+  .chatbot {
+  position: fixed;
+  bottom: 30px;
+  right: 20px;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  user-select: none;
+  z-index: 10;
+  backdrop-filter: blur(6px);
+  transition: background 0.3s ease;
+  box-shadow: 1px 1px 11px rgba(110, 255, 110, 0.852);
+  animation: glow 2s infinite;
+  }
+
+@keyframes glow {
+  0% {
+    box-shadow: 0 0 3px #00ff99, 0 0 10px #00ff99, 0 0 10px #00ff99;
+  }
+  50% {
+    box-shadow: 0 0 8px #00ffaa, 0 0 20px #00ffaa, 0 0 20px #00ffaa;
+  }
+  100% {
+    box-shadow: 0 0 3px #00ff99, 0 0 10px #00ff99, 0 0 10px #00ff99;
+  }
+}
+</style>
+<body>
+
+    <a href="chatbot.html"><img src="./Images/bot.jpg" class="chatbot" alt="Chatbot"></a>
+
+    <div class="chat-container">
+        <div class="chat-header">
+            <h1>Personal Chatbot</h1>
+        </div>
+        <div class="chat-messages" id="chat-messages"></div>
+        <div class="chat-input-container">
+            <input type="text" id="user-input" placeholder="Type your message...">
+            <button id="send-button">Send</button>
+        </div>
+    </div>
+    <script>
+        const API_KEY = 'API KEY'; 
+// Replace with your actual Gemini API key – this stores the API key to authenticate requests to the Gemini API.
+
+const API_URL = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent';
+// The base URL of the Gemini API used to generate content (for text-based responses).
+
+const chatMessages = document.getElementById('chat-messages');
+// Gets the DOM element with the ID 'chat-messages', where the chat messages (user and bot) will be displayed.
+
+const userInput = document.getElementById('user-input');
+// Gets the DOM element with the ID 'user-input', which is the input field where the user types their message.
+
+const sendButton = document.getElementById('send-button');
+// Gets the DOM element with the ID 'send-button', which is the button the user clicks to send their message.
+
+async function generateResponse(prompt) {
+// Defines an asynchronous function `generateResponse` that takes the user's input (prompt) and generates a response from the API.
+
+    const response = await fetch(`${API_URL}?key=${API_KEY}`, {
+    // Sends a POST request to the Gemini API endpoint with the API key appended to the URL.
+        method: 'POST',
+        // Specifies the HTTP method (POST) to send data to the API.
+
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        // Sets the request headers to indicate that the content being sent is in JSON format.
+
+        body: JSON.stringify({
+        // The body of the request, converting the user's message into the format required by the API.
+            contents: [
+                {
+                    parts: [
+                        {
+                            text: prompt
+                            // The user's input (`prompt`) is inserted into the request payload.
+                        }
+                    ]
+                }
+            ]
+        })
+    });
+
+    if (!response.ok) {
+    // Checks if the API request was unsuccessful (i.e., the response is not OK).
+        throw new Error('Failed to generate response');
+        // If there's an error, an exception is thrown with an error message.
+    }
+
+    const data = await response.json();
+    // Converts the API response to JSON format.
+
+    return data.candidates[0].content.parts[0].text;
+    // Returns the first generated response from the API (the text part of the response).
+}
+
+function cleanMarkdown(text) {
+// Defines a function `cleanMarkdown` to remove any Markdown formatting (like headers, bold text, etc.) from the response.
+    return text
+        .replace(/#{1,6}\s?/g, '')
+        // Removes any Markdown headers (e.g., #, ##, ###).
+
+        .replace(/\*\*/g, '')
+        // Removes bold formatting (double asterisks **).
+
+        .replace(/\n{3,}/g, '\n\n')
+        // Limits excessive newlines to a maximum of two (replaces more than two newlines with two).
+
+        .trim();
+        // Removes any whitespace from the start and end of the string.
+}
+
+function addMessage(message, isUser) {
+// Defines a function `addMessage` to add a new message to the chat display. It takes the `message` (text) and `isUser` (boolean indicating whether the message is from the user or the bot).
+    const messageElement = document.createElement('div');
+    messageElement.classList.add('message');
+    // Creates a new `div` element for the message and adds the 'message' CSS class.
+
+    messageElement.classList.add(isUser ? 'user-message' : 'bot-message');
+    // Adds a class based on whether the message is from the user ('user-message') or the bot ('bot-message').
+
+    const profileImage = document.createElement('img');
+    profileImage.classList.add('profile-image');
+    // Creates an image element for the profile picture (either the user or the bot) and adds the 'profile-image' CSS class.
+
+    profileImage.src = isUser ? 'user.jpg' : 'bot.jpg';
+    // Sets the image source depending on whether it's a user or bot message ('user.jpg' or 'bot.jpg').
+
+    profileImage.alt = isUser ? 'User' : 'Bot';
+    // Sets the alternate text for the image (for accessibility), either 'User' or 'Bot'.
+
+    const messageContent = document.createElement('div');
+    messageContent.classList.add('message-content');
+    // Creates a `div` element to hold the text content of the message and adds the 'message-content' CSS class.
+
+    messageContent.textContent = message;
+    // Sets the text content of the message.
+
+    messageElement.appendChild(profileImage);
+    messageElement.appendChild(messageContent);
+    // Appends the profile image and message content to the message element.
+
+    chatMessages.appendChild(messageElement);
+    // Appends the complete message (with profile image and text) to the chat messages section.
+
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+    // Scrolls the chat to the bottom to ensure the latest message is visible.
+}
+
+async function handleUserInput() {
+// Defines an asynchronous function `handleUserInput` to process and handle the user’s input.
+    const userMessage = userInput.value.trim();
+    // Retrieves the user input from the input field and trims any leading/trailing whitespace.
+
+    if (userMessage) {
+    // If the user has entered a message (i.e., it's not empty):
+        addMessage(userMessage, true);
+        // Adds the user's message to the chat (as a user message).
+
+        userInput.value = '';
+        // Clears the input field.
+
+        sendButton.disabled = true;
+        userInput.disabled = true;
+        // Disables the send button and the input field to prevent multiple messages being sent while the bot responds.
+
+        try {
+            const botMessage = await generateResponse(userMessage);
+            // Calls the `generateResponse` function to get the bot's reply.
+
+            addMessage(cleanMarkdown(botMessage), false);
+            // Adds the bot's cleaned response to the chat.
+        } catch (error) {
+            console.error('Error:', error);
+            // Logs any error that occurs during the bot response.
+
+            addMessage('Sorry, I encountered an error. Please try again.', false);
+            // Displays an error message in the chat if something goes wrong.
+        } finally {
+            sendButton.disabled = false;
+            userInput.disabled = false;
+            userInput.focus();
+            // Re-enables the send button and the input field, and puts the focus back on the input for further user interaction.
+        }
+    }
+}
+
+sendButton.addEventListener('click', handleUserInput);
+// Adds an event listener to the send button that calls `handleUserInput` when clicked.
+
+userInput.addEventListener('keypress', (e) => {
+// Adds an event listener for when a key is pressed in the input field.
+    if (e.key === 'Enter' && !e.shiftKey) {
+    // Checks if the 'Enter' key is pressed and Shift is not held (to distinguish from Shift+Enter for newlines).
+        e.preventDefault();
+        // Prevents the default behavior of adding a newline.
+
+        handleUserInput();
+        // Calls `handleUserInput` to send the message.
+    }
+});
+
+    </script>
+</body>
+</html>
