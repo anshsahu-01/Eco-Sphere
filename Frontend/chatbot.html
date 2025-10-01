@@ -5,12 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ecosphere Chatbot</title>
 </head>
+<link rel="stylesheet" href="./THEME/theme.css">
 <style>
    body {
     font-family: 'Montserrat', Arial, sans-serif;
     margin: 0;
     padding: 0;
-    background: linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 50%, #2a2a2a 100%);
+    background: linear-gradient(135deg, #ffffff 0%, #e1e1e1 50%, #fff5f5 100%);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -19,6 +20,7 @@
     overflow: hidden;
     position: relative;
 }
+
 
 /* Subtle background particles or stars for beauty */
 body::before {
@@ -30,7 +32,7 @@ body::before {
     height: 100%;
     background-image: 
         radial-gradient(2px 2px at 20px 30px, #00ff99, transparent),
-        radial-gradient(2px 2px at 40px 70px, rgba(0,255,153,0.8), transparent),
+        radial-gradient(2px 2px at 40px 70px, rgba(0, 191, 255, 0.8), transparent),
         radial-gradient(1px 1px at 90px 40px, #00ff99, transparent),
         radial-gradient(1px 1px at 130px 80px, rgba(0,255,153,0.6), transparent);
     background-repeat: repeat;
@@ -50,15 +52,15 @@ body::before {
     width: 100%;
     max-width: 500px;
     height: 95vh;
-    background: rgba(15,15,15,0.85);
+    background: rgba(7, 7, 7, 0.85);
     backdrop-filter: blur(20px) saturate(1.2);
     border-radius: 25px;
     display: flex;
     flex-direction: column;
     box-shadow: 
-        0 20px 60px rgba(0,0,0,0.5),
+        0 20px 60px rgba(0, 0, 0, 0.752),
         inset 0 1px 0 rgba(255,255,255,0.1);
-    border: 1px solid rgba(255,255,255,0.15);
+    border: 1px solid rgb(0, 0, 0);
     position: relative;
     animation: slideInUp 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     overflow: hidden;
@@ -87,12 +89,12 @@ body::before {
 }
 
 .chat-container{
-    width: 25vw;
+    width: 29vw;
 }
 
 /* Header */
 .chat-header {
-    background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 50%, #3a3a3a 100%);
+    background: linear-gradient(135deg, #141414 0%, #171717 50%, #1b1b1b 100%);
     color: #fff;
     padding: 25px 70px;
     text-align: center;
@@ -121,7 +123,7 @@ body::before {
     transform: translateX(-50%);
     width: 50px;
     height: 2px;
-    background: linear-gradient(90deg, transparent, #00ff99, transparent);
+    background: linear-gradient(90deg, transparent, rgba(74,144,226,0.4), transparent);
     border-radius: 1px;
 }
 
@@ -130,47 +132,40 @@ body::before {
     position: absolute;
     top: 20px;
     left: 20px;
-    background: linear-gradient(135deg, #00ff99 0%, #00cc80 100%);
-    color: #fff;
-    padding: 10px 16px;
-    border-radius: 15px;
-    font-weight: 700;
-    font-size: 0.9rem;
+    color: #ffffff;
+    padding: 12px 22px;
+    border-radius: 50px;
+    font-weight: 600;
+    font-size: 0.95rem;
     text-decoration: none;
     display: inline-flex;
     align-items: center;
-    gap: 8px;
-    box-shadow: 
-        0 6px 20px rgba(0,255,153,0.4),
-        inset 0 1px 0 rgba(255,255,255,0.2);
-    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    z-index: 100;
-    overflow: hidden;
-    text-transform: uppercase;
+    gap: 10px;
+
+    z-index: 10;
     letter-spacing: 0.5px;
 }
 
+/* Classic Arrow */
 .dashboard-button::before {
-    content: '←';
-    font-size: 1.1rem;
-    transition: transform 0.3s ease;
+    content: '';
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-top: 3px solid #000000;
+    border-left: 3px solid #010101;
+    transform: rotate(-45deg);
+    transition: transform 0.3s ease, margin 0.3s ease;
+    scale: 1.5;
 }
 
-.dashboard-button:hover {
-    background: linear-gradient(135deg, #00cc80 0%, #00ff99 100%);
-    transform: translateY(-2px) scale(1.05);
-    box-shadow: 
-        0 10px 30px rgba(0,255,153,0.6),
-        inset 0 1px 0 rgba(255,255,255,0.3);
-}
-
+/* Arrow animation */
 .dashboard-button:hover::before {
-    transform: translateX(-2px);
+    margin-right: 5px;
+    transform: rotate(-45deg) scale(1.6);
 }
 
-.dashboard-button:active {
-    transform: translateY(0) scale(1);
-}
+
 
 /* Messages */
 .chat-messages {
@@ -306,23 +301,21 @@ body::before {
     padding: 14px 24px;
     border-radius: 30px;
     border: none;
-    background: linear-gradient(135deg, #00ff99 0%, #00cc80 100%);
+    background: linear-gradient(135deg, rgba(74,144,226,0.4) 0%, rgba(74,144,226,0.4) 100%);
     color: #fff;
     cursor: pointer;
     font-weight: 700;
     font-size: 1rem;
     box-shadow: 
-        0 6px 20px rgba(0,255,153,0.4),
         inset 0 1px 0 rgba(255,255,255,0.2);
     transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     text-transform: uppercase;
     letter-spacing: 0.5px;
 }
 #send-button:hover { 
-    background: linear-gradient(135deg, #00cc80 0%, #00ff99 100%); 
-    transform: translateY(-2px) scale(1.05); 
+    background: linear-gradient(135deg, rgba(74,144,226,0.4) 0%, rgba(74,144,226,0.4) 100%); 
+    transform: translate3d(0, -2px, 0) scale(1.05);
     box-shadow: 
-        0 10px 30px rgba(0,255,153,0.6),
         inset 0 1px 0 rgba(255,255,255,0.3);
 }
 #send-button:active { transform: translateY(0) scale(1); }
@@ -360,6 +353,99 @@ body::before {
         0 0 30px rgba(0,255,153,0.8),
         0 0 50px rgba(0,255,153,0.4);
 }
+
+.theme-toggle {
+  position: fixed;
+  top: 20px;       /* 👈 top se 20px */
+  right: 20px;     /* 👈 right se 20px */
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  user-select: none;
+  z-index: 9999;
+  color: #111;   /* icon color */
+  transition: background .2s, color .2s, box-shadow .2s;
+  border: none;  /* border remove */
+  box-shadow: 1px 1px 11px #36363698;
+}
+
+/* Dark Mode Styling */
+body.dark {
+    background: linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 50%, #2a2a2a 100%);
+    color: #f5f5f5;
+}
+
+/* Chat Container Dark */
+body.dark .chat-container {
+    background: rgba(30, 30, 30, 0.9);
+    border: 1px solid #444;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.7);
+}
+
+/* Header Dark */
+body.dark .chat-header {
+    background: linear-gradient(135deg, #1e1e1e 0%, #2c2c2c 50%, #3a3a3a 100%);
+    color: #fff;
+}
+
+/* Messages Dark */
+body.dark .chat-messages {
+    background: linear-gradient(to bottom, rgba(255,255,255,0.05), rgba(255,255,255,0.08));
+}
+body.dark .bot-message .message-content {
+    background: linear-gradient(135deg, #222 0%, #333 50%, #444 100%);
+    color: #ddd;
+}
+body.dark .user-message .message-content {
+    background: linear-gradient(135deg, #1e88e5 0%, #1565c0 50%, #0d47a1 100%);
+}
+
+/* Input Dark */
+body.dark #user-input {
+    background: rgba(20,20,20,0.9);
+    color: #fff;
+    border: 2px solid rgba(0,255,153,0.3);
+}
+body.dark #user-input:focus {
+    border-color: #00ff99;
+    box-shadow: 0 0 15px rgba(0,255,153,0.4);
+}
+
+/* Send Button Dark */
+body.dark #send-button {
+    background: linear-gradient(135deg, #00cc80 0%, #00ff99 100%);
+    color: #fff;
+}
+body.dark #send-button:hover {
+    background: linear-gradient(135deg, #00ff99 0%, #00cc80 100%);
+}
+
+/* Scrollbar Dark */
+body.dark ::-webkit-scrollbar-track {
+    background: rgba(255,255,255,0.05);
+}
+body.dark ::-webkit-scrollbar-thumb {
+    background: linear-gradient(135deg, #444 0%, #555 100%);
+}
+body.dark ::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(135deg, #00ff99 0%, #00cc80 100%);
+}
+
+/* Theme Toggle Dark */
+body.dark .theme-toggle {
+    color: #fff;
+    box-shadow: 1px 1px 11px #ffffff;
+}
+
+body.dark .dashboard-button::before {
+    border-top: 2px solid #ffffff;
+    border-left: 2px solid #ffffff;
+}
+
 
 /* Responsive */
 @media (max-width: 520px) {
@@ -401,9 +487,33 @@ body::before {
 </style>
 <body>
 
-    <a href="dashboard.html" class="dashboard-button">Dashboard</a>
+    <a href="dashboard.html" class="dashboard-button"></a>
 
     <a href="chatbot.html"><img src="./Images/bot.jpg" class="chatbot" alt="Chatbot"></a>
+
+    <div id="themeToggle" class="theme-toggle" role="button" aria-label="Switch theme" tabindex="0" onclick="toggleTheme()">
+  <!-- Sun (filled) for light mode -->
+  <svg class="icon sun" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true">
+    <circle cx="12" cy="12" r="5" fill="currentColor"/>
+    <g stroke="currentColor" stroke-width="2" stroke-linecap="round">
+      <line x1="12" y1="1"  x2="12" y2="4"/>
+      <line x1="12" y1="20" x2="12" y2="23"/>
+      <line x1="1"  y1="12" x2="4"  y2="12"/>
+      <line x1="20" y1="12" x2="23" y2="12"/>
+      <line x1="4.22" y1="4.22"  x2="6.34" y2="6.34"/>
+      <line x1="17.66" y1="17.66" x2="19.78" y2="19.78"/>
+      <line x1="4.22" y1="19.78" x2="6.34" y2="17.66"/>
+      <line x1="17.66" y1="6.34"  x2="19.78" y2="4.22"/>
+    </g>
+  </svg>
+
+  <!-- Moon (outline) for dark mode -->
+  <svg class="icon moon" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true">
+    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"
+          fill="none" stroke="currentColor" stroke-width="2"
+          stroke-linecap="round" stroke-linejoin="round"/>
+  </svg>
+</div>
 
     <div class="chat-container">
         <div class="chat-header">
@@ -501,7 +611,7 @@ function addMessage(message, isUser) {
     profileImage.classList.add('profile-image');
     // Creates an image element for the profile picture (either the user or the bot) and adds the 'profile-image' CSS class.
 
-    profileImage.src = isUser ? 'user.jpg' : 'bot.jpg';
+    profileImage.src = isUser ? './Images/user.jpg' : './Images/bot.jpg';
     // Sets the image source depending on whether it's a user or bot message ('user.jpg' or 'bot.jpg').
 
     profileImage.alt = isUser ? 'User' : 'Bot';
@@ -579,5 +689,6 @@ userInput.addEventListener('keypress', (e) => {
 });
 
     </script>
+    <script src="./THEME/theme.js"></script>
 </body>
 </html>
