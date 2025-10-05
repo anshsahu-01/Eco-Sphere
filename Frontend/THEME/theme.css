@@ -40,10 +40,6 @@ body.dark .theme-toggle {
   color: #ffffff;
 }
 
-body.dark .left-side {
-  background: linear-gradient(135deg, rgb(77, 251, 132) , rgb(206, 206, 244)); /* Dark mode bg */
-}
-
 body.dark .forgot-password:hover {
     color: #474747;
 }

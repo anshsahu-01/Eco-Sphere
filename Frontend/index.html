@@ -28,7 +28,7 @@ body {
   align-items: center;
   justify-content: center;
   transition: background 0.5s, color 0.5s;
-  background: linear-gradient(135deg,rgb(136, 255, 177) , rgb(169, 255, 219));
+  background: linear-gradient(135deg, rgb(96, 115, 255) , rgb(206, 206, 244));
   color: #000000;
   overflow-y: hidden;
 }
@@ -42,7 +42,7 @@ body {
 /* Main container */
 .container {
   background: rgba(255, 255, 255, 0.1);
-  box-shadow: 1px 1px 12px rgb(50, 255, 105);
+  box-shadow: 1px 1px 12px rgb(50, 94, 255);
   backdrop-filter: blur(8px);
   border-radius: 20px;
   display: flex;
@@ -228,6 +228,9 @@ body.dark {
   color: #fff;
 }
 
+body.dark .left-side {
+  background: linear-gradient(135deg, rgb(96, 115, 255) , rgb(206, 206, 244)); /* Dark mode bg */
+}
 
 body.dark .info-section {
   background: #222;

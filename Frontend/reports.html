@@ -213,38 +213,78 @@
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
 
-       .chatbot {
-    position: fixed;
-    bottom: 40px;
-    right: 25px;
-    width: 56px;
-    height: 56px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    z-index: 10;
-    backdrop-filter: blur(10px);
-    background: linear-gradient(135deg, #00ff99 0%, #00cc80 100%);
-    box-shadow: 
-        0 0 20px rgba(0,255,153,0.6),
-        inset 0 1px 0 rgba(255,255,255,0.2);
-    animation: pulseGlow 2s infinite, float 3s ease-in-out infinite;
-    transition: all 0.3s ease;
-}
+        .chatbot {
+            position: fixed;
+            bottom: 40px;
+            right: 25px;
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 10;
+            backdrop-filter: blur(10px);
+            background: linear-gradient(135deg, #00ff99 0%, #00cc80 100%);
+            box-shadow:
+                0 0 20px rgba(0, 255, 153, 0.6),
+                inset 0 1px 0 rgba(255, 255, 255, 0.2);
+            animation: pulseGlow 2s infinite, float 3s ease-in-out infinite;
+            transition: all 0.3s ease;
+        }
 
-@keyframes float {
-    0%, 100% { transform: translateY(0px); }
-    50% { transform: translateY(-10px); }
-}
+        .chatbot-message {
+            position: fixed;
+            bottom: 90px;
+            right: 20px;
+            background: #ffffff6b;
+            color: rgb(0, 0, 0);
+            padding: 8px 14px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 14px;
+            margin-bottom: 10px;
+            box-shadow: 0 3px 10px rgba(12, 12, 12, 0.5);
+            white-space: nowrap;
+            opacity: 0.9;
+            animation: bubblePop 0.8s ease forwards;
+            z-index: 10;
+            animation: float 3s ease-in-out infinite;
+            backdrop-filter: blur(10px);
+        }
 
-.chatbot:hover {
-    transform: scale(1.1);
-    box-shadow: 
-        0 0 30px rgba(0,255,153,0.8),
-        0 0 50px rgba(0,255,153,0.4);
-}
+        .chatbot-wrapper {
+            position: fixed;
+            bottom: 40px;
+            right: 25px;
+            z-index: 20;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            pointer-events: auto;
+            /* bubble clickable */
+        }
+
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0px);
+            }
+
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        .chatbot:hover {
+            transform: scale(1.1);
+            box-shadow:
+                0 0 30px rgba(0, 255, 153, 0.8),
+                0 0 50px rgba(0, 255, 153, 0.4);
+        }
 
         /* 🌙 Dark Mode */
         body.dark {
@@ -342,6 +382,11 @@
             box-shadow: 1px 1px 11px rgba(110, 255, 110, 0.852);
         }
 
+        body.dark .chatbot-message {
+            background: #333333a1;
+            color: #f5f5f5;
+            box-shadow: 0 3px 10px rgba(255, 255, 255, 0.2);
+        }
 
         @media(max-width:768px) {
             .grid-container {
@@ -433,40 +478,45 @@
             </div>
 
             <!-- Summary Cards -->
-            
+
 
             <div class="main-cards">
-    <div class="card">
-        <div class="card-inner">
-            <p class="text-primary">TOTAL ELECTRICITY</p><span class="material-icons-outlined text-blue">flash_on</span>
-        </div>
-        <span class="text-primary font-weight-bold">320 kWh</span>
-    </div>
-    <div class="card">
-        <div class="card-inner">
-            <p class="text-primary">TOTAL WATER</p><span class="material-icons-outlined text-blue">water</span>
-        </div>
-        <span class="text-primary font-weight-bold">4500 L</span>
-    </div>
-    <div class="card">
-        <div class="card-inner">
-            <p class="text-primary">CARBON FOOTPRINT</p><span class="material-icons-outlined text-green">eco</span>
-        </div>
-        <span class="text-primary font-weight-bold">150 kg CO₂</span>
-    </div>
-    <div class="card">
-        <div class="card-inner">
-            <p class="text-primary">AVG DAILY USAGE</p><span class="material-icons-outlined text-orange">insights</span>
-        </div>
-        <span class="text-primary font-weight-bold">75 kWh / 600 L / 5 kg CO₂</span>
-    </div>
-    <div class="card">
-        <div class="card-inner">
-            <p class="text-primary">ALERTS</p><span class="material-icons-outlined text-red">notification_important</span>
-        </div>
-        <span class="text-primary font-weight-bold">3</span>
-    </div>
-</div>
+                <div class="card">
+                    <div class="card-inner">
+                        <p class="text-primary">TOTAL ELECTRICITY</p><span
+                            class="material-icons-outlined text-blue">flash_on</span>
+                    </div>
+                    <span class="text-primary font-weight-bold">320 kWh</span>
+                </div>
+                <div class="card">
+                    <div class="card-inner">
+                        <p class="text-primary">TOTAL WATER</p><span
+                            class="material-icons-outlined text-blue">water</span>
+                    </div>
+                    <span class="text-primary font-weight-bold">4500 L</span>
+                </div>
+                <div class="card">
+                    <div class="card-inner">
+                        <p class="text-primary">CARBON FOOTPRINT</p><span
+                            class="material-icons-outlined text-green">eco</span>
+                    </div>
+                    <span class="text-primary font-weight-bold">150 kg CO₂</span>
+                </div>
+                <div class="card">
+                    <div class="card-inner">
+                        <p class="text-primary">AVG DAILY USAGE</p><span
+                            class="material-icons-outlined text-orange">insights</span>
+                    </div>
+                    <span class="text-primary font-weight-bold">75 kWh / 600 L / 5 kg CO₂</span>
+                </div>
+                <div class="card">
+                    <div class="card-inner">
+                        <p class="text-primary">ALERTS</p><span
+                            class="material-icons-outlined text-red">notification_important</span>
+                    </div>
+                    <span class="text-primary font-weight-bold">3</span>
+                </div>
+            </div>
 
 
             <!-- Table -->
@@ -515,7 +565,10 @@
         </main>
     </div>
 
-    <a href="chatbot.html"><img src="./Images/bot.jpg" class="chatbot" alt="Chatbot"></a>
+    <div class="chatbot-wrapper">
+        <a href="chatbot.html"><img src="./Images/bot.jpg" class="chatbot" alt="Chatbot"></a>
+        <div class="chatbot-message">How Can I Help You?</div>
+    </div>
 
     <!-- JS -->
     <script>

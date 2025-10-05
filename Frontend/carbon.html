@@ -197,37 +197,77 @@
         }
 
         .chatbot {
-    position: fixed;
-    bottom: 40px;
-    right: 25px;
-    width: 56px;
-    height: 56px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    z-index: 10;
-    backdrop-filter: blur(10px);
-    background: linear-gradient(135deg, #00ff99 0%, #00cc80 100%);
-    box-shadow: 
-        0 0 20px rgba(0,255,153,0.6),
-        inset 0 1px 0 rgba(255,255,255,0.2);
-    animation: pulseGlow 2s infinite, float 3s ease-in-out infinite;
-    transition: all 0.3s ease;
-}
+            position: fixed;
+            bottom: 40px;
+            right: 25px;
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 10;
+            backdrop-filter: blur(10px);
+            background: linear-gradient(135deg, #00ff99 0%, #00cc80 100%);
+            box-shadow:
+                0 0 20px rgba(0, 255, 153, 0.6),
+                inset 0 1px 0 rgba(255, 255, 255, 0.2);
+            animation: pulseGlow 2s infinite, float 3s ease-in-out infinite;
+            transition: all 0.3s ease;
+        }
 
-@keyframes float {
-    0%, 100% { transform: translateY(0px); }
-    50% { transform: translateY(-10px); }
-}
+        .chatbot-message {
+            position: fixed;
+            bottom: 90px;
+            right: 20px;
+            background: #ffffff6b;
+            color: rgb(0, 0, 0);
+            padding: 8px 14px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 14px;
+            margin-bottom: 10px;
+            box-shadow: 0 3px 10px rgba(12, 12, 12, 0.5);
+            white-space: nowrap;
+            opacity: 0.9;
+            animation: bubblePop 0.8s ease forwards;
+            z-index: 10;
+            animation: float 3s ease-in-out infinite;
+            backdrop-filter: blur(10px);
+        }
 
-.chatbot:hover {
-    transform: scale(1.1);
-    box-shadow: 
-        0 0 30px rgba(0,255,153,0.8),
-        0 0 50px rgba(0,255,153,0.4);
-}
+        .chatbot-wrapper {
+            position: fixed;
+            bottom: 40px;
+            right: 25px;
+            z-index: 20;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            pointer-events: auto;
+            /* bubble clickable */
+        }
+
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0px);
+            }
+
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        .chatbot:hover {
+            transform: scale(1.1);
+            box-shadow:
+                0 0 30px rgba(0, 255, 153, 0.8),
+                0 0 50px rgba(0, 255, 153, 0.4);
+        }
 
 
         body,
@@ -282,6 +322,12 @@
         body.dark .chatbot {
             background: #2b2b40;
             box-shadow: 0 0 12px rgba(100, 255, 100, 0.8);
+        }
+
+        body.dark .chatbot-message {
+            background: #333333a1;
+            color: #f5f5f5;
+            box-shadow: 0 3px 10px rgba(255, 255, 255, 0.2);
         }
 
         @media(max-width:768px) {
@@ -399,8 +445,6 @@
                 </div>
             </div>
 
-            <a href="chatbot.html"><img src="./Images/bot.jpg" class="chatbot" alt="Chatbot"></a>
-
             <!-- Charts -->
             <div class="charts">
                 <div class="charts-card">
@@ -413,6 +457,11 @@
                 </div>
             </div>
         </main>
+    </div>
+
+    <div class="chatbot-wrapper">
+        <a href="chatbot.html"><img src="./Images/bot.jpg" class="chatbot" alt="Chatbot"></a>
+        <div class="chatbot-message">How Can I Help You?</div>
     </div>
 
     <!-- JS -->

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,513 +8,617 @@
 </head>
 <link rel="stylesheet" href="./THEME/theme.css">
 <style>
-   body {
-    font-family: 'Montserrat', Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    background: linear-gradient(135deg, #ffffff 0%, #e1e1e1 50%, #fff5f5 100%);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    color: #e0e0e0;
-    overflow: hidden;
-    position: relative;
-}
-
-
-/* Subtle background particles or stars for beauty */
-body::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-image: 
-        radial-gradient(2px 2px at 20px 30px, #00ff99, transparent),
-        radial-gradient(2px 2px at 40px 70px, rgba(0, 191, 255, 0.8), transparent),
-        radial-gradient(1px 1px at 90px 40px, #00ff99, transparent),
-        radial-gradient(1px 1px at 130px 80px, rgba(0,255,153,0.6), transparent);
-    background-repeat: repeat;
-    background-size: 200px 100px;
-    animation: sparkle 20s linear infinite;
-    opacity: 0.1;
-    z-index: -1;
-}
-
-@keyframes sparkle {
-    from { transform: translateY(0px); }
-    to { transform: translateY(-100px); }
-}
-
-/* Chat container */
-.chat-container {
-    width: 100%;
-    max-width: 500px;
-    height: 95vh;
-    background: rgba(7, 7, 7, 0.85);
-    backdrop-filter: blur(20px) saturate(1.2);
-    border-radius: 25px;
-    display: flex;
-    flex-direction: column;
-    box-shadow: 
-        0 20px 60px rgba(0, 0, 0, 0.752),
-        inset 0 1px 0 rgba(255,255,255,0.1);
-    border: 1px solid rgb(0, 0, 0);
-    position: relative;
-    animation: slideInUp 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    overflow: hidden;
-}
-
-/* Enhanced Animations */
-@keyframes slideInUp {
-    from { 
-        opacity: 0; 
-        transform: translateY(60px) scale(0.95); 
-    }
-    to { 
-        opacity: 1; 
-        transform: translateY(0) scale(1); 
-    }
-}
-
-@keyframes fadeInMessage {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-
-@keyframes pulseGlow {
-    0%, 100% { box-shadow: 0 0 5px rgba(0,255,153,0.5); }
-    50% { box-shadow: 0 0 20px rgba(0,255,153,0.8), 0 0 40px rgba(0,255,153,0.4); }
-}
-
-.chat-container{
-    width: 29vw;
-}
-
-/* Header */
-.chat-header {
-    background: linear-gradient(135deg, #141414 0%, #171717 50%, #1b1b1b 100%);
-    color: #fff;
-    padding: 25px 70px;
-    text-align: center;
-    position: relative;
-    border-bottom: 1px solid rgba(255,255,255,0.15);
-    border-radius: 25px 25px 0 0;
-    box-shadow: 
-        inset 0 -3px 8px rgba(0,0,0,0.3),
-        0 4px 20px rgba(0,0,0,0.2);
-}
-
-.chat-header h1 {
-    margin: 0;
-    font-size: 1.8rem;
-    font-weight: 800;
-    letter-spacing: 1.5px;
-    text-shadow: 0 2px 4px rgba(0,0,0,0.5);
-    position: relative;
-}
-
-.chat-header h1::after {
-    content: '';
-    position: absolute;
-    bottom: -5px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 50px;
-    height: 2px;
-    background: linear-gradient(90deg, transparent, rgba(74,144,226,0.4), transparent);
-    border-radius: 1px;
-}
-
-/* Dashboard Button (replaces/modifies back-button-floating for awesome looks) */
-.dashboard-button {
-    position: absolute;
-    top: 20px;
-    left: 20px;
-    color: #ffffff;
-    padding: 12px 22px;
-    border-radius: 50px;
-    font-weight: 600;
-    font-size: 0.95rem;
-    text-decoration: none;
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-
-    z-index: 10;
-    letter-spacing: 0.5px;
-}
-
-/* Classic Arrow */
-.dashboard-button::before {
-    content: '';
-    display: inline-block;
-    width: 8px;
-    height: 8px;
-    border-top: 3px solid #000000;
-    border-left: 3px solid #010101;
-    transform: rotate(-45deg);
-    transition: transform 0.3s ease, margin 0.3s ease;
-    scale: 1.5;
-}
-
-/* Arrow animation */
-.dashboard-button:hover::before {
-    margin-right: 5px;
-    transform: rotate(-45deg) scale(1.6);
-}
-
-
-
-/* Messages */
-.chat-messages {
-    flex-grow: 1;
-    padding: 25px;
-    overflow-y: auto;
-    background: linear-gradient(to bottom, rgba(0,0,0,0.1), rgba(0,0,0,0.2));
-}
-
-/* Enhanced Scrollbar */
-::-webkit-scrollbar {
-    width: 8px;
-}
-::-webkit-scrollbar-track {
-    background: rgba(0,0,0,0.2);
-    border-radius: 4px;
-}
-::-webkit-scrollbar-thumb {
-    background: linear-gradient(135deg, #4a4a4a 0%, #5a5a5a 100%);
-    border-radius: 4px;
-    transition: background 0.3s ease;
-}
-::-webkit-scrollbar-thumb:hover {
-    background: linear-gradient(135deg, #00ff99 0%, #00cc80 100%);
-}
-
-/* Message bubble */
-.message {
-    display: flex;
-    align-items: flex-start;
-    margin-bottom: 20px;
-    opacity: 0;
-    animation: fadeInMessage 0.5s ease-out forwards;
-    animation-delay: 0.1s;
-}
-.message-content {
-    padding: 15px 20px;
-    border-radius: 25px;
-    max-width: 75%;
-    font-size: 1rem;
-    line-height: 1.5;
-    box-shadow: 
-        0 8px 20px rgba(0,0,0,0.3),
-        inset 0 1px 0 rgba(255,255,255,0.1);
-    transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    position: relative;
-    overflow: hidden;
-}
-.message-content::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-}
-.message-content:hover {
-    transform: translateY(-3px) scale(1.02);
-    box-shadow: 
-        0 12px 30px rgba(0,0,0,0.4),
-        inset 0 1px 0 rgba(255,255,255,0.15);
-}
-
-/* User & Bot messages */
-.user-message { flex-direction: row-reverse; }
-.user-message .message-content {
-    background: linear-gradient(135deg, #4a90e2 0%, #357abd 50%, #2a5bb8 100%);
-    color: #fff;
-    margin-right: 15px;
-    border-bottom-right-radius: 5px;
-}
-.bot-message .message-content {
-    background: linear-gradient(135deg, #2a2a2a 0%, #3a3a3a 50%, #4a4a4a 100%);
-    color: #e0e0e0;
-    margin-left: 15px;
-    border-bottom-left-radius: 5px;
-}
-
-/* Profile images */
-.profile-image {
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-    border: 3px solid rgba(255,255,255,0.3);
-    object-fit: cover;
-    margin: 0 12px;
-    transition: all 0.4s ease;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-}
-.user-message .profile-image { 
-    border-color: #4a90e2;
-    background: linear-gradient(135deg, #4a90e2, #357abd);
-}
-.bot-message .profile-image { 
-    border-color: #00ff99;
-    background: linear-gradient(135deg, #00ff99, #00cc80);
-}
-.profile-image:hover { 
-    transform: scale(1.15) rotate(5deg); 
-    box-shadow: 0 6px 20px rgba(0,255,153,0.4);
-}
-
-/* Input container */
-.chat-input-container {
-    display: flex;
-    padding: 20px;
-    gap: 12px;
-    background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
-    border-top: 1px solid rgba(255,255,255,0.15);
-    box-shadow: inset 0 -2px 8px rgba(0,0,0,0.3);
-}
-
-#user-input {
-    flex-grow: 1;
-    padding: 14px 18px;
-    border-radius: 30px;
-    border: 2px solid rgba(74,144,226,0.3);
-    background: rgba(58,58,58,0.9);
-    color: #e0e0e0;
-    outline: none;
-    font-size: 1rem;
-    transition: all 0.3s ease;
-    backdrop-filter: blur(10px);
-}
-#user-input:focus { 
-    border-color: #4a90e2;
-    box-shadow: 0 0 20px rgba(74,144,226,0.4);
-    transform: scale(1.02);
-}
-
-#send-button {
-    padding: 14px 24px;
-    border-radius: 30px;
-    border: none;
-    background: linear-gradient(135deg, rgba(74,144,226,0.4) 0%, rgba(74,144,226,0.4) 100%);
-    color: #fff;
-    cursor: pointer;
-    font-weight: 700;
-    font-size: 1rem;
-    box-shadow: 
-        inset 0 1px 0 rgba(255,255,255,0.2);
-    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-}
-#send-button:hover { 
-    background: linear-gradient(135deg, rgba(74,144,226,0.4) 0%, rgba(74,144,226,0.4) 100%); 
-    transform: translate3d(0, -2px, 0) scale(1.05);
-    box-shadow: 
-        inset 0 1px 0 rgba(255,255,255,0.3);
-}
-#send-button:active { transform: translateY(0) scale(1); }
-
-/* Enhanced Chatbot icon */
-.chatbot {
-    position: fixed;
-    bottom: 40px;
-    right: 25px;
-    width: 56px;
-    height: 56px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    z-index: 10;
-    backdrop-filter: blur(10px);
-    background: linear-gradient(135deg, #00ff99 0%, #00cc80 100%);
-    box-shadow: 
-        0 0 20px rgba(0,255,153,0.6),
-        inset 0 1px 0 rgba(255,255,255,0.2);
-    animation: pulseGlow 2s infinite, float 3s ease-in-out infinite;
-    transition: all 0.3s ease;
-}
-
-@keyframes float {
-    0%, 100% { transform: translateY(0px); }
-    50% { transform: translateY(-10px); }
-}
-
-.chatbot:hover {
-    transform: scale(1.1);
-    box-shadow: 
-        0 0 30px rgba(0,255,153,0.8),
-        0 0 50px rgba(0,255,153,0.4);
-}
-
-.theme-toggle {
-  position: fixed;
-  top: 20px;       /* 👈 top se 20px */
-  right: 20px;     /* 👈 right se 20px */
-  width: 48px;
-  height: 48px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  user-select: none;
-  z-index: 9999;
-  color: #111;   /* icon color */
-  transition: background .2s, color .2s, box-shadow .2s;
-  border: none;  /* border remove */
-  box-shadow: 1px 1px 11px #36363698;
-}
-
-/* Dark Mode Styling */
-body.dark {
-    background: linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 50%, #2a2a2a 100%);
-    color: #f5f5f5;
-}
-
-/* Chat Container Dark */
-body.dark .chat-container {
-    background: rgba(30, 30, 30, 0.9);
-    border: 1px solid #444;
-    box-shadow: 0 20px 60px rgba(0,0,0,0.7);
-}
-
-/* Header Dark */
-body.dark .chat-header {
-    background: linear-gradient(135deg, #1e1e1e 0%, #2c2c2c 50%, #3a3a3a 100%);
-    color: #fff;
-}
-
-/* Messages Dark */
-body.dark .chat-messages {
-    background: linear-gradient(to bottom, rgba(255,255,255,0.05), rgba(255,255,255,0.08));
-}
-body.dark .bot-message .message-content {
-    background: linear-gradient(135deg, #222 0%, #333 50%, #444 100%);
-    color: #ddd;
-}
-body.dark .user-message .message-content {
-    background: linear-gradient(135deg, #1e88e5 0%, #1565c0 50%, #0d47a1 100%);
-}
-
-/* Input Dark */
-body.dark #user-input {
-    background: rgba(20,20,20,0.9);
-    color: #fff;
-    border: 2px solid rgba(0,255,153,0.3);
-}
-body.dark #user-input:focus {
-    border-color: #00ff99;
-    box-shadow: 0 0 15px rgba(0,255,153,0.4);
-}
-
-/* Send Button Dark */
-body.dark #send-button {
-    background: linear-gradient(135deg, #00cc80 0%, #00ff99 100%);
-    color: #fff;
-}
-body.dark #send-button:hover {
-    background: linear-gradient(135deg, #00ff99 0%, #00cc80 100%);
-}
-
-/* Scrollbar Dark */
-body.dark ::-webkit-scrollbar-track {
-    background: rgba(255,255,255,0.05);
-}
-body.dark ::-webkit-scrollbar-thumb {
-    background: linear-gradient(135deg, #444 0%, #555 100%);
-}
-body.dark ::-webkit-scrollbar-thumb:hover {
-    background: linear-gradient(135deg, #00ff99 0%, #00cc80 100%);
-}
-
-/* Theme Toggle Dark */
-body.dark .theme-toggle {
-    color: #fff;
-    box-shadow: 1px 1px 11px #ffffff;
-}
-
-body.dark .dashboard-button::before {
-    border-top: 2px solid #ffffff;
-    border-left: 2px solid #ffffff;
-}
-
-
-/* Responsive */
-@media (max-width: 520px) {
-    .chat-container { 
-        height: 100vh; 
-        border-radius: 0; 
-        margin: 0 10px;
-        width: 100vw;
-    }
-    .chat-header { 
-        padding: 20px 50px; 
-        border-radius: 0;
-    }
-    .dashboard-button {
-        display: none;
-    }
-    #user-input { 
-        font-size: 0.95rem; 
-        padding: 12px 16px;
-    }
-    .chat-messages {
-        padding: 20px 15px;
+    body {
+        font-family: 'Montserrat', Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background: linear-gradient(135deg, #ffffff 0%, #e1e1e1 50%, #fff5f5 100%);
+        display: flex;
+        justify-content: center;
+        align-items: center;
         height: 100vh;
+        color: #e0e0e0;
+        overflow: hidden;
+        position: relative;
     }
+
+
+    /* Subtle background particles or stars for beauty */
+    body::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image:
+            radial-gradient(2px 2px at 20px 30px, #00ff99, transparent),
+            radial-gradient(2px 2px at 40px 70px, rgba(0, 191, 255, 0.8), transparent),
+            radial-gradient(1px 1px at 90px 40px, #00ff99, transparent),
+            radial-gradient(1px 1px at 130px 80px, rgba(0, 255, 153, 0.6), transparent);
+        background-repeat: repeat;
+        background-size: 200px 100px;
+        animation: sparkle 20s linear infinite;
+        opacity: 0.1;
+        z-index: -1;
+    }
+
+    @keyframes sparkle {
+        from {
+            transform: translateY(0px);
+        }
+
+        to {
+            transform: translateY(-100px);
+        }
+    }
+
+    /* Chat container */
+    .chat-container {
+        width: 100%;
+        max-width: 500px;
+        height: 95vh;
+        background: rgba(7, 7, 7, 0.85);
+        backdrop-filter: blur(20px) saturate(1.2);
+        border-radius: 25px;
+        display: flex;
+        flex-direction: column;
+        box-shadow:
+            0 20px 60px rgba(0, 0, 0, 0.752),
+            inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        border: 1px solid rgb(0, 0, 0);
+        position: relative;
+        animation: slideInUp 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        overflow: hidden;
+    }
+
+    /* Enhanced Animations */
+    @keyframes slideInUp {
+        from {
+            opacity: 0;
+            transform: translateY(60px) scale(0.95);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+    }
+
+    @keyframes fadeInMessage {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @keyframes pulseGlow {
+
+        0%,
+        100% {
+            box-shadow: 0 0 5px rgba(0, 255, 153, 0.5);
+        }
+
+        50% {
+            box-shadow: 0 0 20px rgba(0, 255, 153, 0.8), 0 0 40px rgba(0, 255, 153, 0.4);
+        }
+    }
+
+    .chat-container {
+        width: 29vw;
+    }
+
+    /* Header */
+    .chat-header {
+        background: linear-gradient(135deg, #141414 0%, #171717 50%, #1b1b1b 100%);
+        color: #fff;
+        padding: 25px 70px;
+        text-align: center;
+        position: relative;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+        border-radius: 25px 25px 0 0;
+        box-shadow:
+            inset 0 -3px 8px rgba(0, 0, 0, 0.3),
+            0 4px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    .chat-header h1 {
+        margin: 0;
+        font-size: 1.8rem;
+        font-weight: 800;
+        letter-spacing: 1.5px;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+        position: relative;
+    }
+
+    .chat-header h1::after {
+        content: '';
+        position: absolute;
+        bottom: -5px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 50px;
+        height: 2px;
+        background: linear-gradient(90deg, transparent, rgba(74, 144, 226, 0.4), transparent);
+        border-radius: 1px;
+    }
+
+    /* Dashboard Button (replaces/modifies back-button-floating for awesome looks) */
+    .dashboard-button {
+        position: absolute;
+        top: 20px;
+        left: 20px;
+        color: #ffffff;
+        padding: 12px 22px;
+        border-radius: 50px;
+        font-weight: 600;
+        font-size: 0.95rem;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+
+        z-index: 10;
+        letter-spacing: 0.5px;
+    }
+
+    /* Classic Arrow */
+    .dashboard-button::before {
+        content: '';
+        display: inline-block;
+        width: 8px;
+        height: 8px;
+        border-top: 3px solid #000000;
+        border-left: 3px solid #010101;
+        transform: rotate(-45deg);
+        transition: transform 0.3s ease, margin 0.3s ease;
+        scale: 1.5;
+    }
+
+    /* Arrow animation */
+    .dashboard-button:hover::before {
+        margin-right: 5px;
+        transform: rotate(-45deg) scale(1.6);
+    }
+
+
+
+    /* Messages */
+    .chat-messages {
+        flex-grow: 1;
+        padding: 25px;
+        overflow-y: auto;
+        background: linear-gradient(to bottom, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.2));
+    }
+
+    /* Enhanced Scrollbar */
+    ::-webkit-scrollbar {
+        width: 8px;
+    }
+
+    ::-webkit-scrollbar-track {
+        background: rgba(0, 0, 0, 0.2);
+        border-radius: 4px;
+    }
+
+    ::-webkit-scrollbar-thumb {
+        background: linear-gradient(135deg, #4a4a4a 0%, #5a5a5a 100%);
+        border-radius: 4px;
+        transition: background 0.3s ease;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+        background: linear-gradient(135deg, #00ff99 0%, #00cc80 100%);
+    }
+
+    /* Message bubble */
+    .message {
+        display: flex;
+        align-items: flex-start;
+        margin-bottom: 20px;
+        opacity: 0;
+        animation: fadeInMessage 0.5s ease-out forwards;
+        animation-delay: 0.1s;
+    }
+
+    .message-content {
+        padding: 15px 20px;
+        border-radius: 25px;
+        max-width: 75%;
+        font-size: 1rem;
+        line-height: 1.5;
+        box-shadow:
+            0 8px 20px rgba(0, 0, 0, 0.3),
+            inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .message-content::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 1px;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    }
+
+    .message-content:hover {
+        transform: translateY(-3px) scale(1.02);
+        box-shadow:
+            0 12px 30px rgba(0, 0, 0, 0.4),
+            inset 0 1px 0 rgba(255, 255, 255, 0.15);
+    }
+
+    /* User & Bot messages */
+    .user-message {
+        flex-direction: row-reverse;
+    }
+
+    .user-message .message-content {
+        background: linear-gradient(135deg, #4a90e2 0%, #357abd 50%, #2a5bb8 100%);
+        color: #fff;
+        margin-right: 15px;
+        border-bottom-right-radius: 5px;
+    }
+
+    .bot-message .message-content {
+        background: linear-gradient(135deg, #2a2a2a 0%, #3a3a3a 50%, #4a4a4a 100%);
+        color: #e0e0e0;
+        margin-left: 15px;
+        border-bottom-left-radius: 5px;
+    }
+
+    /* Profile images */
+    .profile-image {
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        border: 3px solid rgba(255, 255, 255, 0.3);
+        object-fit: cover;
+        margin: 0 12px;
+        transition: all 0.4s ease;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    }
+
+    .user-message .profile-image {
+        border-color: #4a90e2;
+        background: linear-gradient(135deg, #4a90e2, #357abd);
+    }
+
+    .bot-message .profile-image {
+        border-color: #00ff99;
+        background: linear-gradient(135deg, #00ff99, #00cc80);
+    }
+
+    .profile-image:hover {
+        transform: scale(1.15) rotate(5deg);
+        box-shadow: 0 6px 20px rgba(0, 255, 153, 0.4);
+    }
+
+    /* Input container */
+    .chat-input-container {
+        display: flex;
+        padding: 20px;
+        gap: 12px;
+        background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+        border-top: 1px solid rgba(255, 255, 255, 0.15);
+        box-shadow: inset 0 -2px 8px rgba(0, 0, 0, 0.3);
+    }
+
+    #user-input {
+        flex-grow: 1;
+        padding: 14px 18px;
+        border-radius: 30px;
+        border: 2px solid rgba(74, 144, 226, 0.3);
+        background: rgba(58, 58, 58, 0.9);
+        color: #e0e0e0;
+        outline: none;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+        backdrop-filter: blur(10px);
+    }
+
+    #user-input:focus {
+        border-color: #4a90e2;
+        box-shadow: 0 0 20px rgba(74, 144, 226, 0.4);
+        transform: scale(1.02);
+    }
+
+    #send-button {
+        padding: 14px 24px;
+        border-radius: 30px;
+        border: none;
+        background: linear-gradient(135deg, rgba(74, 144, 226, 0.4) 0%, rgba(74, 144, 226, 0.4) 100%);
+        color: #fff;
+        cursor: pointer;
+        font-weight: 700;
+        font-size: 1rem;
+        box-shadow:
+            inset 0 1px 0 rgba(255, 255, 255, 0.2);
+        transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    #send-button:hover {
+        background: linear-gradient(135deg, rgba(74, 144, 226, 0.4) 0%, rgba(74, 144, 226, 0.4) 100%);
+        transform: translate3d(0, -2px, 0) scale(1.05);
+        box-shadow:
+            inset 0 1px 0 rgba(255, 255, 255, 0.3);
+    }
+
+    #send-button:active {
+        transform: translateY(0) scale(1);
+    }
+
+    /* Enhanced Chatbot icon */
     .chatbot {
+        position: fixed;
+        bottom: 40px;
+        right: 25px;
+        width: 56px;
+        height: 56px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        z-index: 10;
+        backdrop-filter: blur(10px);
+        background: linear-gradient(135deg, #00ff99 0%, #00cc80 100%);
+        box-shadow:
+            0 0 20px rgba(0, 255, 153, 0.6),
+            inset 0 1px 0 rgba(255, 255, 255, 0.2);
+        animation: pulseGlow 2s infinite, float 3s ease-in-out infinite;
+        transition: all 0.3s ease;
+    }
+
+    .chatbot-message {
+        position: fixed;
+        bottom: 90px;
+        right: 20px;
+        background: #ffffff6b;
+        color: rgb(0, 0, 0);
+        padding: 8px 14px;
+        border-radius: 20px;
+        font-weight: 600;
+        font-size: 14px;
+        margin-bottom: 10px;
+        box-shadow: 0 3px 10px rgba(12, 12, 12, 0.5);
+        white-space: nowrap;
+        opacity: 0.9;
+        animation: bubblePop 0.8s ease forwards;
+        z-index: 10;
+        animation: float 3s ease-in-out infinite;
+        backdrop-filter: blur(10px);
+    }
+
+    .chatbot-wrapper {
+        position: fixed;
+        bottom: 40px;
+        right: 25px;
+        z-index: 20;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        pointer-events: auto;
+        /* bubble clickable */
+    }
+
+
+    @keyframes float {
+
+        0%,
+        100% {
+            transform: translateY(0px);
+        }
+
+        50% {
+            transform: translateY(-10px);
+        }
+    }
+
+    .chatbot:hover {
+        transform: scale(1.1);
+        box-shadow:
+            0 0 30px rgba(0, 255, 153, 0.8),
+            0 0 50px rgba(0, 255, 153, 0.4);
+    }
+
+    .theme-toggle {
+        position: fixed;
+        top: 20px;
+        /* 👈 top se 20px */
+        right: 20px;
+        /* 👈 right se 20px */
         width: 48px;
         height: 48px;
-        bottom: 20px;
-        left: 7px;
-        top: 15px;
-        animation: none;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        user-select: none;
+        z-index: 9999;
+        color: #111;
+        /* icon color */
+        transition: background .2s, color .2s, box-shadow .2s;
+        border: none;
+        /* border remove */
+        box-shadow: 1px 1px 11px #36363698;
     }
-}
 
-@media (max-width: 400px) {
-    .chat-header h1 { font-size: 1.5rem; }
-    .message-content { font-size: 0.95rem; max-width: 85%; }
-}
+    /* Dark Mode Styling */
+    body.dark {
+        background: linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 50%, #2a2a2a 100%);
+        color: #f5f5f5;
+    }
+
+    /* Chat Container Dark */
+    body.dark .chat-container {
+        background: rgba(30, 30, 30, 0.9);
+        border: 1px solid #444;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.7);
+    }
+
+    /* Header Dark */
+    body.dark .chat-header {
+        background: linear-gradient(135deg, #1e1e1e 0%, #2c2c2c 50%, #3a3a3a 100%);
+        color: #fff;
+    }
+
+    /* Messages Dark */
+    body.dark .chat-messages {
+        background: linear-gradient(to bottom, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.08));
+    }
+
+    body.dark .bot-message .message-content {
+        background: linear-gradient(135deg, #222 0%, #333 50%, #444 100%);
+        color: #ddd;
+    }
+
+    body.dark .user-message .message-content {
+        background: linear-gradient(135deg, #1e88e5 0%, #1565c0 50%, #0d47a1 100%);
+    }
+
+    /* Input Dark */
+    body.dark #user-input {
+        background: rgba(20, 20, 20, 0.9);
+        color: #fff;
+        border: 2px solid rgba(0, 255, 153, 0.3);
+    }
+
+    body.dark #user-input:focus {
+        border-color: #00ff99;
+        box-shadow: 0 0 15px rgba(0, 255, 153, 0.4);
+    }
+
+    /* Send Button Dark */
+    body.dark #send-button {
+        background: linear-gradient(135deg, #00cc80 0%, #00ff99 100%);
+        color: #fff;
+    }
+
+    body.dark #send-button:hover {
+        background: linear-gradient(135deg, #00ff99 0%, #00cc80 100%);
+    }
+
+    /* Scrollbar Dark */
+    body.dark ::-webkit-scrollbar-track {
+        background: rgba(255, 255, 255, 0.05);
+    }
+
+    body.dark ::-webkit-scrollbar-thumb {
+        background: linear-gradient(135deg, #444 0%, #555 100%);
+    }
+
+    body.dark ::-webkit-scrollbar-thumb:hover {
+        background: linear-gradient(135deg, #00ff99 0%, #00cc80 100%);
+    }
+
+    /* Theme Toggle Dark */
+    body.dark .theme-toggle {
+        color: #fff;
+        box-shadow: 1px 1px 11px #ffffff;
+    }
+
+    body.dark .dashboard-button::before {
+        border-top: 2px solid #ffffff;
+        border-left: 2px solid #ffffff;
+    }
+
+    body.dark .chatbot-message {
+        background: #333333a1;
+        color: #f5f5f5;
+        box-shadow: 0 3px 10px rgba(255, 255, 255, 0.2);
+    }
+
+
+    /* Responsive */
+    @media (max-width: 520px) {
+        .chat-container {
+            height: 100vh;
+            border-radius: 0;
+            margin: 0 10px;
+            width: 100vw;
+        }
+
+        .chat-header {
+            padding: 20px 50px;
+            border-radius: 0;
+        }
+
+        .dashboard-button {
+            display: none;
+        }
+
+        #user-input {
+            font-size: 0.95rem;
+            padding: 12px 16px;
+        }
+
+        .chat-messages {
+            padding: 20px 15px;
+            height: 100vh;
+        }
+
+        .chatbot {
+            width: 48px;
+            height: 48px;
+            bottom: 20px;
+            left: 7px;
+            top: 15px;
+            animation: none;
+        }
+    }
+
+    @media (max-width: 400px) {
+        .chat-header h1 {
+            font-size: 1.5rem;
+        }
+
+        .message-content {
+            font-size: 0.95rem;
+            max-width: 85%;
+        }
+    }
 </style>
+
 <body>
 
     <a href="dashboard.html" class="dashboard-button"></a>
 
-    <a href="chatbot.html"><img src="./Images/bot.jpg" class="chatbot" alt="Chatbot"></a>
+    <div id="themeToggle" class="theme-toggle" role="button" aria-label="Switch theme" tabindex="0"
+        onclick="toggleTheme()">
+        <!-- Sun (filled) for light mode -->
+        <svg class="icon sun" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true">
+            <circle cx="12" cy="12" r="5" fill="currentColor" />
+            <g stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                <line x1="12" y1="1" x2="12" y2="4" />
+                <line x1="12" y1="20" x2="12" y2="23" />
+                <line x1="1" y1="12" x2="4" y2="12" />
+                <line x1="20" y1="12" x2="23" y2="12" />
+                <line x1="4.22" y1="4.22" x2="6.34" y2="6.34" />
+                <line x1="17.66" y1="17.66" x2="19.78" y2="19.78" />
+                <line x1="4.22" y1="19.78" x2="6.34" y2="17.66" />
+                <line x1="17.66" y1="6.34" x2="19.78" y2="4.22" />
+            </g>
+        </svg>
 
-    <div id="themeToggle" class="theme-toggle" role="button" aria-label="Switch theme" tabindex="0" onclick="toggleTheme()">
-  <!-- Sun (filled) for light mode -->
-  <svg class="icon sun" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true">
-    <circle cx="12" cy="12" r="5" fill="currentColor"/>
-    <g stroke="currentColor" stroke-width="2" stroke-linecap="round">
-      <line x1="12" y1="1"  x2="12" y2="4"/>
-      <line x1="12" y1="20" x2="12" y2="23"/>
-      <line x1="1"  y1="12" x2="4"  y2="12"/>
-      <line x1="20" y1="12" x2="23" y2="12"/>
-      <line x1="4.22" y1="4.22"  x2="6.34" y2="6.34"/>
-      <line x1="17.66" y1="17.66" x2="19.78" y2="19.78"/>
-      <line x1="4.22" y1="19.78" x2="6.34" y2="17.66"/>
-      <line x1="17.66" y1="6.34"  x2="19.78" y2="4.22"/>
-    </g>
-  </svg>
-
-  <!-- Moon (outline) for dark mode -->
-  <svg class="icon moon" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true">
-    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"
-          fill="none" stroke="currentColor" stroke-width="2"
-          stroke-linecap="round" stroke-linejoin="round"/>
-  </svg>
-</div>
+        <!-- Moon (outline) for dark mode -->
+        <svg class="icon moon" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+    </div>
 
     <div class="chat-container">
         <div class="chat-header">
@@ -525,171 +630,177 @@ body.dark .dashboard-button::before {
             <button id="send-button">Send</button>
         </div>
     </div>
+
+    <div class="chatbot-wrapper">
+        <a href="chatbot.html"><img src="./Images/bot.jpg" class="chatbot" alt="Chatbot"></a>
+        <div class="chatbot-message">How Can I Help You?</div>
+    </div>
     <script>
-        const API_KEY = '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'; 
-// Replace with your actual Gemini API key – this stores the API key to authenticate requests to the Gemini API.
+        const API_KEY = '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';
+        // Replace with your actual Gemini API key – this stores the API key to authenticate requests to the Gemini API.
 
-const API_URL = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent';
+        const API_URL = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent';
 
-// The base URL of the Gemini API used to generate content (for text-based responses).
+        // The base URL of the Gemini API used to generate content (for text-based responses).
 
-const chatMessages = document.getElementById('chat-messages');
-// Gets the DOM element with the ID 'chat-messages', where the chat messages (user and bot) will be displayed.
+        const chatMessages = document.getElementById('chat-messages');
+        // Gets the DOM element with the ID 'chat-messages', where the chat messages (user and bot) will be displayed.
 
-const userInput = document.getElementById('user-input');
-// Gets the DOM element with the ID 'user-input', which is the input field where the user types their message.
+        const userInput = document.getElementById('user-input');
+        // Gets the DOM element with the ID 'user-input', which is the input field where the user types their message.
 
-const sendButton = document.getElementById('send-button');
-// Gets the DOM element with the ID 'send-button', which is the button the user clicks to send their message.
+        const sendButton = document.getElementById('send-button');
+        // Gets the DOM element with the ID 'send-button', which is the button the user clicks to send their message.
 
-async function generateResponse(prompt) {
-// Defines an asynchronous function `generateResponse` that takes the user's input (prompt) and generates a response from the API.
+        async function generateResponse(prompt) {
+            // Defines an asynchronous function `generateResponse` that takes the user's input (prompt) and generates a response from the API.
 
-    const response = await fetch(`${API_URL}?key=${API_KEY}`, {
-    // Sends a POST request to the Gemini API endpoint with the API key appended to the URL.
-        method: 'POST',
-        // Specifies the HTTP method (POST) to send data to the API.
+            const response = await fetch(`${API_URL}?key=${API_KEY}`, {
+                // Sends a POST request to the Gemini API endpoint with the API key appended to the URL.
+                method: 'POST',
+                // Specifies the HTTP method (POST) to send data to the API.
 
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        // Sets the request headers to indicate that the content being sent is in JSON format.
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                // Sets the request headers to indicate that the content being sent is in JSON format.
 
-        body: JSON.stringify({
-        // The body of the request, converting the user's message into the format required by the API.
-            contents: [
-                {
-                    parts: [
+                body: JSON.stringify({
+                    // The body of the request, converting the user's message into the format required by the API.
+                    contents: [
                         {
-                            text: prompt
-                            // The user's input (`prompt`) is inserted into the request payload.
+                            parts: [
+                                {
+                                    text: prompt
+                                    // The user's input (`prompt`) is inserted into the request payload.
+                                }
+                            ]
                         }
                     ]
-                }
-            ]
-        })
-    });
+                })
+            });
 
-    if (!response.ok) {
-    // Checks if the API request was unsuccessful (i.e., the response is not OK).
-        throw new Error('Failed to generate response');
-        // If there's an error, an exception is thrown with an error message.
-    }
+            if (!response.ok) {
+                // Checks if the API request was unsuccessful (i.e., the response is not OK).
+                throw new Error('Failed to generate response');
+                // If there's an error, an exception is thrown with an error message.
+            }
 
-    const data = await response.json();
-    // Converts the API response to JSON format.
+            const data = await response.json();
+            // Converts the API response to JSON format.
 
-    return data.candidates[0].content.parts[0].text;
-    // Returns the first generated response from the API (the text part of the response).
-}
-
-function cleanMarkdown(text) {
-// Defines a function `cleanMarkdown` to remove any Markdown formatting (like headers, bold text, etc.) from the response.
-    return text
-        .replace(/#{1,6}\s?/g, '')
-        // Removes any Markdown headers (e.g., #, ##, ###).
-
-        .replace(/\*\*/g, '')
-        // Removes bold formatting (double asterisks **).
-
-        .replace(/\n{3,}/g, '\n\n')
-        // Limits excessive newlines to a maximum of two (replaces more than two newlines with two).
-
-        .trim();
-        // Removes any whitespace from the start and end of the string.
-}
-
-function addMessage(message, isUser) {
-// Defines a function `addMessage` to add a new message to the chat display. It takes the `message` (text) and `isUser` (boolean indicating whether the message is from the user or the bot).
-    const messageElement = document.createElement('div');
-    messageElement.classList.add('message');
-    // Creates a new `div` element for the message and adds the 'message' CSS class.
-
-    messageElement.classList.add(isUser ? 'user-message' : 'bot-message');
-    // Adds a class based on whether the message is from the user ('user-message') or the bot ('bot-message').
-
-    const profileImage = document.createElement('img');
-    profileImage.classList.add('profile-image');
-    // Creates an image element for the profile picture (either the user or the bot) and adds the 'profile-image' CSS class.
-
-    profileImage.src = isUser ? './Images/user.jpg' : './Images/bot.jpg';
-    // Sets the image source depending on whether it's a user or bot message ('user.jpg' or 'bot.jpg').
-
-    profileImage.alt = isUser ? 'User' : 'Bot';
-    // Sets the alternate text for the image (for accessibility), either 'User' or 'Bot'.
-
-    const messageContent = document.createElement('div');
-    messageContent.classList.add('message-content');
-    // Creates a `div` element to hold the text content of the message and adds the 'message-content' CSS class.
-
-    messageContent.textContent = message;
-    // Sets the text content of the message.
-
-    messageElement.appendChild(profileImage);
-    messageElement.appendChild(messageContent);
-    // Appends the profile image and message content to the message element.
-
-    chatMessages.appendChild(messageElement);
-    // Appends the complete message (with profile image and text) to the chat messages section.
-
-    chatMessages.scrollTop = chatMessages.scrollHeight;
-    // Scrolls the chat to the bottom to ensure the latest message is visible.
-}
-
-async function handleUserInput() {
-// Defines an asynchronous function `handleUserInput` to process and handle the user’s input.
-    const userMessage = userInput.value.trim();
-    // Retrieves the user input from the input field and trims any leading/trailing whitespace.
-
-    if (userMessage) {
-    // If the user has entered a message (i.e., it's not empty):
-        addMessage(userMessage, true);
-        // Adds the user's message to the chat (as a user message).
-
-        userInput.value = '';
-        // Clears the input field.
-
-        sendButton.disabled = true;
-        userInput.disabled = true;
-        // Disables the send button and the input field to prevent multiple messages being sent while the bot responds.
-
-        try {
-            const botMessage = await generateResponse(userMessage);
-            // Calls the `generateResponse` function to get the bot's reply.
-
-            addMessage(cleanMarkdown(botMessage), false);
-            // Adds the bot's cleaned response to the chat.
-        } catch (error) {
-            console.error('Error:', error);
-            // Logs any error that occurs during the bot response.
-
-            addMessage('Sorry, I encountered an error. Please try again.', false);
-            // Displays an error message in the chat if something goes wrong.
-        } finally {
-            sendButton.disabled = false;
-            userInput.disabled = false;
-            userInput.focus();
-            // Re-enables the send button and the input field, and puts the focus back on the input for further user interaction.
+            return data.candidates[0].content.parts[0].text;
+            // Returns the first generated response from the API (the text part of the response).
         }
-    }
-}
 
-sendButton.addEventListener('click', handleUserInput);
-// Adds an event listener to the send button that calls `handleUserInput` when clicked.
+        function cleanMarkdown(text) {
+            // Defines a function `cleanMarkdown` to remove any Markdown formatting (like headers, bold text, etc.) from the response.
+            return text
+                .replace(/#{1,6}\s?/g, '')
+                // Removes any Markdown headers (e.g., #, ##, ###).
 
-userInput.addEventListener('keypress', (e) => {
-// Adds an event listener for when a key is pressed in the input field.
-    if (e.key === 'Enter' && !e.shiftKey) {
-    // Checks if the 'Enter' key is pressed and Shift is not held (to distinguish from Shift+Enter for newlines).
-        e.preventDefault();
-        // Prevents the default behavior of adding a newline.
+                .replace(/\*\*/g, '')
+                // Removes bold formatting (double asterisks **).
 
-        handleUserInput();
-        // Calls `handleUserInput` to send the message.
-    }
-});
+                .replace(/\n{3,}/g, '\n\n')
+                // Limits excessive newlines to a maximum of two (replaces more than two newlines with two).
+
+                .trim();
+            // Removes any whitespace from the start and end of the string.
+        }
+
+        function addMessage(message, isUser) {
+            // Defines a function `addMessage` to add a new message to the chat display. It takes the `message` (text) and `isUser` (boolean indicating whether the message is from the user or the bot).
+            const messageElement = document.createElement('div');
+            messageElement.classList.add('message');
+            // Creates a new `div` element for the message and adds the 'message' CSS class.
+
+            messageElement.classList.add(isUser ? 'user-message' : 'bot-message');
+            // Adds a class based on whether the message is from the user ('user-message') or the bot ('bot-message').
+
+            const profileImage = document.createElement('img');
+            profileImage.classList.add('profile-image');
+            // Creates an image element for the profile picture (either the user or the bot) and adds the 'profile-image' CSS class.
+
+            profileImage.src = isUser ? './Images/user.jpg' : './Images/bot.jpg';
+            // Sets the image source depending on whether it's a user or bot message ('user.jpg' or 'bot.jpg').
+
+            profileImage.alt = isUser ? 'User' : 'Bot';
+            // Sets the alternate text for the image (for accessibility), either 'User' or 'Bot'.
+
+            const messageContent = document.createElement('div');
+            messageContent.classList.add('message-content');
+            // Creates a `div` element to hold the text content of the message and adds the 'message-content' CSS class.
+
+            messageContent.textContent = message;
+            // Sets the text content of the message.
+
+            messageElement.appendChild(profileImage);
+            messageElement.appendChild(messageContent);
+            // Appends the profile image and message content to the message element.
+
+            chatMessages.appendChild(messageElement);
+            // Appends the complete message (with profile image and text) to the chat messages section.
+
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+            // Scrolls the chat to the bottom to ensure the latest message is visible.
+        }
+
+        async function handleUserInput() {
+            // Defines an asynchronous function `handleUserInput` to process and handle the user’s input.
+            const userMessage = userInput.value.trim();
+            // Retrieves the user input from the input field and trims any leading/trailing whitespace.
+
+            if (userMessage) {
+                // If the user has entered a message (i.e., it's not empty):
+                addMessage(userMessage, true);
+                // Adds the user's message to the chat (as a user message).
+
+                userInput.value = '';
+                // Clears the input field.
+
+                sendButton.disabled = true;
+                userInput.disabled = true;
+                // Disables the send button and the input field to prevent multiple messages being sent while the bot responds.
+
+                try {
+                    const botMessage = await generateResponse(userMessage);
+                    // Calls the `generateResponse` function to get the bot's reply.
+
+                    addMessage(cleanMarkdown(botMessage), false);
+                    // Adds the bot's cleaned response to the chat.
+                } catch (error) {
+                    console.error('Error:', error);
+                    // Logs any error that occurs during the bot response.
+
+                    addMessage('Sorry, I encountered an error. Please try again.', false);
+                    // Displays an error message in the chat if something goes wrong.
+                } finally {
+                    sendButton.disabled = false;
+                    userInput.disabled = false;
+                    userInput.focus();
+                    // Re-enables the send button and the input field, and puts the focus back on the input for further user interaction.
+                }
+            }
+        }
+
+        sendButton.addEventListener('click', handleUserInput);
+        // Adds an event listener to the send button that calls `handleUserInput` when clicked.
+
+        userInput.addEventListener('keypress', (e) => {
+            // Adds an event listener for when a key is pressed in the input field.
+            if (e.key === 'Enter' && !e.shiftKey) {
+                // Checks if the 'Enter' key is pressed and Shift is not held (to distinguish from Shift+Enter for newlines).
+                e.preventDefault();
+                // Prevents the default behavior of adding a newline.
+
+                handleUserInput();
+                // Calls `handleUserInput` to send the message.
+            }
+        });
 
     </script>
     <script src="./THEME/theme.js"></script>
 </body>
+
 </html>
