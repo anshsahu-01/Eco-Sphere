@@ -48,7 +48,7 @@
     .menu-icon {
       cursor: pointer;
       font-size: 24px;
-      color: #246dec;
+;
       transition: transform 0.3s ease, color 0.3s ease;
     }
 
@@ -64,12 +64,6 @@
       font-size: 24px;
       color: #246dec;
       transition: color 0.3s ease, transform 0.3s ease;
-    }
-
-    .header-left span:hover,
-    .header-right span:hover {
-      color: #1a5bb8;
-      transform: translateY(-1px);
     }
 
     .theme-toggle {
@@ -227,6 +221,19 @@
       margin: 12px 0 4px;
       font-weight: 600;
       color: #555;
+    }
+
+    .profile-img {
+      top: 150px;
+      left: 300px;
+      margin: 0 auto 20px;
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      object-fit: cover;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      border: 3px solid #246dec;
+      position: absolute;
     }
 
     .settings-form input[type="text"],
@@ -411,6 +418,12 @@
       color: #e0e0e0;
     }
 
+    body.dark a header.header span,
+body.dark .header-right span {
+  background: #1f1f1f;
+  color: #ffffff;
+}
+
     .dark .menu-icon,
     .dark .header-left span,
     .dark .header-right span {
@@ -526,6 +539,12 @@
         grid-template-columns: 1fr;
       }
 
+      .profile-img {
+        top: 70px;
+        right: -40px;
+        width: 50px;
+        height: 50px;
+      }
       aside#sidebar {
         position: absolute;
         left: -250px;
@@ -612,18 +631,21 @@
       </ul>
     </aside>
 
+    
+
     <!-- Main -->
     <main class="main-container">
+      
       <div class="main-title">
         <p>SETTINGS</p>
       </div>
-
+<img src="./Images/user.jpg" alt="Profile Image" srcset="" class="profile-img">
       <div class="settings-form">
         <h3>Profile Information</h3>
         <label for="name">Name</label>
-        <input type="text" id="name" value="John Doe">
+        <input type="text" id="name" value="Ansh Sahu">
         <label for="email">Email</label>
-        <input type="email" id="email" value="john@example.com">
+        <input type="email" id="email" value="anshsahu@example.com">
 
         <h3>Change Password</h3>
         <label for="current-password">Current Password</label>
