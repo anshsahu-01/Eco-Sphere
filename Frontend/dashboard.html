@@ -166,7 +166,18 @@
     margin-right: 10px;
   }
   
-      
+  /* Add this in your CSS */
+  #sidebar.sidebar-responsive {
+    display: block !important;  /* force visible */
+    position: fixed;
+    width: 250px;
+    height: 100%;
+    top: 0;
+    left: 0;
+    z-index: 11;
+    transition: smooth 1s ease-in;
+  }
+
 
   .sidebar-responsive {
     transform: translateX(0);
@@ -480,6 +491,11 @@ body.dark .chatbot-message {
   @media screen and (max-width: 576px) {
     .header-left {
       display: none;
+    }
+    
+
+    .theme-toggle{
+      margin-top: 18px;
     }
   }
 </style>
