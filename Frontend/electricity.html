@@ -56,6 +56,7 @@
             margin: 0 8px;
             cursor: pointer;
             font-size: 24px;
+             color: #000000;
         }
 
         .theme-toggle {
@@ -373,6 +374,21 @@
 
             .sidebar-responsive {
                 transform: translateX(250px);
+            }
+        }
+
+         @media(max-width:480px) {
+            .charts {
+                grid-template-columns: 1fr;
+            }
+            header{
+              position: fixed;
+              width: 100%;
+              z-index: 100;
+              height: 60px;
+            }
+            .theme-toggle{
+              position: fixed;
             }
         }
     </style>
