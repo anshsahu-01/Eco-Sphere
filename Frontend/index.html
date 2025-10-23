@@ -1,768 +1,880 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>EcoSphere — Sign In / Sign Up</title>
-  <meta name="theme-color" content="#ffffff" />
-  <style>
-    * {
-      box-sizing: border-box
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ecosphere | Sustainable Urban Intelligence</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-    html,
-    body {
-      height: 100%;
-    }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            min-height: 100vh;
+            transition: all 0.3s ease;
+            max-width: 100%;
+    overflow-x: hidden;
+        }
 
-    body {
-      margin: 0;
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
-      background: #fafafa;
-      color: #0f172a;
-      -webkit-font-smoothing: antialiased;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 32px;
-      transition: background-color 0.3s, color 0.3s;
-    }
+        body.dark-theme {
+            background: linear-gradient(135deg, #0c0c0c 0%, #1a1a1a 100%);
+            color: #ffffff;
+        }
 
-    body.dark-mode {
-      background: #0a0a0a;
-      color: #f0f0f0;
-    }
+        body.light-theme {
+            background: linear-gradient(135deg, #f5f5f7 0%, #ffffff 100%);
+            color: #333333;
+        }
 
-    /* Outer layout */
-    .shell {
-      width: 100%;
-      max-width: 980px;
-      display: flex;
-      gap: 40px;
-      align-items: center;
-      justify-content: center
-    }
+        .container {
+            display: flex;
+            min-height: 100vh;
+            padding: 0px 280px;
+        }
 
-    /* Left intro (simple, Apple-like) */
-    .intro {
-      flex: 1;
-      min-width: 260px;
-      max-width: 420px;
-      padding: 28px;
-      border-radius: 14px;
-      background: linear-gradient(180deg, rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.4));
-      box-shadow: 0 8px 30px rgba(16, 24, 40, 0.06);
-      transition: background 0.3s, box-shadow 0.3s;
-    }
+        .left-panel {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 40px;
+            position: relative;
+        }
 
-    body.dark-mode .intro {
-      background: linear-gradient(180deg, rgba(26, 26, 26, 0.6), rgba(26, 26, 26, 0.4));
-      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
-    }
+        .right-panel {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 40px;
+        }
 
-    .logo-container {
-      display: flex;
-      align-items: center;
-      margin-bottom: 18px;
-    }
-
-    .logo {
-      height: 48px;
-      width: 48px;
-      margin-right: 12px;
-      border-radius: 10px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-    }
-
-    .logo-text {
-      font-size: 28px;
-      font-weight: 600;
-      color: #0f172a;
-      transition: color 0.3s;
-    }
-
-    body.dark-mode .logo-text {
-      color: #f0f0f0;
-    }
-
-    .intro h1 {
-      font-size: 28px;
-      margin: 0 0 8px 0;
-      font-weight: 600;
-      color: #0f172a;
-      transition: color 0.3s;
-    }
-
-    body.dark-mode .intro h1 {
-      color: #f0f0f0;
-    }
-
-    .intro p {
-      margin: 0;
-      color: #6b7280;
-      line-height: 1.5;
-      transition: color 0.3s;
-    }
-
-    body.dark-mode .intro p {
-      color: #8a8a8a;
-    }
-
-    /* Logo selector */
-    .logo-selector {
-      margin-top: 20px;
-      padding-top: 20px;
-      border-top: 1px solid rgba(0,0,0,0.1);
-    }
-
-    body.dark-mode .logo-selector {
-      border-top: 1px solid rgba(255,255,255,0.1);
-    }
-
-    .logo-options {
-      display: flex;
-      gap: 10px;
-      margin-top: 10px;
-      flex-wrap: wrap;
-    }
-
-    .logo-option {
-      width: 40px;
-      height: 40px;
-      border-radius: 8px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      transition: transform 0.2s, box-shadow 0.2s;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    }
-
-    .logo-option:hover {
-      transform: scale(1.1);
-    }
-
-    .logo-option.active {
-      box-shadow: 0 0 0 2px #10b981;
-    }
-
-    /* Right form */
-    .card {
-      flex: 1;
-      padding: 20px;
-      border-radius: 14px;
-      background: #ffffff;
-      box-shadow: 0 18px 50px rgba(16, 24, 40, 0.08);
-      max-width: 520px;
-      transition: background 0.3s, box-shadow 0.3s;
-    }
-
-    body.dark-mode .card {
-      background: #1a1a1a;
-      box-shadow: 0 18px 50px rgba(0, 0, 0, 0.3);
-    }
-
-    .tabs {
-      display: flex;
-      border-radius: 12px;
-      background: rgba(15, 23, 42, 0.04);
-      padding: 6px;
-      width: fit-content;
-      margin: 0 auto 18px;
-      transition: background 0.3s;
-    }
-
-    body.dark-mode .tabs {
-      background: rgba(255, 255, 255, 0.05);
-    }
-
-    .tab {
-      border: none;
-      background: transparent;
-      padding: 10px 18px;
-      border-radius: 10px;
-      font-weight: 600;
-      cursor: pointer;
-      color: #6b7280;
-      transition: color 0.3s, background 0.3s;
-    }
-
-    body.dark-mode .tab {
-      color: #8a8a8a;
-    }
-
-    .tab.active {
-      background: linear-gradient(180deg, #fff, #f8fafc);
-      box-shadow: 0 6px 18px rgba(2, 6, 23, 0.06);
-      color: #0f172a;
-    }
-
-    body.dark-mode .tab.active {
-      background: linear-gradient(180deg, #2a2a2a, #1f1f1f);
-      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2);
-      color: #f0f0f0;
-    }
-
-    form {
-      display: grid;
-      gap: 12px;
-      margin-top: 6px
-    }
-
-    label {
-      font-size: 13px;
-      color: #6b7280;
-      display: block;
-      transition: color 0.3s;
-    }
-
-    body.dark-mode label {
-      color: #8a8a8a;
-    }
-
-    input[type="text"],
-    input[type="email"],
-    input[type="password"] {
-      width: 100%;
-      padding: 12px 14px;
-      border-radius: 10px;
-      border: 1px solid #e6e9ee;
-      background: transparent;
-      font-size: 15px;
-      color: #0f172a;
-      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.6);
-      transition: border-color 0.3s, color 0.3s;
-    }
-
-    body.dark-mode input[type="text"],
-    body.dark-mode input[type="email"],
-    body.dark-mode input[type="password"] {
-      border: 1px solid #333333;
-      color: #f0f0f0;
-      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1);
-    }
-
-    .actions {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-top: 6px
-    }
-
-    .btn {
-      padding: 10px 16px;
-      border-radius: 10px;
-      border: 1px solid transparent;
-      background: #111827;
-      color: #fff;
-      font-weight: 600;
-      cursor: pointer;
-      transition: background 0.3s;
-    }
-
-    body.dark-mode .btn {
-      background: #2a2a2a;
-    }
-
-    .btn.ghost {
-      background: transparent;
-      color: #0f172a;
-      border-color: #eef2ff;
-      transition: background 0.3s, color 0.3s, border-color 0.3s;
-    }
-
-    body.dark-mode .btn.ghost {
-      color: #f0f0f0;
-      border-color: #333333;
-    }
-
-    .small {
-      font-size: 13px;
-      color: #6b7280;
-      transition: color 0.3s;
-    }
-
-    body.dark-mode .small {
-      color: #8a8a8a;
-    }
-
-    .footer-note {
-      margin-top: 14px;
-      font-size: 13px;
-      color: #6b7280;
-      text-align: center;
-      transition: color 0.3s;
-    }
-
-    body.dark-mode .footer-note {
-      color: #8a8a8a;
-    }
-
-    /* password eye */
-    .field {
-      position: relative
-    }
-
-    .eye {
-      position: absolute;
-      right: 10px;
-      top: 20px;
-      padding: 8px;
-      cursor: pointer;
-      border-radius: 8px;
-      color: #6b7280;
-      background: transparent;
-      border: none;
-      transition: color 0.3s;
-    }
-
-    body.dark-mode .eye {
-      color: #8a8a8a;
-    }
-
-    /* theme toggle */
-    .theme-toggle {
+        .theme-toggle {
       position: fixed;
-      right: 20px;
       top: 20px;
-      border: none;
-      background: transparent;
-      cursor: pointer;
-      color: #6b7280;
-      font-size: 14px;
-      width: 44px;
-      height: 44px;
+      right: 20px;
+      width: 48px;
+      height: 48px;
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
-      transition: background-color 0.2s, color 0.3s;
+      cursor: pointer;
+      user-select: none;
+      z-index: 10;
+      backdrop-filter: blur(6px);
+      transition: background 0.3s ease;
     }
 
-    body.dark-mode .theme-toggle {
-      color: #8a8a8a;
-    }
-
-    .theme-toggle:hover {
-      background-color: rgba(0, 0, 0, 0.05);
-    }
-
-    body.dark-mode .theme-toggle:hover {
-      background-color: rgba(255, 255, 255, 0.1);
-    }
-
-    .theme-toggle .icon {
-      position: absolute;
-      transition: opacity 0.3s, transform 0.3s;
-    }
-
-    .theme-toggle .sun {
-      opacity: 1;
-      transform: scale(1);
-    }
-
-    .theme-toggle .moon {
-      opacity: 0;
-      transform: scale(0.5);
-    }
-
-    body.dark-mode .theme-toggle .sun {
-      opacity: 0;
-      transform: scale(0.5);
-    }
-
-    body.dark-mode .theme-toggle .moon {
-      opacity: 1;
-      transform: scale(1);
-    }
-
-    /* responsive */
-    @media (max-width:880px) {
-      .shell {
-        flex-direction: column;
-        padding: 18px
-      }
-
-      .intro {
-        order: 2;
-        width: 100%
-      }
-
-      .card {
-        width: 100%
-      }
-    }
-  </style>
-</head>
-
-<body>
-  <div id="themeToggle" class="theme-toggle" role="button" aria-label="Switch theme" tabindex="0">
-    <!-- Sun (filled) for light mode -->
-    <svg class="icon sun" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true">
-      <circle cx="12" cy="12" r="5" fill="currentColor" />
-      <g stroke="currentColor" stroke-width="2" stroke-linecap="round">
-        <line x1="12" y1="1" x2="12" y2="4" />
-        <line x1="12" y1="20" x2="12" y2="23" />
-        <line x1="1" y1="12" x2="4" y2="12" />
-        <line x1="20" y1="12" x2="23" y2="12" />
-        <line x1="4.22" y1="4.22" x2="6.34" y2="6.34" />
-        <line x1="17.66" y1="17.66" x2="19.78" y2="19.78" />
-        <line x1="4.22" y1="19.78" x2="6.34" y2="17.66" />
-        <line x1="17.66" y1="6.34" x2="19.78" y2="4.22" />
-      </g>
-    </svg>
-
-    <!-- Moon (outline) for dark mode -->
-    <svg class="icon moon" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true">
-      <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" fill="none" stroke="currentColor" stroke-width="2"
-        stroke-linecap="round" stroke-linejoin="round" />
-    </svg>
-  </div>
-
-  <main class="shell" role="main">
-
-    <section class="intro" aria-labelledby="welcome">
-      <div class="logo-container">
-        <div class="logo" id="mainLogo" style="background: linear-gradient(135deg, #10b981, #059669);">
-          <!-- Earth logo by default -->
-          <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <circle cx="16" cy="16" r="14" fill="#0ea5e9" />
-            <path d="M16 2C16 2 22 8 22 14C22 20 19 26 16 26C13 26 10 20 10 14C10 8 16 2 16 2Z" fill="#10b981" />
-            <path d="M16 2C16 2 10 8 10 14C10 20 13 26 16 26C19 26 22 20 22 14C22 8 16 2 16 2Z" fill="#0ea5e9" />
-            <path d="M16 2C12 6 10 10 10 14C10 18 12 22 16 26" stroke="white" stroke-width="1.5" stroke-linecap="round" />
-            <path d="M16 2C20 6 22 10 22 14C22 18 20 22 16 26" stroke="white" stroke-width="1.5" stroke-linecap="round" />
-            <circle cx="16" cy="16" r="3" fill="white" opacity="0.7" />
-          </svg>
-        </div>
-        <div class="logo-text">EcoSphere</div>
-      </div>
-      <h1 id="welcome">Smart Energy & Water Insights</h1>
-      <p>Track your consumption, reduce waste, and save money with our intelligent monitoring system. Sign in to view your dashboard or create a new account.</p>
-      
-      <div class="logo-selector">
-        <div class="small">Choose a logo:</div>
-        <div class="logo-options">
-          <div class="logo-option active" data-logo="earth" style="background: linear-gradient(135deg, #10b981, #0ea5e9);">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <circle cx="12" cy="12" r="10" fill="#0ea5e9" />
-              <path d="M12 2C12 2 16 6 16 10C16 14 14 18 12 18C10 18 8 14 8 10C8 6 12 2 12 2Z" fill="#10b981" />
-              <path d="M12 2C12 2 8 6 8 10C8 14 10 18 12 18C14 18 16 14 16 10C16 6 12 2 12 2Z" fill="#0ea5e9" />
-              <circle cx="12" cy="12" r="2" fill="white" opacity="0.7" />
-            </svg>
-          </div>
-          <div class="logo-option" data-logo="droplet" style="background: linear-gradient(135deg, #3b82f6, #1d4ed8);">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M12 2C12 2 16 6 16 10C16 14 14 18 12 18C10 18 8 14 8 10C8 6 12 2 12 2Z" fill="#3b82f6" />
-              <path d="M12 2C12 2 8 6 8 10C8 14 10 18 12 18C14 18 16 14 16 10C16 6 12 2 12 2Z" fill="#1d4ed8" />
-              <path d="M12 2C8 6 6 10 6 14C6 18 8 22 12 22C16 22 18 18 18 14C18 10 16 6 12 2Z" fill="#3b82f6" />
-              <circle cx="12" cy="12" r="2" fill="white" opacity="0.7" />
-            </svg>
-          </div>
-          <div class="logo-option" data-logo="energy" style="background: linear-gradient(135deg, #f59e0b, #d97706);">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M13 2L4 14H11L10 22L19 10H12L13 2Z" fill="#f59e0b" />
-              <path d="M13 2L12 10H19L10 22L11 14H4L13 2Z" fill="#d97706" />
-            </svg>
-          </div>
-          <div class="logo-option" data-logo="circuit" style="background: linear-gradient(135deg, #8b5cf6, #7c3aed);">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <rect x="3" y="3" width="18" height="18" rx="2" fill="#8b5cf6" />
-              <rect x="6" y="6" width="4" height="4" rx="1" fill="white" />
-              <rect x="14" y="6" width="4" height="4" rx="1" fill="white" />
-              <rect x="6" y="14" width="4" height="4" rx="1" fill="white" />
-              <rect x="14" y="14" width="4" height="4" rx="1" fill="white" />
-              <path d="M10 8H14" stroke="white" stroke-width="2" />
-              <path d="M10 16H14" stroke="white" stroke-width="2" />
-              <path d="M8 10V14" stroke="white" stroke-width="2" />
-              <path d="M16 10V14" stroke="white" stroke-width="2" />
-            </svg>
-          </div>
-          <div class="logo-option" data-logo="mountain" style="background: linear-gradient(135deg, #10b981, #047857);">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M12 3L20 21H4L12 3Z" fill="#10b981" />
-              <path d="M12 3L4 21H12L20 21L12 3Z" fill="#047857" />
-              <path d="M8 14L12 10L16 14H8Z" fill="white" opacity="0.7" />
-            </svg>
-          </div>
-          <div class="logo-option" data-logo="wind" style="background: linear-gradient(135deg, #06b6d4, #0891b2);">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M3 8H15C17.2091 8 19 9.79086 19 12C19 14.2091 17.2091 16 15 16H3" stroke="white" stroke-width="2" />
-              <path d="M3 12H19C21.2091 12 23 13.7909 23 16C23 18.2091 21.2091 20 19 20H3" stroke="white" stroke-width="2" />
-              <path d="M3 16H11C13.2091 16 15 17.7909 15 20C15 22.2091 13.2091 24 11 24H3" stroke="white" stroke-width="2" />
-            </svg>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="card" aria-labelledby="auth">
-      <div style="text-align:center">
-        <div class="tabs" role="tablist">
-          <button class="tab active" id="tabSignIn" role="tab" aria-selected="true">Sign In</button>
-          <button class="tab" id="tabSignUp" role="tab" aria-selected="false">Sign Up</button>
-        </div>
-      </div>
-
-      <!-- SIGN IN -->
-      <form id="signIn" autocomplete="on" aria-labelledby="auth" novalidate>
-        <div>
-          <label for="signin-email">Email</label>
-          <input id="signin-email" name="email" type="email" required placeholder="you@domain.com">
-        </div>
-        <div class="field">
-          <label for="signin-pass">Password</label>
-          <input id="signin-pass" name="password" type="password" required placeholder="••••••••">
-          <button type="button" class="eye" aria-label="Show password" data-target="signin-pass">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M1 12C1 12 5 4 12 4C19 4 23 12 23 12C23 12 19 20 12 20C5 20 1 12 1 12Z" stroke="currentColor"
-                stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-              <circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                stroke-linejoin="round" />
-            </svg>
-          </button>
-        </div>
-
-        <div class="actions">
-          <div style="display:flex;gap:12px;align-items:center">
-            <input id="remember" type="checkbox"><label for="remember" class="small">Remember</label>
-          </div>
-          <a href="#" class="small">Forgot?</a>
-        </div>
-
-        <div style="margin-top:8px;display:flex;gap:12px">
-          <button class="btn" type="submit">Sign In</button>
-          <button type="button" class="btn ghost" id="btnDemo" title="Try demo account">Try Demo</button>
-        </div>
-
-        <p class="footer-note">Or continue with passwordless magic link — we keep things light and private.</p>
-      </form>
-
-      <!-- SIGN UP -->
-      <form id="signUp" style="display:none;" autocomplete="on" novalidate>
-        <div>
-          <label for="signup-name">Full name</label>
-          <input id="signup-name" name="name" type="text" required placeholder="Your name">
-        </div>
-        <div>
-          <label for="signup-email">Email</label>
-          <input id="signup-email" name="email" type="email" required placeholder="you@domain.com">
-        </div>
-        <div class="field">
-          <label for="signup-pass">Create password</label>
-          <input id="signup-pass" name="password" type="password" required placeholder="At least 8 characters">
-          <button type="button" class="eye" aria-label="Show password" data-target="signup-pass">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M1 12C1 12 5 4 12 4C19 4 23 12 23 12C23 12 19 20 12 20C5 20 1 12 1 12Z" stroke="currentColor"
-                stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-              <circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                stroke-linejoin="round" />
-            </svg>
-          </button>
-        </div>
-
-        <div style="margin-top:8px;display:flex;gap:12px">
-          <button class="btn" type="submit">Create account</button>
-          <button type="button" class="btn ghost" id="btnTOS">Terms</button>
-        </div>
-
-        <p class="footer-note">By creating an account you agree to our terms. We never sell your data.</p>
-      </form>
-
-    </section>
-  </main>
-
-  <script>
-    // Simple tab logic: keep it minimal and accessible
-    const tabSignIn = document.getElementById('tabSignIn');
-    const tabSignUp = document.getElementById('tabSignUp');
-    const signIn = document.getElementById('signIn');
-    const signUp = document.getElementById('signUp');
-
-    function showSignIn() {
-      tabSignIn.classList.add('active'); tabSignUp.classList.remove('active');
-      tabSignIn.setAttribute('aria-selected', 'true'); tabSignUp.setAttribute('aria-selected', 'false');
-      signIn.style.display = 'grid'; signUp.style.display = 'none';
-    }
-    function showSignUp() {
-      tabSignUp.classList.add('active'); tabSignIn.classList.remove('active');
-      tabSignUp.setAttribute('aria-selected', 'true'); tabSignIn.setAttribute('aria-selected', 'false');
-      signUp.style.display = 'grid'; signIn.style.display = 'none';
-    }
-    tabSignIn.addEventListener('click', showSignIn);
-    tabSignUp.addEventListener('click', showSignUp);
-
-    // password show/hide
-    document.querySelectorAll('.eye').forEach(btn => {
-      btn.addEventListener('click', () => {
-        const id = btn.dataset.target; 
-        const el = document.getElementById(id);
-        if (!el) return; 
-        
-        // Toggle password visibility
-        el.type = el.type === 'password' ? 'text' : 'password';
-        
-        // Update eye icon
-        const svg = btn.querySelector('svg');
-        if (el.type === 'text') {
-          // Change to eye-off icon
-          svg.innerHTML = `
-            <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            <line x1="1" y1="1" x2="23" y2="23" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-          `;
-        } else {
-          // Change back to eye icon
-          svg.innerHTML = `
-            <path d="M1 12C1 12 5 4 12 4C19 4 23 12 23 12C23 12 19 20 12 20C5 20 1 12 1 12Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            <circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-          `;
+        .dark-theme .theme-toggle {
+            background: rgba(255, 255, 255, 0);
+            color: #ffffff;
         }
-      })
-    });
 
-    // theme toggle (light/dark)
-    const themeToggle = document.getElementById('themeToggle');
-    let dark = false;
-    
-    function toggleTheme() {
-      dark = !dark;
-      if (dark) {
-        document.body.classList.add('dark-mode');
-      } else {
-        document.body.classList.remove('dark-mode');
-      }
+        .light-theme .theme-toggle {
+            background: rgba(0, 0, 0, 0);
+
+        }
+
+        .theme-toggle:hover {
+            background-color: #a0a0a02a;
+        }
+
+        .theme-toggle svg {
+            width: 24px;
+            height: 24px;
+        }
+
+        .logo-container {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .logo {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 20px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        .dark-theme .logo {
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
+        }
+
+        .light-theme .logo {
+            background: linear-gradient(135deg, #ffffff 0%, #f8f8f8 100%);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .logo-text {
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #00ff88 0%, #00ccff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+        }
+
+        .tagline {
+            font-size: 1.1rem;
+            opacity: 0.8;
+            max-width: 400px;
+            line-height: 1.6;
+        }
+
+        .dark-theme .tagline {
+            color: #a0a0a0;
+        }
+
+        .light-theme .tagline {
+            color: #666666;
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+            max-width: 400px;
+            margin-top: 40px;
+        }
+
+        .feature {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 15px;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .dark-theme .feature {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .light-theme .feature {
+            background: rgba(0, 0, 0, 0.03);
+        }
+
+        .feature-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #00ff88, #00ccff);
+        }
+
+        .feature-text {
+            flex: 1;
+        }
+
+        .feature-title {
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .dark-theme .feature-title {
+            color: #ffffff;
+        }
+
+        .light-theme .feature-title {
+            color: #333333;
+        }
+
+        .feature-desc {
+            font-size: 0.9rem;
+            opacity: 0.7;
+            line-height: 1.5;
+        }
+
+        .auth-container {
+            width: 100%;
+            max-width: 400px;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .dark-theme .auth-container {
+            background: linear-gradient(135deg, #151515 0%, #1e1e1e 100%);
+        }
+
+        .light-theme .auth-container {
+            background: linear-gradient(135deg, #ffffff 0%, #f8f8f8 100%);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .auth-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .auth-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .dark-theme .auth-title {
+            color: #ffffff;
+        }
+
+        .light-theme .auth-title {
+            color: #333333;
+        }
+
+        .auth-subtitle {
+            opacity: 0.7;
+            font-size: 1rem;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+
+        .dark-theme .form-label {
+            color: #ffffff;
+        }
+
+        .light-theme .form-label {
+            color: #333333;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 15px;
+            border-radius: 12px;
+            border: none;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .dark-theme .form-input {
+            background: rgba(255, 255, 255, 0.05);
+            color: #ffffff;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .light-theme .form-input {
+            background: rgba(0, 0, 0, 0.03);
+            color: #333333;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #00ccff;
+            box-shadow: 0 0 0 2px rgba(0, 204, 255, 0.2);
+        }
+
+        .password-container {
+            position: relative;
+        }
+
+        .toggle-password {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            cursor: pointer;
+            opacity: 0.7;
+        }
+
+        .dark-theme .toggle-password {
+            color: #ffffff;
+        }
+
+        .light-theme .toggle-password {
+            color: #333333;
+        }
+
+        .remember-forgot {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .remember-me {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .forgot-password {
+            font-size: 0.9rem;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .dark-theme .forgot-password {
+            color: #00ccff;
+        }
+
+        .light-theme .forgot-password {
+            color: #0066ff;
+        }
+
+        .forgot-password:hover {
+            opacity: 0.8;
+        }
+
+        .auth-button {
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: #000000;
+            margin-bottom: 20px;
+        }
+
+        .auth-button:hover {
+            background-color: #252525;
+            color: #ffffff;
+            border: 1px solid black;
+        }
+
+        .auth-switch {
+            text-align: center;
+            font-size: 0.9rem;
+        }
+
+        .dark-theme .auth-switch {
+            color: #a0a0a0;
+        }
+
+        .light-theme .auth-switch {
+            color: #666666;
+        }
+
+        .switch-link {
+            color: #00ccff;
+            text-decoration: none;
+            font-weight: 600;
+            margin-left: 5px;
+            cursor: pointer;
+        }
+
+        .switch-link:hover {
+            opacity: 0.8;
+        }
+
+        .divider {
+            display: flex;
+            align-items: center;
+            margin: 25px 0;
+        }
+
+        .divider-line {
+            flex: 1;
+            height: 1px;
+        }
+
+        .dark-theme .divider-line {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .light-theme .divider-line {
+            background: rgba(0, 0, 0, 0.1);
+        }
+
+        .divider-text {
+            padding: 0 15px;
+            font-size: 0.9rem;
+            opacity: 0.7;
+        }
+
+        .social-login {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+        }
+
+        .social-button {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+            font-weight: 500;
+            
+        }
+        .social-button1 {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+            font-weight: 500;
+            color: #00ccff;
+        }
+
+        .dark-theme .social-button {
+            background: rgba(255, 255, 255, 0.05);
+            color: #ffffff;
+        }
+        .dark-theme .social-button1 {
+            background: rgba(255, 255, 255, 0.05);
+            color: #00ccff;
+        }
+
+        .light-theme .social-button {
+            background: rgba(0, 0, 0, 0.03);
+            color: #333333;
+        }
+
+        .social-button:hover {
+            transform: translateY(-2px);
+        }
+
+        .social-icon {
+            width: 18px;
+            height: 18px;
+        }
+
+        @media (max-width: 1400px) {
+    .container {
+        padding: 0px 180px;
+    }
+}
+
+@media (max-width: 1200px) {
+    .container {
+        padding: 0px 100px;
+    }
+}
+
+@media (max-width: 1024px) {
+    .container {
+        padding: 0px 60px;
     }
     
-    themeToggle.addEventListener('click', toggleTheme);
+    .logo-text {
+        font-size: 2.2rem;
+    }
     
-    // Also allow keyboard activation
-    themeToggle.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter' || e.key === ' ') {
-        toggleTheme();
-        e.preventDefault();
-      }
-    });
+    .auth-container {
+        max-width: 380px;
+        padding: 35px;
+    }
+}
 
-    // Logo selection
-    const logoOptions = document.querySelectorAll('.logo-option');
-    const mainLogo = document.getElementById('mainLogo');
+@media (max-width: 900px) {
+    .container {
+        padding: 0px 40px;
+    }
     
-    // Logo SVGs for each option
-    const logoSVGs = {
-      earth: `
-        <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <circle cx="16" cy="16" r="14" fill="#0ea5e9" />
-          <path d="M16 2C16 2 22 8 22 14C22 20 19 26 16 26C13 26 10 20 10 14C10 8 16 2 16 2Z" fill="#10b981" />
-          <path d="M16 2C16 2 10 8 10 14C10 20 13 26 16 26C19 26 22 20 22 14C22 8 16 2 16 2Z" fill="#0ea5e9" />
-          <path d="M16 2C12 6 10 10 10 14C10 18 12 22 16 26" stroke="white" stroke-width="1.5" stroke-linecap="round" />
-          <path d="M16 2C20 6 22 10 22 14C22 18 20 22 16 26" stroke="white" stroke-width="1.5" stroke-linecap="round" />
-          <circle cx="16" cy="16" r="3" fill="white" opacity="0.7" />
-        </svg>
-      `,
-      droplet: `
-        <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M16 2C16 2 22 8 22 14C22 20 19 26 16 26C13 26 10 20 10 14C10 8 16 2 16 2Z" fill="#3b82f6" />
-          <path d="M16 2C16 2 10 8 10 14C10 20 13 26 16 26C19 26 22 20 22 14C22 8 16 2 16 2Z" fill="#1d4ed8" />
-          <path d="M16 2C12 6 10 10 10 14C10 18 12 22 16 26C20 26 22 22 22 14C22 10 20 6 16 2Z" fill="#3b82f6" />
-          <circle cx="16" cy="16" r="3" fill="white" opacity="0.7" />
-        </svg>
-      `,
-      energy: `
-        <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M17 2L6 18H15L14 30L25 14H16L17 2Z" fill="#f59e0b" />
-          <path d="M17 2L16 14H25L14 30L15 18H6L17 2Z" fill="#d97706" />
-        </svg>
-      `,
-      circuit: `
-        <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <rect x="4" y="4" width="24" height="24" rx="3" fill="#8b5cf6" />
-          <rect x="8" y="8" width="5" height="5" rx="1" fill="white" />
-          <rect x="19" y="8" width="5" height="5" rx="1" fill="white" />
-          <rect x="8" y="19" width="5" height="5" rx="1" fill="white" />
-          <rect x="19" y="19" width="5" height="5" rx="1" fill="white" />
-          <path d="M13 10H19" stroke="white" stroke-width="2" />
-          <path d="M13 22H19" stroke="white" stroke-width="2" />
-          <path d="M10 13V19" stroke="white" stroke-width="2" />
-          <path d="M22 13V19" stroke="white" stroke-width="2" />
-        </svg>
-      `,
-      mountain: `
-        <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M16 4L26 28H6L16 4Z" fill="#10b981" />
-          <path d="M16 4L6 28H16L26 28L16 4Z" fill="#047857" />
-          <path d="M10 18L16 12L22 18H10Z" fill="white" opacity="0.7" />
-        </svg>
-      `,
-      wind: `
-        <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M4 10H20C22.2091 10 24 11.7909 24 14C24 16.2091 22.2091 18 20 18H4" stroke="white" stroke-width="2" />
-          <path d="M4 14H24C26.2091 14 28 15.7909 28 18C28 20.2091 26.2091 22 24 22H4" stroke="white" stroke-width="2" />
-          <path d="M4 18H14C16.2091 18 18 19.7909 18 22C18 24.2091 16.2091 26 14 26H4" stroke="white" stroke-width="2" />
-        </svg>
-      `
-    };
+    .left-panel, .right-panel {
+        padding: 30px;
+    }
+}
+
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+        padding: 0px 20px;
+        width: 100%;
+        overflow-x: hidden;
+    }
     
-    // Logo background gradients
-    const logoBackgrounds = {
-      earth: 'linear-gradient(135deg, #10b981, #0ea5e9)',
-      droplet: 'linear-gradient(135deg, #3b82f6, #1d4ed8)',
-      energy: 'linear-gradient(135deg, #f59e0b, #d97706)',
-      circuit: 'linear-gradient(135deg, #8b5cf6, #7c3aed)',
-      mountain: 'linear-gradient(135deg, #10b981, #047857)',
-      wind: 'linear-gradient(135deg, #06b6d4, #0891b2)'
-    };
+    body {
+        overflow-x: hidden;
+        width: 100%;
+    }
     
-    logoOptions.forEach(option => {
-      option.addEventListener('click', () => {
-        // Remove active class from all options
-        logoOptions.forEach(opt => opt.classList.remove('active'));
+    .left-panel, .right-panel {
+        padding: 30px 20px;
+        flex: none;
+        width: 100%;
+        max-width: 100%;
+    }
+    
+    .left-panel {
+        padding-top: 60px;
+    }
+    
+    .logo-container {
+        margin-bottom: 30px;
+        width: 100%;
+    }
+    
+    .logo-text {
+        font-size: 2rem;
+    }
+    
+    .features {
+        max-width: 100%;
+        margin-top: 30px;
+        width: 100%;
+    }
+    
+    .auth-container {
+        max-width: 100%;
+        padding: 30px 25px;
+        width: 100%;
+        box-sizing: border-box;
+    }
+    
+    .theme-toggle {
+        top: 15px;
+        right: 15px;
+        width: 44px;
+        height: 44px;
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        padding: 0px 15px;
+        min-width: 320px;
+        max-width: 410px;
+        overflow: hidden;
+    }
+    
+    body {
+        min-width: 320px;
+    }
+    
+    .left-panel, .right-panel {
+        padding: 20px 15px;
+        min-width: 0;
+    }
+    
+    .logo {
+        width: 70px;
+        height: 70px;
+    }
+    
+    .logo-text {
+        font-size: 1.8rem;
+        word-wrap: break-word;
+    }
+    
+    .tagline {
+        font-size: 1rem;
+        word-wrap: break-word;
+    }
+    
+    .feature {
+        padding: 12px;
+        gap: 12px;
+        min-width: 0;
+    }
+    
+    .feature-icon {
+        width: 36px;
+        height: 36px;
+        flex-shrink: 0;
+    }
+    
+    .auth-container {
+        padding: 25px 20px;
+        min-width: 0;
+    }
+    
+    .auth-title {
+        font-size: 1.6rem;
+        word-wrap: break-word;
+    }
+    
+    .form-input {
+        padding: 14px;
+        width: 100%;
+        box-sizing: border-box;
+    }
+    
+    .remember-forgot {
+        flex-direction: column;
+        gap: 15px;
+        align-items: flex-start;
+        width: 100%;
+    }
+    
+    .social-login {
+        flex-direction: column;
+        gap: 12px;
+        width: 100%;
+    }
+    
+    .social-button {
+        padding: 14px;
+        width: 100%;
+        box-sizing: border-box;
+    }
+    
+    .theme-toggle {
+        width: 42px;
+        height: 42px;
+    }
+}
+
+
+    </style>
+</head>
+<body class="dark-theme">
+    <div class="container">
+        <!-- Left Panel -->
+        <div class="left-panel">
+            <button class="theme-toggle" id="themeToggle">
+                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Moon icon for dark theme -->
+                    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" fill="currentColor"/>
+                </svg>
+            </button>
+
+            <div class="logo-container">
+                <div class="logo">
+                    <svg width="50" height="50" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <defs>
+                            <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" stop-color="#00ff88" />
+                                <stop offset="100%" stop-color="#00ccff" />
+                            </linearGradient>
+                            <linearGradient id="grad2" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" stop-color="#0066ff" />
+                                <stop offset="100%" stop-color="#00ff88" />
+                            </linearGradient>
+                        </defs>
+                        
+                        <circle cx="60" cy="60" r="28" fill="url(#grad1)" opacity="0.9" />
+                        <circle cx="60" cy="60" r="38" stroke="url(#grad2)" stroke-width="2" stroke-dasharray="4 4" fill="none" />
+                        <circle cx="60" cy="60" r="48" stroke="url(#grad1)" stroke-width="1.5" stroke-dasharray="3 3" fill="none" />
+                        <path d="M30 40 Q50 30 60 40 Q70 50 60 60 Q50 70 60 80 Q70 90 50 95" stroke="url(#grad2)" stroke-width="4" fill="none" />
+                        <path d="M40 45 L50 45" stroke="url(#grad1)" stroke-width="3" />
+                        <path d="M40 60 L50 60" stroke="url(#grad1)" stroke-width="3" />
+                        <path d="M40 75 L50 75" stroke="url(#grad1)" stroke-width="3" />
+                        <circle cx="75" cy="35" r="2" fill="#00ff88" />
+                        <circle cx="85" cy="50" r="2" fill="#00ccff" />
+                        <circle cx="80" cy="70" r="2" fill="#0066ff" />
+                        <circle cx="65" cy="85" r="2" fill="#00ff88" />
+                        <circle cx="45" cy="90" r="2" fill="#00ccff" />
+                        <circle cx="35" cy="65" r="2" fill="#0066ff" />
+                    </svg>
+                </div>
+                <h1 class="logo-text">ECOSPHERE</h1>
+                <p class="tagline">Intelligent sustainability for modern urban living</p>
+            </div>
+
+            <div class="features">
+                <div class="feature">
+                    <div class="feature-icon">📊</div>
+                    <div class="feature-text">
+                        <div class="feature-title">Smart Resource Tracking</div>
+                        <div class="feature-desc">AI-powered analysis of electricity, water, and utility consumption</div>
+                    </div>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon">💡</div>
+                    <div class="feature-text">
+                        <div class="feature-title">Personalized Insights</div>
+                        <div class="feature-desc">Actionable suggestions to reduce costs and optimize usage</div>
+                    </div>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon">🌿</div>
+                    <div class="feature-text">
+                        <div class="feature-title">Sustainable Living</div>
+                        <div class="feature-desc">Achieve your sustainability goals with smart recommendations</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Panel -->
+        <div class="right-panel">
+            <div class="auth-container" id="authContainer">
+                <div class="auth-header">
+                    <h2 class="auth-title" id="authTitle">Welcome Back</h2>
+                    <p class="auth-subtitle" id="authSubtitle">Sign in to your Ecosphere account</p>
+                </div>
+
+                <form id="authForm">
+                    <div class="form-group">
+                        <label class="form-label" for="email">Email Address</label>
+                        <input type="email" id="email" class="form-input" placeholder="Enter your email" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="password">Password</label>
+                        <div class="password-container">
+                            <input type="password" id="password" class="form-input" placeholder="Enter your password" required>
+                            <button type="button" class="toggle-password" id="togglePassword">Show</button>
+                        </div>
+                    </div>
+
+                    <div class="remember-forgot">
+                        <div class="remember-me">
+                            <input type="checkbox" id="remember">
+                            <label for="remember">Remember me</label>
+                        </div>
+                        <a href="forgot.html" class="forgot-password">Forgot password?</a>
+                    </div>
+
+                    <a href="dashboard.html"><button type="submit" class="auth-button" id="authButton">Sign In</button></a>
+
+                    <div class="auth-switch">
+                        Don't have an account? 
+                        <a class="switch-link" id="switchLink">Sign Up</a>
+                    </div>
+
+                    <div class="divider">
+                        <div class="divider-line"></div>
+                        <div class="divider-text">or continue with</div>
+                        <div class="divider-line"></div>
+                    </div>
+
+                    <div class="social-login">
+                        <button type="button" class="social-button">
+                            <svg class="social-icon" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                                <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                                <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+                                <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+                            </svg>
+                            Google
+                        </button>
+                        <button type="button" class="social-button1">
+                            <svg class="social-icon" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z"/>
+                            </svg>
+                            Twitter
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Theme Toggle Functionality
+        const themeToggle = document.getElementById('themeToggle');
+        const body = document.body;
         
-        // Add active class to clicked option
-        option.classList.add('active');
-        
-        // Get logo type
-        const logoType = option.getAttribute('data-logo');
-        
-        // Update main logo
-        mainLogo.innerHTML = logoSVGs[logoType];
-        mainLogo.style.background = logoBackgrounds[logoType];
-      });
-    });
+        // Check for saved theme or prefer-color-scheme
+        const savedTheme = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+        body.classList.add(savedTheme + '-theme');
+        updateThemeIcon();
 
-    // lightweight form handlers — no backend required yet
-    signIn.addEventListener('submit', e => {
-      e.preventDefault();
-      // basic validation
-      const email = document.getElementById('signin-email').value.trim();
-      const pass = document.getElementById('signin-pass').value;
-      if (!email || !pass) { alert('Enter email and password'); return; }
-      // mimic success
-      window.location.href = 'dashboard.html';
-    });
+        themeToggle.addEventListener('click', () => {
+            if (body.classList.contains('dark-theme')) {
+                body.classList.remove('dark-theme');
+                body.classList.add('light-theme');
+                localStorage.setItem('theme', 'light');
+            } else {
+                body.classList.remove('light-theme');
+                body.classList.add('dark-theme');
+                localStorage.setItem('theme', 'dark');
+            }
+            updateThemeIcon();
+        });
 
-    signUp.addEventListener('submit', e => {
-      e.preventDefault();
-      const email = document.getElementById('signup-email').value.trim();
-      const pass = document.getElementById('signup-pass').value;
-      const name = document.getElementById('signup-name').value.trim();
-      if (!name || !email || pass.length < 8) { alert('Please complete fields. Password must be ≥ 8 chars.'); return; }
-      // mimic account creation
-      alert('Account created — redirecting to dashboard');
-      window.location.href = 'dashboard.html';
-    });
+        function updateThemeIcon() {
+            const isDark = body.classList.contains('dark-theme');
+            themeToggle.innerHTML = isDark ?
+                `<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" fill="currentColor"/>
+                </svg>`:
+                 `<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 17a5 5 0 1 0 0-10 5 5 0 0 0 0 10z" fill="currentColor"/>
+                    <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                </svg>`;
+        }
 
-    // demo button (fills example credentials)
-    document.getElementById('btnDemo').addEventListener('click', () => {
-      document.getElementById('signin-email').value = 'demo@ecos.example';
-      document.getElementById('signin-pass').value = 'demopass';
-    });
+        // Auth Form Toggle Functionality
+        const switchLink = document.getElementById('switchLink');
+        const authTitle = document.getElementById('authTitle');
+        const authSubtitle = document.getElementById('authSubtitle');
+        const authButton = document.getElementById('authButton');
+        const authForm = document.getElementById('authForm');
+        const rememberForgot = document.querySelector('.remember-forgot');
+        let isLogin = true;
 
-    // small accessibility: enter toggles
-    document.addEventListener('keydown', e => { if (e.key === 'Escape') { showSignIn(); } });
-  </script>
+        switchLink.addEventListener('click', () => {
+            isLogin = !isLogin;
+            
+            if (isLogin) {
+                authTitle.textContent = 'Welcome Back';
+                authSubtitle.textContent = 'Sign in to your Ecosphere account';
+                authButton.textContent = 'Sign In';
+                switchLink.textContent = 'Sign Up';
+                rememberForgot.style.display = 'flex';
+            } else {
+                authTitle.textContent = 'Create Account';
+                authSubtitle.textContent = 'Join Ecosphere for sustainable living';
+                authButton.textContent = 'Sign Up';
+                switchLink.textContent = 'Sign In';
+                rememberForgot.style.display = 'none';
+            }
+        });
+
+        // Password Toggle Functionality
+        const togglePassword = document.getElementById('togglePassword');
+        const passwordInput = document.getElementById('password');
+
+        togglePassword.addEventListener('click', () => {
+            const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordInput.setAttribute('type', type);
+            togglePassword.textContent = type === 'password' ? 'Show' : 'Hide';
+        });
+
+        // Form Submission
+        authForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            
+            // Simple validation
+            if (!email || !password) {
+                alert('Please fill in all fields');
+                return;
+            }
+            
+            if (isLogin) {
+                // Login logic would go here
+                console.log('Logging in with:', { email, password });
+                window.location.href = 'dashboard.html';
+            } else {
+                // Signup logic would go here
+                console.log('Signing up with:', { email, password });
+                window.location.href = 'dashboard.html';
+            }
+        });
+
+        // Initialize
+        updateThemeIcon();
+    </script>
 </body>
-
 </html>

@@ -40,7 +40,7 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 0 1.5rem;
+      padding: 0 1rem;
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
       border-bottom: 1px solid #e0e6ed;
     }
@@ -48,45 +48,48 @@
     .menu-icon {
       cursor: pointer;
       font-size: 24px;
-;
       transition: transform 0.3s ease, color 0.3s ease;
     }
 
-    .menu-icon:hover {
-      transform: scale(1.05);
-      color: #1a5bb8;
-    }
 
     .header-left span,
-    .header-right span {
-      margin: 0 8px;
-      cursor: pointer;
-      font-size: 24px;
-      color: #000000;
-      transition: color 0.3s ease, transform 0.3s ease;
-    }
+        .header-right span {
+            margin: 0 10px;
+            margin-bottom: 19px;
+            cursor: pointer;
+            font-size: 25px;
+             color: #000000;
+        }
 
-    .theme-toggle {
-      position: absolute;
-      top: 4.5px;
-      /* 👈 top se 20px */
-      right: 150px;
-      /* 👈 right se 20px */
-      width: 48px;
-      height: 48px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      user-select: none;
-      z-index: 9999;
-      color: #111;
-      /* icon color */
-      transition: background .2s, color .2s, box-shadow .2s;
-      border: none;
-      /* border remove */
-    }
+        .header-right a span img {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-top: 10px;
+        }
+
+        .theme-toggle {
+            position: absolute;
+            top: 3.7px;
+            /* 👈 top se 20px */
+            right: 160px;
+            /* 👈 right se 20px */
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            user-select: none;
+            z-index: 9999;
+            color: #111;
+            /* icon color */
+            transition: background .2s, color .2s, box-shadow .2s;
+            border: none;
+            /* border remove */
+        }
 
     aside#sidebar {
       grid-area: sidebar;
@@ -593,7 +596,7 @@ body.dark .header-right span {
       <div class="header-right">
         <span class="material-icons-outlined">notifications</span>
         <span class="material-icons-outlined">email</span>
-        <a href="settings.html"><span class="material-icons-outlined">account_circle</span></a>
+        <a href="settings.html"><span class="material-icons-outlined"><img src="./Images/user.jpg"></span></a>
       </div>
     </header>
 
