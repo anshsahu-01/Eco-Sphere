@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ecosphere | Notifications</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            min-height: 100vh;
+            transition: all 0.3s ease;
+        }
+
+        body.dark-theme {
+            background: linear-gradient(135deg, #0c0c0c 0%, #1a1a1a 100%);
+            color: #ffffff;
+        }
+
+        body.light-theme {
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            color: #1e293b;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Header */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+            border-bottom: 1px solid;
+            margin-bottom: 30px;
+        }
+
+        .dark-theme .header {
+            border-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .light-theme .header {
+            border-color: rgba(0, 0, 0, 0.1);
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .back-button {
+            background: none;
+            border: none;
+            color: #00ccff;
+            font-size: 1rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .back-button:hover {
+            background: rgba(0, 204, 255, 0.1);
+        }
+
+        .header-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .theme-toggle,
+        .settings-button {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+        }
+
+        .dark-theme .theme-toggle,
+        .dark-theme .settings-button {
+            background: rgba(75, 75, 75, 0.1);
+            color: #ffffff;
+        }
+
+        .light-theme .theme-toggle,
+        .light-theme .settings-button {
+            background: rgba(91, 91, 91, 0.05);
+            color: #475569;
+        }
+
+
+
+        /* Notification Filters */
+        .filters {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            background: transparent;
+        }
+
+        .dark-theme .filter-btn {
+            color: #cbd5e1;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .light-theme .filter-btn {
+            color: #64748b;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .filter-btn.active,
+        .filter-btn:hover {
+            background: linear-gradient(135deg, #00ff88 0%, #00ccff 100%);
+            color: #000000;
+            border-color: transparent;
+        }
+
+        /* Notifications List */
+        .notifications-container {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .notification-card {
+            padding: 20px;
+            border-radius: 16px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            display: flex;
+            gap: 15px;
+            align-items: flex-start;
+        }
+
+        .dark-theme .notification-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .light-theme .notification-card {
+            background: rgba(255, 255, 255, 0.8);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            backdrop-filter: blur(10px);
+        }
+
+        .notification-card:hover {
+            transform: translateY(-2px);
+        }
+
+        .dark-theme .notification-card:hover {
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .light-theme .notification-card:hover {
+            background: rgba(255, 255, 255, 0.95);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .notification-card.unread {
+            border-left: 4px solid #00ccff;
+        }
+
+        .notification-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            font-size: 1.2rem;
+        }
+
+        .icon-energy {
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+        }
+
+        .icon-water {
+            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+        }
+
+        .icon-success {
+            background: linear-gradient(135deg, #10b981, #059669);
+        }
+
+        .icon-warning {
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+        }
+
+        .icon-info {
+            background: linear-gradient(135deg, #00ccff, #0066ff);
+        }
+
+        .notification-content {
+            flex: 1;
+        }
+
+        .notification-title {
+            font-weight: 600;
+            margin-bottom: 5px;
+            font-size: 1rem;
+        }
+
+        .notification-message {
+            font-size: 0.9rem;
+            line-height: 1.5;
+            margin-bottom: 8px;
+        }
+
+        .dark-theme .notification-message {
+            color: #cbd5e1;
+        }
+
+        .light-theme .notification-message {
+            color: #64748b;
+        }
+
+        .notification-time {
+            font-size: 0.8rem;
+            opacity: 0.7;
+        }
+
+        .notification-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .action-btn {
+            padding: 6px 12px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .dark-theme .action-btn {
+            background: rgba(255, 255, 255, 0.1);
+            color: #ffffff;
+        }
+
+        .light-theme .action-btn {
+            background: rgba(0, 0, 0, 0.05);
+            color: #475569;
+        }
+
+        .action-btn:hover {
+            background: rgba(0, 204, 255, 0.2);
+        }
+
+        .action-btn.primary {
+            background: linear-gradient(135deg, #00ff88, #00ccff);
+            color: #000000;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+        }
+
+        .empty-icon {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            opacity: 0.5;
+        }
+
+        .empty-text {
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+        }
+
+        .dark-theme .empty-text {
+            color: #cbd5e1;
+        }
+
+        .light-theme .empty-text {
+            color: #64748b;
+        }
+
+        /* Mark all as read */
+        .mark-all-read {
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: 20px;
+        }
+
+        .mark-read-btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 12px;
+            background: rgba(0, 204, 255, 0.1);
+            color: #00ccff;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .mark-read-btn:hover {
+            background: rgba(0, 204, 255, 0.2);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+
+            .header {
+                flex-direction: column;
+                gap: 15px;
+                align-items: flex-start;
+            }
+
+            .header-actions {
+                align-self: flex-end;
+            }
+
+            .filters {
+                gap: 10px;
+            }
+
+            .filter-btn {
+                padding: 8px 16px;
+                font-size: 0.9rem;
+            }
+
+            .notification-card {
+                padding: 15px;
+            }
+
+            .notification-actions {
+                flex-direction: column;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header-title {
+                font-size: 1.5rem;
+            }
+
+            .notification-card {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .notification-icon {
+                align-self: flex-start;
+            }
+        }
+    </style>
+</head>
+
+<body class="dark-theme">
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <div class="header-left">
+                <button class="back-button" onclick="window.history.back()">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M19 12H5M12 19l-7-7 7-7" />
+                    </svg>
+                    Back
+                </button>
+                <h1 class="header-title">Notifications</h1>
+            </div>
+            <div class="header-actions">
+                <button class="settings-button" title="Notification Settings">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12 15a3 3 0 100-6 3 3 0 000 6z" />
+                        <path
+                            d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06a1.65 1.65 0 001.82.33H9a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z" />
+                    </svg>
+                </button>
+                <button class="theme-toggle" id="themeToggle">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" fill="currentColor" />
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        <!-- Filters -->
+        <div class="filters">
+            <button class="filter-btn active" data-filter="all">All</button>
+            <button class="filter-btn" data-filter="unread">Unread</button>
+            <button class="filter-btn" data-filter="energy">Energy</button>
+            <button class="filter-btn" data-filter="water">Water</button>
+            <button class="filter-btn" data-filter="system">System</button>
+        </div>
+
+        <!-- Mark all as read -->
+        <div class="mark-all-read">
+            <button class="mark-read-btn" id="markAllRead">
+                Mark all as read
+            </button>
+        </div>
+
+        <!-- Notifications List -->
+        <div class="notifications-container" id="notificationsList">
+            <!-- Notifications will be dynamically inserted here -->
+        </div>
+
+        <!-- Empty State -->
+        <div class="empty-state" id="emptyState" style="display: none;">
+            <div class="empty-icon">🔔</div>
+            <div class="empty-text">No notifications yet</div>
+            <div class="empty-subtext">We'll notify you when something important happens</div>
+        </div>
+    </div>
+
+    <script>
+        // Theme Toggle Functionality
+        const themeToggle = document.getElementById('themeToggle');
+        const body = document.body;
+
+        // Check for saved theme or prefer-color-scheme
+        const savedTheme = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+        body.classList.add(savedTheme + '-theme');
+        updateThemeIcon();
+
+        themeToggle.addEventListener('click', () => {
+            if (body.classList.contains('dark-theme')) {
+                body.classList.remove('dark-theme');
+                body.classList.add('light-theme');
+                localStorage.setItem('theme', 'light');
+            } else {
+                body.classList.remove('light-theme');
+                body.classList.add('dark-theme');
+                localStorage.setItem('theme', 'dark');
+            }
+            updateThemeIcon();
+        });
+
+        function updateThemeIcon() {
+            const isDark = body.classList.contains('dark-theme');
+            themeToggle.innerHTML = isDark ?
+                `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" fill="currentColor"/>` :
+                `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="12" cy="12" r="5" stroke="currentColor" stroke-width="2"/>
+                <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" stroke="currentColor" stroke-width="2"/>`;
+        }
+
+        // Notifications Data
+        const notifications = [
+            {
+                id: 1,
+                type: 'energy',
+                icon: '⚡',
+                iconClass: 'icon-energy',
+                title: 'High Energy Consumption Alert',
+                message: 'Your electricity usage is 25% higher than usual for this time of day. Consider adjusting your AC settings.',
+                time: '10 minutes ago',
+                unread: true,
+                actions: ['View Details', 'Dismiss']
+            },
+            {
+                id: 2,
+                type: 'water',
+                icon: '💧',
+                iconClass: 'icon-water',
+                title: 'Water Usage Optimization',
+                message: 'Great job! Your water consumption is 15% lower than last week. You saved approximately 120 liters.',
+                time: '1 hour ago',
+                unread: true,
+                actions: ['View Report']
+            },
+            {
+                id: 3,
+                type: 'system',
+                icon: '🔧',
+                iconClass: 'icon-info',
+                title: 'Smart Meter Sync Complete',
+                message: 'All your utility meters have been successfully synchronized with the latest readings.',
+                time: '2 hours ago',
+                unread: false,
+                actions: ['Check Status']
+            },
+            {
+                id: 4,
+                type: 'energy',
+                icon: '📊',
+                iconClass: 'icon-success',
+                title: 'Monthly Energy Report Ready',
+                message: 'Your detailed energy consumption report for October is now available for review.',
+                time: '5 hours ago',
+                unread: false,
+                actions: ['View Report', 'Share']
+            },
+            {
+                id: 5,
+                type: 'system',
+                icon: '⚠️',
+                iconClass: 'icon-warning',
+                title: 'Maintenance Reminder',
+                message: 'Scheduled maintenance for your smart home system is due next week. Please confirm your availability.',
+                time: '1 day ago',
+                unread: true,
+                actions: ['Schedule', 'Remind Later']
+            },
+            {
+                id: 6,
+                type: 'water',
+                icon: '💡',
+                iconClass: 'icon-info',
+                title: 'Water Saving Tip',
+                message: 'Did you know? Fixing a leaky faucet can save up to 3,000 gallons of water per year.',
+                time: '2 days ago',
+                unread: false,
+                actions: ['Learn More']
+            }
+        ];
+
+        // DOM Elements
+        const notificationsList = document.getElementById('notificationsList');
+        const emptyState = document.getElementById('emptyState');
+        const filterButtons = document.querySelectorAll('.filter-btn');
+        const markAllReadBtn = document.getElementById('markAllRead');
+
+        let currentFilter = 'all';
+
+        // Render Notifications
+        function renderNotifications() {
+            notificationsList.innerHTML = '';
+
+            const filteredNotifications = notifications.filter(notification => {
+                if (currentFilter === 'all') return true;
+                if (currentFilter === 'unread') return notification.unread;
+                return notification.type === currentFilter;
+            });
+
+            if (filteredNotifications.length === 0) {
+                emptyState.style.display = 'block';
+                return;
+            }
+
+            emptyState.style.display = 'none';
+
+            filteredNotifications.forEach(notification => {
+                const notificationElement = document.createElement('div');
+                notificationElement.className = `notification-card ${notification.unread ? 'unread' : ''}`;
+                notificationElement.innerHTML = `
+                    <div class="notification-icon ${notification.iconClass}">
+                        ${notification.icon}
+                    </div>
+                    <div class="notification-content">
+                        <div class="notification-title">${notification.title}</div>
+                        <div class="notification-message">${notification.message}</div>
+                        <div class="notification-time">${notification.time}</div>
+                    </div>
+                    <div class="notification-actions">
+                        ${notification.actions.map(action =>
+                    `<button class="action-btn ${action === 'View Details' || action === 'View Report' ? 'primary' : ''}" 
+                                    onclick="handleAction(${notification.id}, '${action}')">
+                                ${action}
+                            </button>`
+                ).join('')}
+                    </div>
+                `;
+
+                // Mark as read on click
+                notificationElement.addEventListener('click', (e) => {
+                    if (!e.target.classList.contains('action-btn')) {
+                        markAsRead(notification.id);
+                    }
+                });
+
+                notificationsList.appendChild(notificationElement);
+            });
+        }
+
+        // Filter Notifications
+        filterButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                filterButtons.forEach(btn => btn.classList.remove('active'));
+                button.classList.add('active');
+                currentFilter = button.dataset.filter;
+                renderNotifications();
+            });
+        });
+
+        // Mark as read function
+        function markAsRead(notificationId) {
+            const notification = notifications.find(n => n.id === notificationId);
+            if (notification && notification.unread) {
+                notification.unread = false;
+                renderNotifications();
+            }
+        }
+
+        // Mark all as read
+        markAllReadBtn.addEventListener('click', () => {
+            notifications.forEach(notification => {
+                notification.unread = false;
+            });
+            renderNotifications();
+        });
+
+        // Handle action buttons
+        function handleAction(notificationId, action) {
+            const notification = notifications.find(n => n.id === notificationId);
+            console.log(`Action "${action}" clicked for notification: ${notification.title}`);
+
+            // You can add specific logic for each action here
+            switch (action) {
+                case 'View Details':
+                case 'View Report':
+                    alert(`Opening details for: ${notification.title}`);
+                    break;
+                case 'Dismiss':
+                    const index = notifications.findIndex(n => n.id === notificationId);
+                    notifications.splice(index, 1);
+                    renderNotifications();
+                    break;
+                default:
+                    // Handle other actions
+                    break;
+            }
+        }
+
+        // Settings button functionality
+        document.querySelector('.settings-button').addEventListener('click', () => {
+            alert('Notification settings would open here');
+        });
+
+        // Initialize
+        updateThemeIcon();
+        renderNotifications();
+    </script>
+</body>
+
+</html>
