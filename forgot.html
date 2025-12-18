@@ -1,10 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ecosphere | Reset Password</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
     <style>
+        :root {
+            --primary-color: #2f3e46;
+            --primary-light: #354f52;
+            --accent-color: #52796f;
+            --success-color: #84a98c;
+            --light-bg: #f4f7fc;
+            --light-card: #ffffff;
+            --light-text: #333333;
+            --light-text-secondary: #666666;
+            --dark-bg: #121212;
+            --dark-card: #1e1e1e;
+            --dark-text: #f4f4f4;
+            --dark-text-secondary: #a0a0a0;
+            --border-radius: 8px;
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -14,7 +34,7 @@
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
             min-height: 100vh;
-            transition: all 0.3s ease;
+            transition: var(--transition);
             display: flex;
             justify-content: center;
             align-items: center;
@@ -22,35 +42,34 @@
         }
 
         body.dark-theme {
-            background: linear-gradient(135deg, #0c0c0c 0%, #1a1a1a 100%);
-            color: #ffffff;
+            background: linear-gradient(135deg, var(--dark-bg) 0%, #1a1a1a 100%);
+            color: var(--dark-text);
         }
 
         body.light-theme {
-            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
-            color: #1e293b;
+            background: linear-gradient(135deg, var(--light-bg) 0%, #e2e8f0 100%);
+            color: var(--light-text);
         }
 
         .reset-container {
             width: 100%;
             max-width: 450px;
             padding: 40px 35px;
-            border-radius: 24px;
-            transition: all 0.3s ease;
+            border-radius: calc(var(--border-radius) * 3);
+            transition: var(--transition);
             text-align: center;
         }
 
         .dark-theme .reset-container {
-            background: linear-gradient(135deg, #151515 0%, #1e1e1e 100%);
+            background: var(--dark-card);
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
             border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .light-theme .reset-container {
-            background: rgba(255, 255, 255, 0.95);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.8);
-            backdrop-filter: blur(20px);
+            background: var(--light-card);
+            box-shadow: var(--shadow);
+            border: 1px solid rgba(0, 0, 0, 0.08);
         }
 
         .logo {
@@ -61,37 +80,34 @@
             justify-content: center;
             align-items: center;
             border-radius: 16px;
-            position: relative;
-            overflow: hidden;
         }
 
         .dark-theme .logo {
-            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
             box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
         }
 
         .light-theme .logo {
-            background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+            background: linear-gradient(135deg, var(--light-card), #f8fafc);
             box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
         }
 
-        .logo::before {
-            content: '';
-            position: absolute;
-            top: -2px;
-            left: -2px;
-            right: -2px;
-            bottom: -2px;
-            background: linear-gradient(135deg, #00ff88, #00ccff, #0066ff);
-            border-radius: 18px;
-            z-index: -1;
-            opacity: 0.7;
+        .logo svg {
+            color: white;
+        }
+
+        .dark-theme .logo svg {
+            color: var(--dark-text);
+        }
+
+        .light-theme .logo svg {
+            color: var(--accent-color);
         }
 
         .logo-text {
             font-size: 2rem;
             font-weight: 800;
-            background: linear-gradient(135deg, #00ff88 0%, #00ccff 100%);
+            background: linear-gradient(135deg, var(--accent-color), var(--success-color));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             margin-bottom: 8px;
@@ -105,11 +121,11 @@
         }
 
         .dark-theme .page-title {
-            color: #ffffff;
+            color: var(--dark-text);
         }
 
         .light-theme .page-title {
-            color: #1e293b;
+            color: var(--light-text);
         }
 
         .page-subtitle {
@@ -120,11 +136,11 @@
         }
 
         .dark-theme .page-subtitle {
-            color: #cbd5e1;
+            color: var(--dark-text-secondary);
         }
 
         .light-theme .page-subtitle {
-            color: #64748b;
+            color: var(--light-text-secondary);
         }
 
         .form-group {
@@ -140,11 +156,11 @@
         }
 
         .dark-theme .form-label {
-            color: #e2e8f0;
+            color: var(--dark-text);
         }
 
         .light-theme .form-label {
-            color: #475569;
+            color: var(--light-text);
         }
 
         .form-input {
@@ -153,30 +169,26 @@
             border-radius: 14px;
             border: none;
             font-size: 1rem;
-            transition: all 0.3s ease;
+            transition: var(--transition);
             font-family: inherit;
         }
 
         .dark-theme .form-input {
             background: rgba(255, 255, 255, 0.07);
-            color: #ffffff;
+            color: var(--dark-text);
             border: 1.5px solid rgba(255, 255, 255, 0.1);
         }
 
         .light-theme .form-input {
-            background: rgba(255, 255, 255, 0.8);
-            color: #1e293b;
+            background: rgba(0, 0, 0, 0.02);
+            color: var(--light-text);
             border: 1.5px solid rgba(0, 0, 0, 0.08);
         }
 
         .form-input:focus {
             outline: none;
-            border-color: #00ccff;
-            box-shadow: 0 0 0 3px rgba(0, 204, 255, 0.2);
-        }
-
-        .light-theme .form-input:focus {
-            background: rgba(255, 255, 255, 0.95);
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 3px rgba(82, 121, 111, 0.2);
         }
 
         .otp-container {
@@ -192,26 +204,26 @@
             text-align: center;
             font-size: 1.2rem;
             font-weight: 600;
-            border-radius: 12px;
+            border-radius: var(--border-radius);
             border: none;
         }
 
         .dark-theme .otp-input {
             background: rgba(255, 255, 255, 0.07);
-            color: #ffffff;
+            color: var(--dark-text);
             border: 1.5px solid rgba(255, 255, 255, 0.1);
         }
 
         .light-theme .otp-input {
-            background: rgba(255, 255, 255, 0.8);
-            color: #1e293b;
+            background: rgba(0, 0, 0, 0.02);
+            color: var(--light-text);
             border: 1.5px solid rgba(0, 0, 0, 0.08);
         }
 
         .otp-input:focus {
             outline: none;
-            border-color: #00ccff;
-            box-shadow: 0 0 0 3px rgba(0, 204, 255, 0.2);
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 3px rgba(82, 121, 111, 0.2);
         }
 
         .action-button {
@@ -222,15 +234,15 @@
             font-size: 1rem;
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.3s ease;
-            background: linear-gradient(135deg, #00ff88 0%, #00ccff 100%);
-            color: #000000;
+            transition: var(--transition);
+            background: linear-gradient(135deg, var(--accent-color), var(--success-color));
+            color: white;
             margin-bottom: 20px;
         }
 
         .action-button:hover {
             transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(0, 204, 255, 0.4);
+            box-shadow: 0 8px 20px rgba(82, 121, 111, 0.4);
         }
 
         .action-button:disabled {
@@ -245,41 +257,41 @@
             font-size: 0.95rem;
             text-decoration: none;
             display: block;
-            transition: all 0.3s ease;
+            transition: var(--transition);
             font-weight: 500;
         }
 
         .dark-theme .back-link {
-            color: #cbd5e1;
+            color: var(--dark-text-secondary);
         }
 
         .light-theme .back-link {
-            color: #64748b;
+            color: var(--light-text-secondary);
         }
 
         .back-link:hover {
-            opacity: 0.8;
+            color: var(--accent-color);
         }
 
         .message {
             padding: 16px;
-            border-radius: 12px;
+            border-radius: var(--border-radius);
             margin-bottom: 20px;
             text-align: center;
             display: none;
         }
 
         .success-message {
-            background: rgba(16, 185, 129, 0.1);
-            border: 1px solid rgba(16, 185, 129, 0.3);
+            background: rgba(132, 169, 140, 0.1);
+            border: 1px solid rgba(132, 169, 140, 0.3);
         }
 
         .dark-theme .success-message {
-            color: #10b981;
+            color: var(--success-color);
         }
 
         .light-theme .success-message {
-            color: #059669;
+            color: #52796f;
         }
 
         .error-message {
@@ -296,16 +308,16 @@
         }
 
         .info-message {
-            background: rgba(59, 130, 246, 0.1);
-            border: 1px solid rgba(59, 130, 246, 0.3);
+            background: rgba(82, 121, 111, 0.1);
+            border: 1px solid rgba(82, 121, 111, 0.3);
         }
 
         .dark-theme .info-message {
-            color: #3b82f6;
+            color: var(--accent-color);
         }
 
         .light-theme .info-message {
-            color: #2563eb;
+            color: var(--accent-color);
         }
 
         .timer {
@@ -315,15 +327,15 @@
         }
 
         .dark-theme .timer {
-            color: #cbd5e1;
+            color: var(--dark-text-secondary);
         }
 
         .light-theme .timer {
-            color: #64748b;
+            color: var(--light-text-secondary);
         }
 
         .resend-link {
-            color: #00ccff;
+            color: var(--accent-color);
             cursor: pointer;
             font-weight: 600;
         }
@@ -345,24 +357,26 @@
             cursor: pointer;
             user-select: none;
             z-index: 10;
-            backdrop-filter: blur(6px);
-            transition: background 0.3s ease;
+            transition: var(--transition);
             border: none;
         }
 
         .dark-theme .theme-toggle {
-            background: rgba(255, 255, 255, 0.1);
-            color: #ffffff;
+            background: var(--dark-card);
+            color: var(--dark-text);
+            box-shadow: var(--shadow);
         }
 
         .light-theme .theme-toggle {
-            background: rgba(0, 0, 0, 0.05);
-            color: #475569;
+            background: var(--light-card);
+            color: var(--light-text);
+            box-shadow: var(--shadow);
         }
 
         .theme-toggle:hover {
             transform: scale(1.1);
-            background: rgba(0, 204, 255, 0.2);
+            background: var(--accent-color);
+            color: white;
         }
 
         .theme-toggle svg {
@@ -381,7 +395,7 @@
             width: 12px;
             height: 12px;
             border-radius: 50%;
-            transition: all 0.3s ease;
+            transition: var(--transition);
         }
 
         .dark-theme .step {
@@ -393,7 +407,7 @@
         }
 
         .step.active {
-            background: #00ccff;
+            background: var(--accent-color);
             transform: scale(1.2);
         }
 
@@ -401,20 +415,20 @@
             .reset-container {
                 padding: 30px 25px;
             }
-            
+
             .logo {
                 width: 50px;
                 height: 50px;
             }
-            
+
             .logo-text {
                 font-size: 1.8rem;
             }
-            
+
             .page-title {
                 font-size: 1.6rem;
             }
-            
+
             .otp-input {
                 width: 45px;
                 height: 45px;
@@ -422,37 +436,23 @@
         }
     </style>
 </head>
+
 <body class="dark-theme">
     <button class="theme-toggle" id="themeToggle">
         <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" fill="currentColor"/>
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" fill="currentColor" />
         </svg>
     </button>
 
     <div class="reset-container">
         <div class="logo">
-            <svg width="35" height="35" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <defs>
-                    <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
-                        <stop offset="0%" stop-color="#00ff88" />
-                        <stop offset="100%" stop-color="#00ccff" />
-                    </linearGradient>
-                    <linearGradient id="grad2" x1="0%" y1="0%" x2="100%" y2="100%">
-                        <stop offset="0%" stop-color="#0066ff" />
-                        <stop offset="100%" stop-color="#00ff88" />
-                    </linearGradient>
-                </defs>
-                
-                <circle cx="60" cy="60" r="28" fill="url(#grad1)" opacity="0.9" />
-                <circle cx="60" cy="60" r="38" stroke="url(#grad2)" stroke-width="2" stroke-dasharray="4 4" fill="none" />
-                <path d="M30 40 Q50 30 60 40 Q70 50 60 60 Q50 70 60 80 Q70 90 50 95" stroke="url(#grad2)" stroke-width="4" fill="none" />
-                <path d="M40 45 L50 45" stroke="url(#grad1)" stroke-width="3" />
-                <path d="M40 60 L50 60" stroke="url(#grad1)" stroke-width="3" />
-            </svg>
+            <div class="logo-icon">
+                <span class="material-icons-outlined">eco</span>
+            </div>
         </div>
-        
+
         <h1 class="logo-text">ECOSPHERE</h1>
-        
+
         <div class="step-indicator">
             <div class="step active" id="step1"></div>
             <div class="step" id="step2"></div>
@@ -463,11 +463,11 @@
         <div id="step1-content">
             <h2 class="page-title">Reset Your Password</h2>
             <p class="page-subtitle">Enter your email address and we'll send you a verification code</p>
-            
+
             <div class="message info-message" id="infoMessage">
                 <i class="fas fa-info-circle"></i> Check your email for the verification code
             </div>
-            
+
             <form id="emailForm">
                 <div class="form-group">
                     <label class="form-label" for="email">Email Address</label>
@@ -475,19 +475,19 @@
                 </div>
                 <button type="submit" class="action-button" id="sendOtpButton">Send Verification Code</button>
             </form>
-            
-            <a href="login.html" class="back-link">← Back to Login</a>
+
+            <a href="index.html" class="back-link">← Back to Login</a>
         </div>
 
         <!-- Step 2: OTP Verification -->
         <div id="step2-content" style="display: none;">
             <h2 class="page-title">Enter Verification Code</h2>
             <p class="page-subtitle">We've sent a 6-digit code to your email</p>
-            
+
             <div class="message error-message" id="otpError">
                 <i class="fas fa-exclamation-circle"></i> Invalid verification code
             </div>
-            
+
             <div class="otp-container">
                 <input type="text" class="otp-input" maxlength="1" id="otp1">
                 <input type="text" class="otp-input" maxlength="1" id="otp2">
@@ -496,11 +496,11 @@
                 <input type="text" class="otp-input" maxlength="1" id="otp5">
                 <input type="text" class="otp-input" maxlength="1" id="otp6">
             </div>
-            
+
             <div class="timer" id="timer">
                 Resend code in <span id="countdown">60</span> seconds
             </div>
-            
+
             <button class="action-button" id="verifyOtpButton" disabled>Verify Code</button>
             <a href="#" class="back-link" id="backToEmail">← Change email address</a>
         </div>
@@ -509,25 +509,27 @@
         <div id="step3-content" style="display: none;">
             <h2 class="page-title">Create New Password</h2>
             <p class="page-subtitle">Your password must be at least 8 characters long</p>
-            
+
             <div class="message success-message" id="successMessage">
                 <i class="fas fa-check-circle"></i> Password reset successful!
             </div>
-            
+
             <form id="passwordForm">
                 <div class="form-group">
                     <label class="form-label" for="newPassword">New Password</label>
-                    <input type="password" id="newPassword" class="form-input" placeholder="Enter new password" required>
+                    <input type="password" id="newPassword" class="form-input" placeholder="Enter new password"
+                        required>
                 </div>
-                
+
                 <div class="form-group">
                     <label class="form-label" for="confirmPassword">Confirm Password</label>
-                    <input type="password" id="confirmPassword" class="form-input" placeholder="Confirm new password" required>
+                    <input type="password" id="confirmPassword" class="form-input" placeholder="Confirm new password"
+                        required>
                 </div>
-                
+
                 <button type="submit" class="action-button" id="resetPasswordButton">Reset Password</button>
             </form>
-            
+
             <a href="login.html" class="back-link">← Back to Login</a>
         </div>
     </div>
@@ -536,7 +538,7 @@
         // Theme Toggle Functionality
         const themeToggle = document.getElementById('themeToggle');
         const body = document.body;
-        
+
         // Check for saved theme or prefer-color-scheme
         const savedTheme = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
         body.classList.add(savedTheme + '-theme');
@@ -557,7 +559,7 @@
 
         function updateThemeIcon() {
             const isDark = body.classList.contains('dark-theme');
-            themeToggle.innerHTML = isDark ? 
+            themeToggle.innerHTML = isDark ?
                 `<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M12 17a5 5 0 1 0 0-10 5 5 0 0 0 0 10z" fill="currentColor"/>
                     <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
@@ -573,36 +575,36 @@
         let countdownInterval;
 
         // Step 1: Send OTP
-        document.getElementById('emailForm').addEventListener('submit', function(e) {
+        document.getElementById('emailForm').addEventListener('submit', function (e) {
             e.preventDefault();
             userEmail = document.getElementById('email').value;
-            
+
             if (!userEmail) {
                 alert('Please enter your email address');
                 return;
             }
-            
+
             // Generate 6-digit OTP
             generatedOtp = Math.floor(100000 + Math.random() * 900000).toString();
-            
+
             // Show loading state
             const sendOtpButton = document.getElementById('sendOtpButton');
             sendOtpButton.textContent = 'Sending...';
             sendOtpButton.disabled = true;
-            
+
             // Simulate sending OTP to email
             setTimeout(() => {
                 // In a real application, you would send this to your backend
                 // which would then email the OTP to the user
                 console.log(`OTP for ${userEmail}: ${generatedOtp}`);
-                
+
                 // Show success and move to next step
                 document.getElementById('infoMessage').style.display = 'block';
                 showStep(2);
-                
+
                 // Start countdown timer
                 startCountdown();
-                
+
                 // Reset button
                 sendOtpButton.textContent = 'Send Verification Code';
                 sendOtpButton.disabled = false;
@@ -617,11 +619,11 @@
                 if (input.value && index < otpInputs.length - 1) {
                     otpInputs[index + 1].focus();
                 }
-                
+
                 // Check if all OTP fields are filled
                 checkOtpCompletion();
             });
-            
+
             input.addEventListener('keydown', (e) => {
                 // Handle backspace
                 if (e.key === 'Backspace' && !input.value && index > 0) {
@@ -633,7 +635,7 @@
         function checkOtpCompletion() {
             const otp = Array.from(otpInputs).map(input => input.value).join('');
             const verifyButton = document.getElementById('verifyOtpButton');
-            
+
             if (otp.length === 6) {
                 verifyButton.disabled = false;
             } else {
@@ -641,9 +643,9 @@
             }
         }
 
-        document.getElementById('verifyOtpButton').addEventListener('click', function() {
+        document.getElementById('verifyOtpButton').addEventListener('click', function () {
             const enteredOtp = Array.from(otpInputs).map(input => input.value).join('');
-            
+
             if (enteredOtp === generatedOtp) {
                 // OTP is correct, move to next step
                 showStep(3);
@@ -651,7 +653,7 @@
             } else {
                 // Show error
                 document.getElementById('otpError').style.display = 'block';
-                
+
                 // Clear OTP inputs
                 otpInputs.forEach(input => input.value = '');
                 otpInputs[0].focus();
@@ -660,30 +662,30 @@
         });
 
         // Step 3: Reset Password
-        document.getElementById('passwordForm').addEventListener('submit', function(e) {
+        document.getElementById('passwordForm').addEventListener('submit', function (e) {
             e.preventDefault();
             const newPassword = document.getElementById('newPassword').value;
             const confirmPassword = document.getElementById('confirmPassword').value;
-            
+
             if (newPassword.length < 8) {
                 alert('Password must be at least 8 characters long');
                 return;
             }
-            
+
             if (newPassword !== confirmPassword) {
                 alert('Passwords do not match');
                 return;
             }
-            
+
             // Show loading state
             const resetButton = document.getElementById('resetPasswordButton');
             resetButton.textContent = 'Resetting...';
             resetButton.disabled = true;
-            
+
             // Simulate API call to reset password
             setTimeout(() => {
                 document.getElementById('successMessage').style.display = 'block';
-                
+
                 // Redirect to login after 2 seconds
                 setTimeout(() => {
                     window.location.href = 'login.html';
@@ -692,7 +694,7 @@
         });
 
         // Navigation between steps
-        document.getElementById('backToEmail').addEventListener('click', function(e) {
+        document.getElementById('backToEmail').addEventListener('click', function (e) {
             e.preventDefault();
             showStep(1);
             clearInterval(countdownInterval);
@@ -703,10 +705,10 @@
             document.getElementById('step1-content').style.display = 'none';
             document.getElementById('step2-content').style.display = 'none';
             document.getElementById('step3-content').style.display = 'none';
-            
+
             // Show selected step
             document.getElementById(`step${stepNumber}-content`).style.display = 'block';
-            
+
             // Update step indicators
             document.querySelectorAll('.step').forEach((step, index) => {
                 if (index < stepNumber) {
@@ -715,7 +717,7 @@
                     step.classList.remove('active');
                 }
             });
-            
+
             // Focus first input of the step
             if (stepNumber === 2) {
                 document.getElementById('otp1').focus();
@@ -728,20 +730,20 @@
             let timeLeft = 60;
             const countdownElement = document.getElementById('countdown');
             const timerElement = document.getElementById('timer');
-            
+
             countdownInterval = setInterval(() => {
                 timeLeft--;
                 countdownElement.textContent = timeLeft;
-                
+
                 if (timeLeft <= 0) {
                     clearInterval(countdownInterval);
                     timerElement.innerHTML = 'Didn\'t receive the code? <span class="resend-link" id="resendOtp">Resend</span>';
-                    
-                    document.getElementById('resendOtp').addEventListener('click', function() {
+
+                    document.getElementById('resendOtp').addEventListener('click', function () {
                         // Resend OTP logic
                         generatedOtp = Math.floor(100000 + Math.random() * 900000).toString();
                         console.log(`New OTP for ${userEmail}: ${generatedOtp}`);
-                        
+
                         // Restart countdown
                         startCountdown();
                     });
@@ -753,4 +755,5 @@
         updateThemeIcon();
     </script>
 </body>
+
 </html>

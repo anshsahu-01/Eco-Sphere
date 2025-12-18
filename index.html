@@ -4,35 +4,56 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ecosphere | Sustainable Urban Intelligence</title>
+    <!-- Montserrat Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <!-- Material Icons -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        :root {
+            --primary-color: #2f3e46;
+            --primary-light: #354f52;
+            --accent-color: #52796f;
+            --success-color: #84a98c;
+            --light-bg: #f4f7fc;
+            --light-card: #ffffff;
+            --light-text: #333333;
+            --light-text-secondary: #666666;
+            --dark-bg: #121212;
+            --dark-card: #1e1e1e;
+            --dark-text: #f4f4f4;
+            --dark-text-secondary: #a0a0a0;
+            --border-radius: 8px;
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
             min-height: 100vh;
-            transition: all 0.3s ease;
-            max-width: 100%;
-            overflow-x: hidden;
-        }
-
-        body.dark-theme {
-            background: linear-gradient(135deg, #0c0c0c 0%, #1a1a1a 100%);
-            color: #ffffff;
+            transition: var(--transition);
+            overflow: hidden;
         }
 
         body.light-theme {
-            background: linear-gradient(135deg, #f5f5f7 0%, #ffffff 100%);
-            color: #333333;
+            background-color: var(--light-bg);
+            color: var(--light-text);
+        }
+
+        body.dark-theme {
+            background-color: var(--dark-bg);
+            color: var(--dark-text);
         }
 
         .container {
             display: flex;
             min-height: 100vh;
-            padding: 0px 280px;
+            width: 100%;
         }
 
         .left-panel {
@@ -40,136 +61,100 @@
             display: flex;
             flex-direction: column;
             justify-content: center;
-            align-items: center;
-            padding: 40px;
+            padding: 3rem 4rem;
+            background-color: var(--primary-color);
+            color: white;
             position: relative;
+            overflow: hidden;
         }
 
-        .right-panel {
-            flex: 1;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 40px;
-        }
-
-        .theme-toggle {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            width: 48px;
-            height: 48px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            user-select: none;
-            z-index: 10;
-            backdrop-filter: blur(6px);
-            transition: background 0.3s ease;
-        }
-
-        .dark-theme .theme-toggle {
-            background: rgba(255, 255, 255, 0);
-            color: #ffffff;
-        }
-
-        .light-theme .theme-toggle {
-            background: rgba(0, 0, 0, 0);
-        }
-
-        .theme-toggle:hover {
-            background-color: #a0a0a02a;
-        }
-
-        .theme-toggle svg {
-            width: 24px;
-            height: 24px;
+        .left-panel::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(47, 62, 70, 0.9) 0%, rgba(84, 121, 111, 0.7) 100%);
+            z-index: 0;
         }
 
         .logo-container {
-            text-align: center;
-            margin-bottom: 40px;
+            position: relative;
+            z-index: 1;
+            margin-bottom: 3rem;
         }
 
         .logo {
-            width: 80px;
-            height: 80px;
-            margin: 0 auto 20px;
             display: flex;
-            justify-content: center;
             align-items: center;
-            border-radius: 20px;
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+            gap: 15px;
+            margin-bottom: 1.5rem;
         }
 
-        .dark-theme .logo {
-            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
-        }
-
-        .light-theme .logo {
-            background: linear-gradient(135deg, #ffffff 0%, #f8f8f8 100%);
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        .logo-icon {
+            width: 70px;
+            height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 16px;
+            background: linear-gradient(135deg, var(--accent-color), var(--success-color));
+            color: white;
+            font-size: 30px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
         }
 
         .logo-text {
             font-size: 2.5rem;
             font-weight: 700;
-            background: linear-gradient(135deg, #00ff88 0%, #00ccff 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 10px;
+            letter-spacing: -0.5px;
         }
 
         .tagline {
             font-size: 1.1rem;
-            opacity: 0.8;
-            max-width: 400px;
+            font-weight: 400;
+            max-width: 550px;
             line-height: 1.6;
-        }
-
-        .dark-theme .tagline {
-            color: #a0a0a0;
-        }
-
-        .light-theme .tagline {
-            color: #666666;
+            color: rgba(255, 255, 255, 0.85);
         }
 
         .features {
+            position: relative;
+            z-index: 1;
+            margin-top: 1rem;
             display: grid;
             grid-template-columns: 1fr;
-            gap: 20px;
-            max-width: 400px;
-            margin-top: 40px;
+            gap: 1.5rem;
+            max-width: 500px;
         }
 
         .feature {
             display: flex;
             align-items: center;
-            gap: 15px;
-            padding: 15px;
-            border-radius: 12px;
-            transition: all 0.3s ease;
+            gap: 1rem;
+            padding: 1.25rem;
+            border-radius: var(--border-radius);
+            background-color: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            transition: var(--transition);
         }
 
-        .dark-theme .feature {
-            background: rgba(255, 255, 255, 0.05);
-        }
-
-        .light-theme .feature {
-            background: rgba(0, 0, 0, 0.03);
+        .feature:hover {
+            transform: translateY(-3px);
+            background-color: rgba(255, 255, 255, 0.15);
         }
 
         .feature-icon {
-            width: 40px;
-            height: 40px;
-            border-radius: 10px;
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
             display: flex;
-            justify-content: center;
             align-items: center;
-            background: linear-gradient(135deg, #00ff88, #00ccff);
+            justify-content: center;
+            background: linear-gradient(135deg, var(--accent-color), var(--success-color));
+            color: white;
+            font-size: 1.5rem;
         }
 
         .feature-text {
@@ -177,110 +162,151 @@
         }
 
         .feature-title {
+            font-size: 1.1rem;
             font-weight: 600;
-            margin-bottom: 5px;
-        }
-
-        .dark-theme .feature-title {
-            color: #ffffff;
-        }
-
-        .light-theme .feature-title {
-            color: #333333;
+            margin-bottom: 0.3rem;
         }
 
         .feature-desc {
             font-size: 0.9rem;
-            opacity: 0.7;
             line-height: 1.5;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .right-panel {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+        }
+
+        .theme-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 100;
+            border: none;
+            transition: var(--transition);
+        }
+
+        .light-theme .theme-toggle {
+            background-color: var(--light-card);
+            color: var(--light-text);
+            box-shadow: var(--shadow);
+        }
+
+        .dark-theme .theme-toggle {
+            background-color: var(--dark-card);
+            color: var(--dark-text);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .theme-toggle:hover {
+            transform: translateY(-2px);
         }
 
         .auth-container {
             width: 100%;
-            max-width: 400px;
-            padding: 40px;
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-            transition: all 0.3s ease;
-        }
-
-        .dark-theme .auth-container {
-            background: linear-gradient(135deg, #151515 0%, #1e1e1e 100%);
+            max-width: 450px;
+            padding: 3rem;
+            border-radius: var(--border-radius);
+            transition: var(--transition);
         }
 
         .light-theme .auth-container {
-            background: linear-gradient(135deg, #ffffff 0%, #f8f8f8 100%);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            background-color: var(--light-card);
+            box-shadow: var(--shadow);
+        }
+
+        .dark-theme .auth-container {
+            background-color: var(--dark-card);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
         }
 
         .auth-header {
             text-align: center;
-            margin-bottom: 30px;
+            margin-bottom: 2.5rem;
         }
 
         .auth-title {
-            font-size: 1.8rem;
+            font-size: 2rem;
             font-weight: 700;
-            margin-bottom: 10px;
-        }
-
-        .dark-theme .auth-title {
-            color: #ffffff;
+            margin-bottom: 0.5rem;
         }
 
         .light-theme .auth-title {
-            color: #333333;
+            color: var(--light-text);
+        }
+
+        .dark-theme .auth-title {
+            color: var(--dark-text);
         }
 
         .auth-subtitle {
-            opacity: 0.7;
             font-size: 1rem;
+            font-weight: 400;
+        }
+
+        .light-theme .auth-subtitle {
+            color: var(--light-text-secondary);
+        }
+
+        .dark-theme .auth-subtitle {
+            color: var(--dark-text-secondary);
         }
 
         .form-group {
-            margin-bottom: 20px;
+            margin-bottom: 1.5rem;
         }
 
         .form-label {
             display: block;
-            margin-bottom: 8px;
+            margin-bottom: 0.5rem;
             font-weight: 500;
-            font-size: 0.9rem;
-        }
-
-        .dark-theme .form-label {
-            color: #ffffff;
+            font-size: 0.95rem;
         }
 
         .light-theme .form-label {
-            color: #333333;
+            color: var(--light-text);
+        }
+
+        .dark-theme .form-label {
+            color: var(--dark-text);
         }
 
         .form-input {
             width: 100%;
-            padding: 15px;
-            border-radius: 12px;
-            border: none;
+            padding: 1rem;
+            border-radius: var(--border-radius);
+            border: 1px solid;
             font-size: 1rem;
-            transition: all 0.3s ease;
-        }
-
-        .dark-theme .form-input {
-            background: rgba(255, 255, 255, 0.05);
-            color: #ffffff;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: var(--transition);
         }
 
         .light-theme .form-input {
-            background: rgba(0, 0, 0, 0.03);
-            color: #333333;
-            border: 1px solid rgba(0, 0, 0, 0.1);
+            background-color: rgba(0, 0, 0, 0.03);
+            color: var(--light-text);
+            border-color: rgba(0, 0, 0, 0.1);
+        }
+
+        .dark-theme .form-input {
+            background-color: rgba(255, 255, 255, 0.05);
+            color: var(--dark-text);
+            border-color: rgba(255, 255, 255, 0.1);
         }
 
         .form-input:focus {
             outline: none;
-            border-color: #00ccff;
-            box-shadow: 0 0 0 2px rgba(0, 204, 255, 0.2);
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 2px rgba(82, 121, 111, 0.2);
         }
 
         .password-container {
@@ -295,22 +321,15 @@
             background: none;
             border: none;
             cursor: pointer;
-            opacity: 0.7;
-        }
-
-        .dark-theme .toggle-password {
-            color: #ffffff;
-        }
-
-        .light-theme .toggle-password {
-            color: #333333;
+            color: var(--accent-color);
         }
 
         .remember-forgot {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 25px;
+            margin-bottom: 1.5rem;
+            font-size: 0.9rem;
         }
 
         .remember-me {
@@ -320,18 +339,10 @@
         }
 
         .forgot-password {
-            font-size: 0.9rem;
+            color: var(--accent-color);
             text-decoration: none;
-            transition: all 0.3s ease;
-            cursor: pointer;
-        }
-
-        .dark-theme .forgot-password {
-            color: #00ccff;
-        }
-
-        .light-theme .forgot-password {
-            color: #0066ff;
+            font-weight: 500;
+            transition: var(--transition);
         }
 
         .forgot-password:hover {
@@ -340,42 +351,44 @@
 
         .auth-button {
             width: 100%;
-            padding: 15px;
+            padding: 1rem;
             border: none;
-            border-radius: 12px;
+            border-radius: var(--border-radius);
             font-size: 1rem;
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.3s ease;
-            color: #000000;
-            margin-bottom: 20px;
+            transition: var(--transition);
+            background: linear-gradient(135deg, var(--accent-color), var(--success-color));
+            color: white;
+            margin-bottom: 1.5rem;
         }
 
         .auth-button:hover {
-            background-color: #252525;
-            color: #ffffff;
-            border: 1px solid black;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(82, 121, 111, 0.3);
         }
 
         .auth-switch {
             text-align: center;
-            font-size: 0.9rem;
-        }
-
-        .dark-theme .auth-switch {
-            color: #a0a0a0;
+            font-size: 0.95rem;
+            margin-bottom: 1.5rem;
         }
 
         .light-theme .auth-switch {
-            color: #666666;
+            color: var(--light-text-secondary);
+        }
+
+        .dark-theme .auth-switch {
+            color: var(--dark-text-secondary);
         }
 
         .switch-link {
-            color: #00ccff;
+            color: var(--accent-color);
             text-decoration: none;
             font-weight: 600;
             margin-left: 5px;
             cursor: pointer;
+            transition: var(--transition);
         }
 
         .switch-link:hover {
@@ -385,7 +398,7 @@
         .divider {
             display: flex;
             align-items: center;
-            margin: 25px 0;
+            margin: 1.5rem 0;
         }
 
         .divider-line {
@@ -393,252 +406,139 @@
             height: 1px;
         }
 
-        .dark-theme .divider-line {
-            background: rgba(255, 255, 255, 0.1);
-        }
-
         .light-theme .divider-line {
             background: rgba(0, 0, 0, 0.1);
+        }
+
+        .dark-theme .divider-line {
+            background: rgba(255, 255, 255, 0.1);
         }
 
         .divider-text {
             padding: 0 15px;
             font-size: 0.9rem;
-            opacity: 0.7;
+        }
+
+        .light-theme .divider-text {
+            color: var(--light-text-secondary);
+        }
+
+        .dark-theme .divider-text {
+            color: var(--dark-text-secondary);
         }
 
         .social-login {
             display: flex;
-            gap: 15px;
+            gap: 1rem;
             justify-content: center;
         }
 
         .social-button {
             flex: 1;
-            padding: 12px;
-            border: none;
-            border-radius: 12px;
+            padding: 0.8rem;
+            border: 1px solid;
+            border-radius: var(--border-radius);
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: var(--transition);
             display: flex;
             justify-content: center;
             align-items: center;
             gap: 8px;
             font-weight: 500;
-        }
-        
-        .social-button1 {
-            flex: 1;
-            padding: 12px;
-            border: none;
-            border-radius: 12px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 8px;
-            font-weight: 500;
-            color: #00ccff;
-        }
-
-        .dark-theme .social-button {
-            background: rgba(255, 255, 255, 0.05);
-            color: #ffffff;
-        }
-        
-        .dark-theme .social-button1 {
-            background: rgba(255, 255, 255, 0.05);
-            color: #00ccff;
+            background: transparent;
         }
 
         .light-theme .social-button {
-            background: rgba(0, 0, 0, 0.03);
-            color: #333333;
+            border-color: rgba(0, 0, 0, 0.1);
+            color: var(--light-text);
+        }
+
+        .dark-theme .social-button {
+            border-color: rgba(255, 255, 255, 0.1);
+            color: var(--dark-text);
         }
 
         .social-button:hover {
             transform: translateY(-2px);
         }
 
+        .light-theme .social-button:hover {
+            background-color: rgba(0, 0, 0, 0.03);
+        }
+
+        .dark-theme .social-button:hover {
+            background-color: rgba(255, 255, 255, 0.05);
+        }
+
         .social-icon {
-            width: 18px;
-            height: 18px;
+            width: 20px;
+            height: 20px;
         }
 
-        @media (max-width: 1400px) {
-            .container {
-                padding: 0px 180px;
-            }
-        }
-
-        @media (max-width: 1200px) {
-            .container {
-                padding: 0px 100px;
-            }
-        }
-
+        /* Responsive Design */
         @media (max-width: 1024px) {
             .container {
-                padding: 0px 60px;
-            }
-            
-            .logo-text {
-                font-size: 2.2rem;
-            }
-            
-            .auth-container {
-                max-width: 380px;
-                padding: 35px;
-            }
-        }
-
-        @media (max-width: 900px) {
-            .container {
-                padding: 0px 40px;
+                flex-direction: column;
             }
             
             .left-panel, .right-panel {
-                padding: 30px;
+                padding: 2rem;
+            }
+            
+            .left-panel {
+                min-height: 50vh;
+            }
+            
+            .right-panel {
+                min-height: 50vh;
+            }
+            
+            .features {
+                grid-template-columns: 1fr 1fr;
             }
         }
 
         @media (max-width: 768px) {
-            .container {
-                flex-direction: column;
-                padding: 0px 20px;
-                width: 100%;
-                overflow-x: hidden;
-            }
-            
-            body {
-                overflow-x: hidden;
-                width: 100%;
-            }
-            
             .left-panel, .right-panel {
-                padding: 30px 20px;
-                flex: none;
-                width: 100%;
-                max-width: 100%;
+                padding: 1.5rem;
             }
             
-            .left-panel {
-                padding-top: 60px;
+            .auth-container {
+                padding: 2rem;
             }
             
-            .logo-container {
-                margin-bottom: 30px;
-                width: 100%;
+            .features {
+                grid-template-columns: 1fr;
             }
             
             .logo-text {
                 font-size: 2rem;
             }
-            
-            .features {
-                max-width: 100%;
-                margin-top: 30px;
-                width: 100%;
-            }
-            
-            .auth-container {
-                max-width: 100%;
-                padding: 30px 25px;
-                width: 100%;
-                box-sizing: border-box;
-            }
-            
-            .theme-toggle {
-                top: 15px;
-                right: 15px;
-                width: 44px;
-                height: 44px;
-            }
         }
 
         @media (max-width: 480px) {
-            .container {
-                padding: 0px 15px;
-                min-width: 320px;
-                max-width: 410px;
-                overflow: hidden;
-            }
-            
-            body {
-                min-width: 320px;
-            }
-            
             .left-panel, .right-panel {
-                padding: 20px 15px;
-                min-width: 0;
-            }
-            
-            .logo {
-                width: 70px;
-                height: 70px;
-            }
-            
-            .logo-text {
-                font-size: 1.8rem;
-                word-wrap: break-word;
-            }
-            
-            .tagline {
-                font-size: 1rem;
-                word-wrap: break-word;
-            }
-            
-            .feature {
-                padding: 12px;
-                gap: 12px;
-                min-width: 0;
-            }
-            
-            .feature-icon {
-                width: 36px;
-                height: 36px;
-                flex-shrink: 0;
+                padding: 1rem;
             }
             
             .auth-container {
-                padding: 25px 20px;
-                min-width: 0;
+                padding: 1.5rem;
             }
             
-            .auth-title {
-                font-size: 1.6rem;
-                word-wrap: break-word;
-            }
-            
-            .form-input {
-                padding: 14px;
-                width: 100%;
-                box-sizing: border-box;
-            }
-            
-            .remember-forgot {
+            .logo {
                 flex-direction: column;
-                gap: 15px;
-                align-items: flex-start;
-                width: 100%;
+                text-align: center;
+                gap: 10px;
             }
             
             .social-login {
                 flex-direction: column;
-                gap: 12px;
-                width: 100%;
             }
             
-            .social-button {
-                padding: 14px;
-                width: 100%;
-                box-sizing: border-box;
-            }
-            
-            .theme-toggle {
-                width: 42px;
-                height: 42px;
+            .remember-forgot {
+                flex-direction: column;
+                gap: 1rem;
+                align-items: flex-start;
             }
         }
     </style>
@@ -647,74 +547,57 @@
     <div class="container">
         <!-- Left Panel -->
         <div class="left-panel">
+            <!-- Theme Toggle -->
             <button class="theme-toggle" id="themeToggle">
-                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <!-- Moon icon for dark theme -->
-                    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" fill="currentColor"/>
-                </svg>
+                <span class="material-icons-outlined" id="themeIcon">dark_mode</span>
             </button>
 
+            <!-- Logo and Branding -->
             <div class="logo-container">
                 <div class="logo">
-                    <svg width="50" height="50" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <defs>
-                            <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
-                                <stop offset="0%" stop-color="#00ff88" />
-                                <stop offset="100%" stop-color="#00ccff" />
-                            </linearGradient>
-                            <linearGradient id="grad2" x1="0%" y1="0%" x2="100%" y2="100%">
-                                <stop offset="0%" stop-color="#0066ff" />
-                                <stop offset="100%" stop-color="#00ff88" />
-                            </linearGradient>
-                        </defs>
-                        
-                        <circle cx="60" cy="60" r="28" fill="url(#grad1)" opacity="0.9" />
-                        <circle cx="60" cy="60" r="38" stroke="url(#grad2)" stroke-width="2" stroke-dasharray="4 4" fill="none" />
-                        <circle cx="60" cy="60" r="48" stroke="url(#grad1)" stroke-width="1.5" stroke-dasharray="3 3" fill="none" />
-                        <path d="M30 40 Q50 30 60 40 Q70 50 60 60 Q50 70 60 80 Q70 90 50 95" stroke="url(#grad2)" stroke-width="4" fill="none" />
-                        <path d="M40 45 L50 45" stroke="url(#grad1)" stroke-width="3" />
-                        <path d="M40 60 L50 60" stroke="url(#grad1)" stroke-width="3" />
-                        <path d="M40 75 L50 75" stroke="url(#grad1)" stroke-width="3" />
-                        <circle cx="75" cy="35" r="2" fill="#00ff88" />
-                        <circle cx="85" cy="50" r="2" fill="#00ccff" />
-                        <circle cx="80" cy="70" r="2" fill="#0066ff" />
-                        <circle cx="65" cy="85" r="2" fill="#00ff88" />
-                        <circle cx="45" cy="90" r="2" fill="#00ccff" />
-                        <circle cx="35" cy="65" r="2" fill="#0066ff" />
-                    </svg>
+                    <div class="logo-icon">
+                        <span class="material-icons-outlined">eco</span>
+                    </div>
+                    <h1 class="logo-text">ECOSPHERE</h1>
                 </div>
-                <h1 class="logo-text">ECOSPHERE</h1>
-                <p class="tagline">Intelligent sustainability for modern urban living</p>
+                <p class="tagline">Intelligent sustainability for modern urban living. Monitor, analyze, and optimize your resource consumption with digital insights.</p>
             </div>
 
+            <!-- Features -->
             <div class="features">
-                <!-- <div class="feature">
-                    <div class="feature-icon">📊</div>
+                <div class="feature">
+                    <div class="feature-icon">
+                        <span class="material-icons-outlined">analytics</span>
+                    </div>
                     <div class="feature-text">
                         <div class="feature-title">Smart Resource Tracking</div>
-                        <div class="feature-desc">AI-powered analysis of electricity, water, and utility consumption</div>
+                        <div class="feature-desc">Algorithm based analysis of electricity, water, and utility consumption</div>
                     </div>
                 </div>
                 <div class="feature">
-                    <div class="feature-icon">💡</div>
+                    <div class="feature-icon">
+                        <span class="material-icons-outlined">insights</span>
+                    </div>
                     <div class="feature-text">
                         <div class="feature-title">Personalized Insights</div>
                         <div class="feature-desc">Actionable suggestions to reduce costs and optimize usage</div>
                     </div>
                 </div>
                 <div class="feature">
-                    <div class="feature-icon">🌿</div>
+                    <div class="feature-icon">
+                        <span class="material-icons-outlined">sustainability</span>
+                    </div>
                     <div class="feature-text">
                         <div class="feature-title">Sustainable Living</div>
                         <div class="feature-desc">Achieve your sustainability goals with smart recommendations</div>
                     </div>
-                </div> -->
+                </div>
             </div>
         </div>
 
-        <!-- Right Panel -->
+        <!-- Right Panel - Auth Form -->
         <div class="right-panel">
-            <div class="auth-container" id="authContainer">
+            <div class="auth-container">
                 <div class="auth-header">
                     <h2 class="auth-title" id="authTitle">Welcome Back</h2>
                     <p class="auth-subtitle" id="authSubtitle">Sign in to your Ecosphere account</p>
@@ -730,7 +613,9 @@
                         <label class="form-label" for="password">Password</label>
                         <div class="password-container">
                             <input type="password" id="password" class="form-input" placeholder="Enter your password" required>
-                            <button type="button" class="toggle-password" id="togglePassword">Show</button>
+                            <button type="button" class="toggle-password" id="togglePassword">
+                                <span class="material-icons-outlined">visibility</span>
+                            </button>
                         </div>
                     </div>
 
@@ -739,10 +624,10 @@
                             <input type="checkbox" id="remember">
                             <label for="remember">Remember me</label>
                         </div>
-                        <span class="forgot-password" onclick="window.location.href='forgot.html'">Forgot password?</span>
+                        <a href="forgot.html" class="forgot-password">Forgot password?</a>
                     </div>
 
-                    <button type="button" class="auth-button" id="authButton" onclick="handleAuth()">Sign In</button>
+                    <button type="submit" class="auth-button" id="authButton">Sign In</button>
 
                     <div class="auth-switch">
                         Don't have an account? 
@@ -756,7 +641,7 @@
                     </div>
 
                     <div class="social-login">
-                        <button type="button" class="social-button" onclick="handleAuth()">
+                        <button type="button" class="social-button" onclick="socialLogin('google')">
                             <svg class="social-icon" viewBox="0 0 24 24" fill="currentColor">
                                 <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
                                 <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
@@ -765,9 +650,9 @@
                             </svg>
                             Google
                         </button>
-                        <button type="button" class="social-button1" onclick="handleAuth()">
+                        <button type="button" class="social-button" onclick="socialLogin('twitter')">
                             <svg class="social-icon" viewBox="0 0 24 24" fill="currentColor">
-                                <path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z"/>
+                                <path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.213c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/>
                             </svg>
                             Twitter
                         </button>
@@ -780,36 +665,30 @@
     <script>
         // Theme Toggle Functionality
         const themeToggle = document.getElementById('themeToggle');
+        const themeIcon = document.getElementById('themeIcon');
         const body = document.body;
         
         // Check for saved theme or prefer-color-scheme
         const savedTheme = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
         body.classList.add(savedTheme + '-theme');
-        updateThemeIcon();
+        updateThemeIcon(savedTheme);
 
         themeToggle.addEventListener('click', () => {
             if (body.classList.contains('dark-theme')) {
                 body.classList.remove('dark-theme');
                 body.classList.add('light-theme');
                 localStorage.setItem('theme', 'light');
+                updateThemeIcon('light');
             } else {
                 body.classList.remove('light-theme');
                 body.classList.add('dark-theme');
                 localStorage.setItem('theme', 'dark');
+                updateThemeIcon('dark');
             }
-            updateThemeIcon();
         });
 
-        function updateThemeIcon() {
-            const isDark = body.classList.contains('dark-theme');
-            themeToggle.innerHTML = isDark ?
-                `<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" fill="currentColor"/>
-                </svg>`:
-                 `<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M12 17a5 5 0 1 0 0-10 5 5 0 0 0 0 10z" fill="currentColor"/>
-                    <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-                </svg>`;
+        function updateThemeIcon(theme) {
+            themeIcon.textContent = theme === 'dark' ? 'light_mode' : 'dark_mode';
         }
 
         // Auth Form Toggle Functionality
@@ -842,49 +721,66 @@
         // Password Toggle Functionality
         const togglePassword = document.getElementById('togglePassword');
         const passwordInput = document.getElementById('password');
+        const toggleIcon = togglePassword.querySelector('.material-icons-outlined');
 
         togglePassword.addEventListener('click', () => {
             const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
             passwordInput.setAttribute('type', type);
-            togglePassword.textContent = type === 'password' ? 'Show' : 'Hide';
+            toggleIcon.textContent = type === 'password' ? 'visibility' : 'visibility_off';
         });
 
-        // Handle authentication button click
-        function handleAuth() {
+        // Handle authentication form submission
+        authForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
             
             // Simple validation
-            if (isLogin && (!email || !password)) {
+            if (!email || !password) {
                 alert('Please fill in all fields');
                 return;
             }
             
-            // For signup, check if fields are filled
-            if (!isLogin && (!email || !password)) {
-                alert('Please fill in all fields to create account');
+            // Email validation
+            const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailPattern.test(email)) {
+                alert('Please enter a valid email address');
                 return;
             }
             
-            // Both login and signup redirect to dashboard
-            if (isLogin) {
-                console.log('Logging in with:', { email, password });
-            } else {
-                console.log('Signing up with:', { email, password });
+            // Password validation for signup
+            if (!isLogin && password.length < 6) {
+                alert('Password must be at least 6 characters long');
+                return;
             }
             
-            // Redirect to dashboard
-            window.location.href = 'dashboard.html';
-        }
-
-        // Form Submission (prevent default)
-        authForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            handleAuth();
+            // Simulate authentication
+            if (isLogin) {
+                console.log('Logging in with:', { email, password });
+                // Redirect to dashboard after successful login
+                setTimeout(() => {
+                    window.location.href = 'dashboard.html';
+                }, 1000);
+            } else {
+                console.log('Signing up with:', { email, password });
+                // Show success message and switch to login
+                alert('Account created successfully! Please sign in.');
+                switchLink.click();
+            }
         });
 
+        // Social login function
+        function socialLogin(provider) {
+            console.log(`Logging in with ${provider}`);
+            // Redirect to dashboard (simulated)
+            setTimeout(() => {
+                window.location.href = 'dashboard.html';
+            }, 1000);
+        }
+
         // Initialize
-        updateThemeIcon();
+        updateThemeIcon(savedTheme);
     </script>
 </body>
 </html>
